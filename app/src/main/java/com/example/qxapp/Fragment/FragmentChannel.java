@@ -44,12 +44,7 @@ public class FragmentChannel extends BaseFragment {
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新
         swipeRefreshLayout.setOnRefreshListener(this::Refresh);
-        searchcontent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(),Search.class));
-            }
-        });
+        searchcontent.setOnClickListener(v -> startActivity(new Intent(getActivity(),Search.class)));
     }
 
 

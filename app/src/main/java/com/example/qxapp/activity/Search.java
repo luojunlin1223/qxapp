@@ -27,7 +27,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -54,37 +53,33 @@ public class Search extends AppCompatActivity {
 
     private void search() {
         String url="https://list.tmall.com/search_product.htm?q="+searchcontent.getText().toString();
-        final List<Product> products= new ArrayList<>();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Connection connection=Jsoup.connect(url);
-                    connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
-                    Document document=connection.get();
-                    Elements ulList = document.select("div[id='J_ItemList']");
-                    Elements liList = ulList.select("div[class='product']");
-                    for(Element item:liList){
-                       Product product=new Product();
-                       product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
-                       product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
-                       product.setSell(item.select("div[class='product']").select("p[class='productStatus']").select("span").select("em").text());
-                       product.setUrl(item.select("p[class='productTitle']").select("a").attr("href"));
-                       product.save(new SaveListener<String>() {
-                           @Override
-                           public void done(String s, BmobException e) {
-                               if(e==null){
-                                   Toast.makeText(Search.this,"添加成功",Toast.LENGTH_LONG).show();
-                               }else{
-                                   Toast.makeText(Search.this,"添加失败",Toast.LENGTH_LONG).show();
-                               }
+        new Thread(() -> {
+            try {
+                Connection connection=Jsoup.connect(url);
+                connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
+                Document document=connection.get();
+                Elements ulList = document.select("div[id='J_ItemList']");
+                Elements liList = ulList.select("div[class='product']");
+                for(Element item:liList){
+                   Product product=new Product();
+                   product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
+                   product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
+                   product.setSell(item.select("div[class='product']").select("p[class='productStatus']").select("span").select("em").text());
+                   product.setUrl(item.select("p[class='productTitle']").select("a").attr("href"));
+                   product.save(new SaveListener<String>() {
+                       @Override
+                       public void done(String s, BmobException e) {
+                           if(e==null){
+                               Toast.makeText(Search.this,"添加成功",Toast.LENGTH_LONG).show();
+                           }else{
+                               Toast.makeText(Search.this,"添加失败",Toast.LENGTH_LONG).show();
                            }
-                       });
-                    }
-                    Refresh();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                       }
+                   });
                 }
+                Refresh();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }).start();
     }
@@ -92,24 +87,14 @@ public class Search extends AppCompatActivity {
     private void initControl() {
         searchcontent=findViewById(R.id.search_content);
         Button cancelbtn = findViewById(R.id.cancel);
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        cancelbtn.setOnClickListener(v -> finish());
         Button searchbtn = findViewById(R.id.search);
-        searchbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                search();
-            }
-        });
+        searchbtn.setOnClickListener(v -> search());
         recyclerView=findViewById(R.id.search_recyclerview);
         swipeRefreshLayout=findViewById(R.id.search_swipe);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新
-        swipeRefreshLayout.setOnRefreshListener(() -> Refresh());
+        swipeRefreshLayout.setOnRefreshListener(this::Refresh);
 
         spinner=findViewById(R.id.spinner);
         spinner.setDropDownHorizontalOffset(150);
