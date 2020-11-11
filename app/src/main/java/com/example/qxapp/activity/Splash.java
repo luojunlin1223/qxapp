@@ -30,12 +30,14 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
                 Bmob.initialize(Splash.this,"af0f3ed9dd1637949a243bd203f9de39");
-                //已登录：主界面 未登录：登陆界面
+                //已登录：主界面
+                // 未登录：登陆界面
                 if (BmobUser.isLogin()) {
                     startActivity(new Intent(Splash.this,MainActivity.class));
                 } else {
                     startActivity(new Intent(Splash.this,Login.class));
                 }
+//              完成跳转后关闭splashactivity
                 finish();
             }
         };

@@ -12,22 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Post;
+import com.example.qxapp.activity.Bean.Community;
 import com.example.qxapp.activity.Receive;
 
 import java.util.List;
 
-public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+public class ChannelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean isfootview = true;
     private Context context;
-    private List<Post> data;
+    private List<Community> data;
     private final int N_TYPE=0;
     private final int F_TYPE=1;
-//  预加载的数据的条目
-    private int Max_num=15;
+    //  预加载的数据的条目
+    private int Max_num=8;
 
-    public HomeAdapter(Context context, List<Post> data){
+    public ChannelAdapter(Context context, List<Community> data){
         this.context=context;
         this.data=data;
     }
@@ -35,12 +34,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.ord_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.community_item,parent,false);
         View footview=LayoutInflater.from(parent.getContext()).inflate(R.layout.foot_item,parent,false);
         if(viewType==F_TYPE){
-            return new RecyclerViewHolder(footview,F_TYPE);
+            return new ChannelAdapter.RecyclerViewHolder(footview,F_TYPE);
         }else{
-            return new RecyclerViewHolder(view,N_TYPE);
+            return new ChannelAdapter.RecyclerViewHolder(view,N_TYPE);
         }
     }
 
@@ -50,8 +49,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if(isfootview &&getItemViewType(position)==F_TYPE){
             //底部加载
-            final RecyclerViewHolder recyclerViewHolder= (RecyclerViewHolder) holder;
-            recyclerViewHolder.Loading.setText("加载中");
             Handler handler=new Handler();
             handler.postDelayed(() -> {
 //              总条目自增8条
@@ -60,11 +57,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             },2000);
         }else {
             //获取内容
-            final RecyclerViewHolder recyclerViewHolder= (RecyclerViewHolder) holder;
-            Post post=data.get(position);
-            recyclerViewHolder.name.setText(post.getName());
-            recyclerViewHolder.content.setText(post.getContent());
-            recyclerViewHolder.time.setText(post.getCreatedAt());
+            final ChannelAdapter.RecyclerViewHolder recyclerViewHolder= (ChannelAdapter.RecyclerViewHolder) holder;
+            Community community=data.get(position);
+            recyclerViewHolder.name.setText(community.getName());
+            recyclerViewHolder.info.setText(community.getInfo());
+            recyclerViewHolder.time.setText(community.getCreatedAt());
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(v -> {
                 int position1 =recyclerViewHolder.getAdapterPosition();
@@ -98,16 +95,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,content,time;
-        public TextView Loading;
+        public TextView name,info,time;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
-                name=itemview.findViewById(R.id.name);
-                content=itemview.findViewById(R.id.content);
-                time=itemview.findViewById(R.id.time);
-            }else if(view_type==F_TYPE){
-                Loading=itemview.findViewById(R.id.footText);
+                name=itemview.findViewById(R.id.community_name);
+                info=itemview.findViewById(R.id.community_info);
+                time=itemview.findViewById(R.id.community_time);
             }
         }
     }

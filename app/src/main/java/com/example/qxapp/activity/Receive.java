@@ -23,7 +23,7 @@ public class Receive extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiy_receive);
 
-        initView();
+        initControl();
         initData();
 
     }
@@ -48,7 +48,7 @@ public class Receive extends AppCompatActivity {
         });
     }
 
-    private void initView() {
+    private void initControl() {
         username=findViewById(R.id.username);
         content=findViewById(R.id.content);
         time=findViewById(R.id.time);

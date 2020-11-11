@@ -51,4 +51,7 @@ dependencies {
     implementation ('com.ashokvarma.android:bottom-navigation-bar:2.2.0'){
         exclude group:'com.android.support'
     }
+
+    implementation 'org.jsoup:jsoup:1.13.1'
+
 }

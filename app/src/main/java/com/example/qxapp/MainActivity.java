@@ -24,19 +24,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        viewPager=findViewById(R.id.viewpager);
-        bottomNavigationBar=findViewById(R.id.bottom);
-
-        initView();
-
+        initControl();
     }
 
-    private void initView() {
+    private void initControl() {
+        viewPager=findViewById(R.id.viewpager);
+        bottomNavigationBar=findViewById(R.id.bottom);
         initViewPager();
         initBottomNavigationBar();
     }
-
+//    初始化底部导航栏
     private void initBottomNavigationBar() {
         bottomNavigationBar.setTabSelectedListener(this);
         bottomNavigationBar.clearAll();
@@ -51,10 +48,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         .setFirstSelectedPosition(0)
         .initialise();
     }
-
+//    初始化ViewPager
     private void initViewPager() {
+//        加载页面的上限值
         viewPager.setOffscreenPageLimit(3);
-
+//        FragmentList
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentHome());
         fragmentList.add(new FragmentChannel());
@@ -67,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
             }
 
+//            切换page自动切换底部导航栏
             @Override
             public void onPageSelected(int position) {
-
+                bottomNavigationBar.selectTab(position);
             }
 
             @Override
@@ -80,10 +79,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         viewPager.setCurrentItem(0);
     }
 
-
+//  切换导航栏自动切换page
     @Override
     public void onTabSelected(int position) {
-
+        viewPager.setCurrentItem(position);
     }
 
     @Override

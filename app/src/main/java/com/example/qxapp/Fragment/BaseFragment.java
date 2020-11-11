@@ -1,94 +1,28 @@
 package com.example.qxapp.Fragment;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import cn.bmob.v3.Bmob;
+
 public abstract class BaseFragment extends Fragment {
-    public Context context;
-    public Resources resources;
-    public LayoutInflater layoutInflater;
-
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context=context;
-        this.resources=context.getResources();
-        this.layoutInflater= LayoutInflater.from(context);
-
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    private View RootView;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(RootView==null){
-            RootView=inflater.inflate(getLayoutID(),container,false);
-        }
-        ViewGroup parent= (ViewGroup) RootView.getParent();
-        if(parent!=null){
-            parent.removeView(RootView);
-        }
-        return RootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView(view);
-        bindEvent();
-        initData();
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+        Bmob.initialize(getActivity(),"af0f3ed9dd1637949a243bd203f9de39");
+//      先刷新一次
+        Refresh();
+        initControl();
+        initData();
+//        逻辑处理
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    //VV View 类型 id 控件id
-    protected <VV extends View>VV findView(View view, @IdRes int id){
-        return view.findViewById(id);
-    }
-    protected <VV extends View>VV findView(@IdRes int id){
-        return RootView.findViewById(id);
-    }
-
 
     protected abstract void initData();
 
-    protected abstract void bindEvent();
+    protected abstract void initControl();
 
-    protected abstract void initView(View view);
-
-    protected abstract int getLayoutID();
+    protected abstract void Refresh();
 }
