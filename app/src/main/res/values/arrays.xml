@@ -4,4 +4,8 @@
         <item>价格排序</item>
         <item>销量排序</item>
     </string-array>
+    <string-array name="from">
+        <item>天猫</item>
+        <item>京东</item>
+    </string-array>
 </resources>
