@@ -6,7 +6,15 @@ public class Product extends BmobObject {
     private String name;
     private String url;
     private float price;
-    private int sell;
+    private String where;
+
+    public String getWhere() {
+        return where;
+    }
+
+    public void setWhere(String where) {
+        this.where = where;
+    }
 
     public String getName() {
         return name;
@@ -21,7 +29,7 @@ public class Product extends BmobObject {
     }
 
     public void setUrl(String url) {
-        this.url = url.substring(0,url.indexOf("&"));
+        this.url = url;
     }
 
     public float getPrice() {
@@ -29,37 +37,12 @@ public class Product extends BmobObject {
     }
 
     public void setPrice(String price) {
-        this.price = Float.parseFloat(price);
-    }
-
-    public int getSell() {
-        return sell;
-    }
-
-    public void setSell(String sell) {
-        if(sell.isEmpty()){
-            this.sell=0;
-        } else if (sell.length() <=1) {
-            this.sell=0;
-        }else{
-            sell=sell.substring(0,sell.length()-1);
-            if(isNumber(sell)){
-                this.sell=Integer.parseInt(sell);//9000
-            }
-            else{
-                sell=sell.substring(0,sell.length()-1);//1.2万
-                this.sell= (int) (Float.parseFloat(sell)*10000);
-                }
-            }
+        if(price.isEmpty()){
+            this.price=0;
+        }else {
+            this.price=Float.parseFloat(price);
         }
-
-    private boolean isNumber(String sell) {
-        for(int i=0;i<sell.length();i++){
-            if(sell.charAt(i)=='万'){
-                return false;
-            }
-        }
-        return true;
     }
+
 }
 

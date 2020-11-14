@@ -2,11 +2,12 @@
 <resources>
     <string-array name="sort">
         <item>价格排序</item>
-        <item>销量排序</item>
+        <item>时间排序</item>
     </string-array>
     <string-array name="from">
         <item>天猫</item>
         <item>京东</item>
         <item>淘宝</item>
+        <item>苏宁</item>
     </string-array>
 </resources>

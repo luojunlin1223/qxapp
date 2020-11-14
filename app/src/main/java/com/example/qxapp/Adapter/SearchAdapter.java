@@ -64,7 +64,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             Product product=data.get(position);
             recyclerViewHolder.name.setText(product.getName());
             recyclerViewHolder.price.setText(String.valueOf(product.getPrice()));
-            recyclerViewHolder.sell.setText(String.valueOf(product.getSell()));
             recyclerViewHolder.url.setText(product.getUrl());
 //          用户点击特定的itemView的时候
         }
@@ -94,7 +93,6 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(view_type==N_TYPE){
                 name=itemview.findViewById(R.id.product_item_name);
                 price=itemview.findViewById(R.id.product_item_price);
-                sell=itemview.findViewById(R.id.product_item_sell);
                 url=itemview.findViewById(R.id.product_item_url);
             }
         }

@@ -3,7 +3,8 @@
     android:layout_marginRight="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
     <TextView
         android:id="@+id/product_item_name"
         android:textStyle="bold"
@@ -21,14 +22,6 @@
         android:layout_height="wrap_content"
         android:text="price"/>
     <TextView
-        android:id="@+id/product_item_sell"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sell"/>
-    <TextView
         android:id="@+id/product_item_url"
         android:textStyle="bold"
         android:textColor="#000"
@@ -36,4 +29,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="url"/>
+
 </LinearLayout>
