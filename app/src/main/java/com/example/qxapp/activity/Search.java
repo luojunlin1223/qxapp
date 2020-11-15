@@ -2,6 +2,7 @@ package com.example.qxapp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.example.qxapp.activity.Bean.SearchRecord;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+import org.json.JSONArray;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,14 +32,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -48,6 +55,7 @@ public class Search extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner sort_spinner;
     private Spinner from_spinner;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,91 +70,97 @@ public class Search extends AppCompatActivity {
     }
 
     private void search() {
-        String tianmao_url="https://list.tmall.com/search_product.htm?q="+searchcontent.getText().toString();
+        final String[] tianmao_url = {"https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString()};
         String jingdong_url="https://search.jd.com/Search?keyword="+searchcontent.getText().toString();
-        Thread tmallThread=new Thread(new Runnable() {
+
+        BmobQuery<SearchRecord> bmobQuery=new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("key",searchcontent.getText().toString());
+
+        bmobQuery.findObjects(new FindListener<SearchRecord>() {
             @Override
-            public void run() {
-                try {
-                    Connection connection=Jsoup.connect(tianmao_url);
-                    connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
-                    Document document=connection.get();
-                    Elements ulList = document.select("div[id='J_ItemList']");
-                    Elements liList = ulList.select("div[class='product']");
-                    for(Element item:liList){
-                        Product product=new Product();
-                        product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
-                        product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
-                        String url=item.select("p[class='productTitle']").select("a").attr("href");
-                        product.setUrl(url.substring(0,url.indexOf("&")));
-                        product.setWhere("天猫");
-                        product.save(new SaveListener<String>() {
+            public void done(List<SearchRecord> list, BmobException e) {
+                if(e==null){
+                    if(list.size()==0){
+                        RecordSearch();
+                        Thread tmallThread=new Thread(new Runnable() {
                             @Override
-                            public void done(String s, BmobException e) {
-                                if(e==null){
-                                    Toast.makeText(Search.this,"添加成功",Toast.LENGTH_LONG).show();
-                                }else{
-                                    Toast.makeText(Search.this,"添加失败",Toast.LENGTH_LONG).show();
+                            public void run() {
+                                try {
+                                    Connection connection=Jsoup.connect(tianmao_url[0]);
+                                    connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
+                                    Document document=connection.get();
+                                    Elements ulList = document.select("div[id='J_ItemList']");
+                                    Elements liList = ulList.select("div[class='product']");
+                                    for(Element item:liList){
+                                        Product product=new Product();
+                                        product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
+                                        product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
+                                        String url=item.select("p[class='productTitle']").select("a").attr("href");
+                                        product.setUrl(url.substring(0,url.indexOf("&")));
+                                        product.setWhere("天猫");
+                                        product.save(new SaveListener<String>() {
+                                            @Override
+                                            public void done(String s, BmobException e) {
+                                            }
+                                        });
+                                    }
+                                    Refresh();
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         });
-                    }
-                    RecordSearch();
-                    Refresh();
+                        Thread jdThread=new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
-            } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Thread jdThread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Document homepage= null;
-                try {
-                    homepage = getDocument(jingdong_url);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Elements Ulist=homepage.select("div[id='J_goodsList']");
-                Elements Llist=Ulist.select("div[class='gl-i-wrap']");
-                for(Element item:Llist){
-                    Product product=new Product();
-                    String itemurl="https:"+item.getElementsByClass("p-name p-name-type-2").select("a").attr("href");
-                    String skuIds=itemurl.substring(itemurl.lastIndexOf('/')+1,itemurl.lastIndexOf('.'));
-                    String skuUrl="https://p.3.cn/prices/mgets?skuIds="+skuIds;
-                    Document itempage= null;
-                    try {
-                        itempage = getDocument(itemurl);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                                Document homepage= null;
+                                try {
+                                    homepage = getDocument(jingdong_url);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                Elements Ulist=homepage.select("div[id='J_goodsList']");
+                                Elements Llist=Ulist.select("div[class='gl-i-wrap']");
+                                for(Element item:Llist){
+                                    Product product=new Product();
+                                    String itemurl="https:"+item.getElementsByClass("p-name p-name-type-2").select("a").attr("href");
+                                    Document itempage= null;
+                                    try {
+                                        itempage = getDocument(itemurl);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
 //                            设置名字
-                    product.setName(itempage.getElementsByClass("sku-name").text());
+                                    product.setName(itempage.getElementsByClass("sku-name").text());
 //                            设置各种价格
-                    JsonParser jsonParser=new JsonParser();
-                    JsonArray jsonElements= null;
-                    try {
-                        jsonElements = jsonParser.parse(getDocument(skuUrl).body().text()).getAsJsonArray();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    product.setPrice(jsonElements.get(0).getAsJsonObject().get("p").getAsString());
+                                    product.setPrice(item.select("div[class='p-price']").select("strong").select("i").text());
 
-                    product.setUrl(itemurl);
-                    product.setWhere("京东");
-                    product.save(new SaveListener<String>() {
-                        @Override
-                        public void done(String s, BmobException e) {
-                        }
-                    });
+                                    product.setUrl(itemurl);
+                                    product.setWhere("京东");
+                                    product.save(new SaveListener<String>() {
+                                        @Override
+                                        public void done(String s, BmobException e) {
+                                        }
+                                    });
+                                }
+                                Refresh();
+                            }
+                        });
+                        tmallThread.start();
+                        jdThread.start();
+
+                    }else{
+                        RecordSearch();
+                        Refresh();
+                    }
                 }
-                RecordSearch();
-                Refresh();
             }
         });
-        tmallThread.start();
-        jdThread.start();
+
+
+
     }
 
     private Document getDocument(String url) throws IOException {
@@ -162,16 +176,39 @@ public class Search extends AppCompatActivity {
     }
 
     private void RecordSearch() {
-        SearchRecord searchRecord=new SearchRecord();
-        searchRecord.setUser(BmobUser.getCurrentUser(BmobUser.class));
-        searchRecord.setKey(searchcontent.getText().toString());
-
-        searchRecord.save(new SaveListener<String>() {
+        BmobQuery<SearchRecord> bmobQuery1=new BmobQuery<>();
+        bmobQuery1.addWhereEqualTo("key",searchcontent.getText().toString());
+        BmobQuery<SearchRecord> bmobQuery2=new BmobQuery<>();
+        bmobQuery2.addWhereEqualTo("user",BmobUser.getCurrentUser(BmobUser.class));
+        List<BmobQuery<SearchRecord>>bmobQueries=new ArrayList<>();
+        bmobQueries.add(bmobQuery1);
+        bmobQueries.add(bmobQuery2);
+        BmobQuery<SearchRecord> bmobQuery=new BmobQuery<>();
+        bmobQuery.and(bmobQueries);
+        bmobQuery.findObjects(new FindListener<SearchRecord>() {
             @Override
-            public void done(String s, BmobException e) {
+            public void done(List<SearchRecord> list, BmobException e) {
+                if(e==null) {
+                    SearchRecord searchRecord=new SearchRecord();
+                    searchRecord.setCount(list.get(0).getCount()+1);
+                    searchRecord.update(list.get(0).getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                        }
+                    });
+                }else{
+                    SearchRecord searchRecord=new SearchRecord();
+                    searchRecord.setUser(BmobUser.getCurrentUser(BmobUser.class));
+                    searchRecord.setKey(searchcontent.getText().toString());
+                    searchRecord.setCount(1);
+                    searchRecord.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                        }
+                    });
+                }
             }
         });
-
     }
 
     private void initControl() {
