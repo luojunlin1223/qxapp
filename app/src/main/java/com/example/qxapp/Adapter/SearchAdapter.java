@@ -1,7 +1,6 @@
 package com.example.qxapp.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Post;
 import com.example.qxapp.activity.Bean.Product;
-import com.example.qxapp.activity.Receive;
-import com.example.qxapp.activity.Search;
 
 import java.util.List;
 
@@ -57,7 +53,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //              总条目自增8条
                 Max_num+=8;
                 notifyDataSetChanged();
-            },2000);
+            },1000);
         }else {
             //获取内容
             final SearchAdapter.RecyclerViewHolder recyclerViewHolder= (SearchAdapter.RecyclerViewHolder) holder;
@@ -87,7 +83,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,price,sell,url;
+        public TextView name,price,url;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){

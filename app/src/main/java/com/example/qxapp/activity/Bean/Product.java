@@ -7,6 +7,15 @@ public class Product extends BmobObject {
     private String url;
     private float price;
     private String where;
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getWhere() {
         return where;
