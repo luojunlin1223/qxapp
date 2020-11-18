@@ -264,6 +264,8 @@ public class Search extends AppCompatActivity {
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新
         swipeRefreshLayout.setOnRefreshListener(this::Refresh);
+//        中止上拉刷新
+        swipeRefreshLayout.setEnabled(false);
 
 
         sort_spinner=findViewById(R.id.sort_spinner);
