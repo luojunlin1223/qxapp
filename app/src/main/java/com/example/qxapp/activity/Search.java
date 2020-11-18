@@ -26,6 +26,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.pdd.pop.sdk.http.PopAccessTokenClient;
+import com.pdd.pop.sdk.http.api.pop.request.PddDdkGoodsSearchRequest;
+import com.pdd.pop.sdk.http.token.AccessTokenResponse;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -80,6 +83,7 @@ public class Search extends AppCompatActivity {
             public void done(List<SearchRecord> list, BmobException e) {
                 if(e==null){
                     if(list.size()==0){
+
                         RecordSearch();
                         Thread tmallThread=new Thread(() -> {
                             try {
@@ -189,9 +193,54 @@ public class Search extends AppCompatActivity {
 
                             Refresh();
                         });
+                        Thread SuningThread=new Thread(() -> {
+                            String url="https://search.suning.com/"+searchcontent.getText().toString()+"/";
+                            try {
+                                Document homepage=getDocument(url,"");
+                                Elements goodlist=homepage.select("ul[class='general clearfix']").select("li");
+                                for(Element item:goodlist){
+                                    String itemurl= "http:" + item.select("div[class='title-selling-point']").select("a").attr("href");
+                                    Document itempage=getDocument(itemurl,"");
+                                    String name=itempage.select("h1[id='itemDisplayName']").text();
+                                    List<String> id=new ArrayList<>(Arrays.asList(itemurl.split("com/")));
+                                    id.remove(0);
+                                    String shopid=id.get(0).substring(0,id.get(0).indexOf("/"));
+                                    String prdid=id.get(0).substring(id.get(0).indexOf("/")+1,id.get(0).indexOf("."));
+
+                                    String priceurl="http://pas.suning.com/nspcsale_0_000000000" +
+                                            prdid + "_000000000" + prdid + "_" + shopid + "_20_021_0210101_500353_1000267_9264_12113_Z001___R9006849_3.3_1___000278188__.html?callback=pcData&_=1558663936729";
+                                    if(prdid.length()==11){
+                                        priceurl = "http://pas.suning.com/nspcsale_0_0000000" +
+                                                prdid + "_0000000" + prdid + "_" + shopid + "_20_021_0210101_500353_1000267_9264_12113_Z001___R9006849_3.3_1___000278188__.html?callback=pcData&_=1558663936729";
+                                    }
+                                    Document pricepage=getDocument(priceurl,"");
+                                    String pricejson=pricepage.toString();
+                                    String tag="\"netPrice\":\"";
+                                    String price=pricejson.substring(pricejson.indexOf(tag)
+                                            +tag.length(),pricejson.indexOf(",",pricejson.indexOf(tag))-1);
+                                    Product product=new Product();
+                                    product.setName(name);
+                                    product.setPrice(price);
+                                    product.setUrl(itemurl);
+                                    product.setWhere("苏宁");
+                                    product.setKey(searchcontent.getText().toString());
+                                    product.save(new SaveListener<String>() {
+                                        @Override
+                                        public void done(String s, BmobException e) {
+                                        }
+                                    });
+                                }
+
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+
+                        });
                         tmallThread.start();
                         jdThread.start();
                         taobaoThread.start();
+                        SuningThread.start();
+
                     }else{
                         RecordSearch();
                         Refresh();
@@ -208,6 +257,7 @@ public class Search extends AppCompatActivity {
                 .url(url)
                 .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36")
                 .addHeader("Cookie",cookie)
+                .addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
                 .build();
         Response response=client
                 .newCall(request)
@@ -349,6 +399,68 @@ public class Search extends AppCompatActivity {
                 BmobQuery<Product> productBmobQuery1=new BmobQuery<>();
                 BmobQuery<Product> productBmobQuery2=new BmobQuery<>();
                 productBmobQuery1.addWhereEqualTo("where","京东");
+                productBmobQuery2.addWhereEqualTo("key",searchcontent.getText().toString());
+                List<BmobQuery<Product>> bmobQueries=new ArrayList<>();
+                bmobQueries.add(productBmobQuery1);
+                bmobQueries.add(productBmobQuery2);
+                productBmobQuery.and(bmobQueries);
+
+                productBmobQuery.findObjects(new FindListener<Product>() {
+                    @Override
+                    public void done(List<Product> list, BmobException e) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        if(e==null){
+                            SearchAdapter searchAdapter=new SearchAdapter(getApplicationContext(),list);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            recyclerView.setAdapter(searchAdapter);
+                        }else{
+                            swipeRefreshLayout.setRefreshing(false);
+                            Toast.makeText(Search.this,e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                break;}
+            case 2:{
+                BmobQuery<Product> productBmobQuery=new BmobQuery<>();
+                switch (sort_position){
+                    case 0:productBmobQuery.order("price");break;
+                    case 1:productBmobQuery.order("createdAt");break;
+                }
+
+                BmobQuery<Product> productBmobQuery1=new BmobQuery<>();
+                BmobQuery<Product> productBmobQuery2=new BmobQuery<>();
+                productBmobQuery1.addWhereEqualTo("where","淘宝");
+                productBmobQuery2.addWhereEqualTo("key",searchcontent.getText().toString());
+                List<BmobQuery<Product>> bmobQueries=new ArrayList<>();
+                bmobQueries.add(productBmobQuery1);
+                bmobQueries.add(productBmobQuery2);
+                productBmobQuery.and(bmobQueries);
+
+                productBmobQuery.findObjects(new FindListener<Product>() {
+                    @Override
+                    public void done(List<Product> list, BmobException e) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        if(e==null){
+                            SearchAdapter searchAdapter=new SearchAdapter(getApplicationContext(),list);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                            recyclerView.setAdapter(searchAdapter);
+                        }else{
+                            swipeRefreshLayout.setRefreshing(false);
+                            Toast.makeText(Search.this,e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                break;}
+            case 3:{
+                BmobQuery<Product> productBmobQuery=new BmobQuery<>();
+                switch (sort_position){
+                    case 0:productBmobQuery.order("price");break;
+                    case 1:productBmobQuery.order("createdAt");break;
+                }
+
+                BmobQuery<Product> productBmobQuery1=new BmobQuery<>();
+                BmobQuery<Product> productBmobQuery2=new BmobQuery<>();
+                productBmobQuery1.addWhereEqualTo("where","苏宁");
                 productBmobQuery2.addWhereEqualTo("key",searchcontent.getText().toString());
                 List<BmobQuery<Product>> bmobQueries=new ArrayList<>();
                 bmobQueries.add(productBmobQuery1);
