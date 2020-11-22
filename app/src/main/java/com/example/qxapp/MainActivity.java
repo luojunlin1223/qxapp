@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
         bottomNavigationBar.setBarBackgroundColor(R.color.white)
-                .setActiveColor(R.color.colorBase1)
+                .setActiveColor(R.color.Navigation_bottom_base)
                 .setInActiveColor(R.color.black);
         bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.homepage_fill,"首页").setInactiveIconResource(R.drawable.homepage))
                            .addItem(new BottomNavigationItem(R.drawable.channel_fill,"频道").setInactiveIconResource(R.drawable.channel))

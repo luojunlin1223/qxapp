@@ -1,13 +1,17 @@
 package com.example.qxapp.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -300,10 +304,23 @@ public class Search extends AppCompatActivity {
 
     private void initControl() {
         searchcontent=findViewById(R.id.search_content);
+        searchcontent.setSingleLine();
+        searchcontent.setLines(1);
+        searchcontent.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        searchcontent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId==EditorInfo.IME_ACTION_SEARCH){
+                    search();
+                }
+                return false;
+            }
+        });
+
         Button cancelbtn = findViewById(R.id.cancel);
+
         cancelbtn.setOnClickListener(v -> finish());
-        Button searchbtn = findViewById(R.id.search);
-        searchbtn.setOnClickListener(v -> search());
+
         recyclerView=findViewById(R.id.search_recyclerview);
         swipeRefreshLayout=findViewById(R.id.search_swipe);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);

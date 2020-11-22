@@ -31,7 +31,7 @@ import cn.bmob.v3.listener.FindListener;
 public class FragmentChannel extends BaseFragment {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private EditText searchcontent;
+
 
     @Nullable
     @Override
@@ -44,7 +44,7 @@ public class FragmentChannel extends BaseFragment {
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新
         swipeRefreshLayout.setOnRefreshListener(this::Refresh);
-        searchcontent.setOnClickListener(v -> startActivity(new Intent(getActivity(),Search.class)));
+
     }
 
 
@@ -53,7 +53,7 @@ public class FragmentChannel extends BaseFragment {
     protected void initControl() {
         recyclerView= Objects.requireNonNull(getActivity()).findViewById(R.id.channel_recyclerview);
         swipeRefreshLayout=getActivity().findViewById(R.id.channel_swipe);
-        searchcontent=getActivity().findViewById(R.id.channel_searchcontent);
+
     }
 
     @Override

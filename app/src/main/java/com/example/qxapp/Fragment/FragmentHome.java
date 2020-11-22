@@ -1,9 +1,12 @@
 package com.example.qxapp.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.qxapp.Adapter.HomeAdapter;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Post;
+import com.example.qxapp.activity.Search;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,8 +29,8 @@ import cn.bmob.v3.listener.FindListener;
 
 public class FragmentHome extends BaseFragment {
     private RecyclerView recyclerView;
-
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView searchcontent;
 
     @Nullable
     @Override
@@ -39,12 +43,14 @@ public class FragmentHome extends BaseFragment {
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新
         swipeRefreshLayout.setOnRefreshListener(this::Refresh);
+        searchcontent.setOnClickListener(v -> startActivity(new Intent(getActivity(), Search.class)));
     }
 
     @Override
     protected void initControl() {
         recyclerView= Objects.requireNonNull(getActivity()).findViewById(R.id.home_recyclerview);
         swipeRefreshLayout=getActivity().findViewById(R.id.home_swipe);
+        searchcontent=getActivity().findViewById(R.id.home_searchcontent);
     }
 
     @Override

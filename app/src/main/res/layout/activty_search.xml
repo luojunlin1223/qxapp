@@ -11,6 +11,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <EditText
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:lines="1"
             android:id="@+id/search_content"
             android:focusable="true"
             android:layout_weight="1"
@@ -18,13 +21,6 @@
             android:layout_height="wrap_content"
             tools:ignore="Suspicious0dp"
             android:hint="请输入你想要搜索的商品"
-            />
-        <Button
-            android:id="@+id/search"
-            android:background="@color/colorAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜素"
             />
         <Button
             android:id="@+id/cancel"
