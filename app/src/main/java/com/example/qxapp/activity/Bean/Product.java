@@ -5,7 +5,7 @@ import cn.bmob.v3.BmobObject;
 public class Product extends BmobObject {
     private String name;
     private String url;
-    private float price;
+    private double price;
     private String where;
     private String key;
 
@@ -41,16 +41,19 @@ public class Product extends BmobObject {
         this.url = url;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
     public void setPrice(String price) {
         if(price.isEmpty()){
-            this.price=0;
-        }else {
-            this.price=Float.parseFloat(price);
+            this.price=0.0;
+        }else if(price.contains("-")){
+            this.price=Double.parseDouble(price.substring(0,5));
+        }else{
+            this.price=Double.parseDouble(price);
         }
+
     }
 
 }

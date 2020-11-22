@@ -1,6 +1,7 @@
 package com.example.qxapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
+import com.example.qxapp.activity.Receive;
 
 import java.util.List;
 
@@ -62,6 +64,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             recyclerViewHolder.price.setText(String.valueOf(product.getPrice()));
             recyclerViewHolder.url.setText(product.getUrl());
 //          用户点击特定的itemView的时候
+            recyclerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent in=new Intent(context, Receive.class);
+                    in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(in);
+                }
+            });
         }
 
     }

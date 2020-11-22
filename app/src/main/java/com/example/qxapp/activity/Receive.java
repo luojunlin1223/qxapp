@@ -29,23 +29,7 @@ public class Receive extends AppCompatActivity {
     }
 
     private void initData() {
-
-        Intent in=getIntent();
-        String id=in.getStringExtra("id");
-
-        BmobQuery<Post> query=new BmobQuery<>();
-        query.getObject(id, new QueryListener<Post>() {
-            @Override
-            public void done(Post post, BmobException e) {
-                if(e==null){
-                    username.setText(post.getName());
-                    content.setText(post.getContent());
-                    time.setText(post.getCreatedAt());
-                }else{
-                    Toast.makeText(Receive.this,"获取失败",Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        username.setText("这是一个测试而已");
     }
 
     private void initControl() {
