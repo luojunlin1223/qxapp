@@ -12,12 +12,13 @@ import com.example.qxapp.Adapter.SectionPageAdapter;
 import com.example.qxapp.Fragment.FragmentChannel;
 import com.example.qxapp.Fragment.FragmentHome;
 import com.example.qxapp.Fragment.FragmentMine;
+import com.example.qxapp.Viewpager.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
-    private ViewPager viewPager;
+    private NoScrollViewPager noScrollViewPager;
     private BottomNavigationBar bottomNavigationBar;
 
     @Override
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     }
 
     private void initControl() {
-        viewPager=findViewById(R.id.viewpager);
+        noScrollViewPager =findViewById(R.id.NoSrollViewPager);
         bottomNavigationBar=findViewById(R.id.bottom);
         initViewPager();
         initBottomNavigationBar();
@@ -51,15 +52,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //    初始化ViewPager
     private void initViewPager() {
 //        加载页面的上限值
-        viewPager.setOffscreenPageLimit(3);
+        noScrollViewPager.setOffscreenPageLimit(3);
 //        FragmentList
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentHome());
         fragmentList.add(new FragmentChannel());
         fragmentList.add(new FragmentMine());
 
-        viewPager.setAdapter(new SectionPageAdapter(getSupportFragmentManager(), fragmentList));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        noScrollViewPager.setAdapter(new SectionPageAdapter(getSupportFragmentManager(), fragmentList));
+        noScrollViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -76,13 +77,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
             }
         });
-        viewPager.setCurrentItem(0);
+        noScrollViewPager.setCurrentItem(0);
+        noScrollViewPager.setNoScroll(true);
     }
 
 //  切换导航栏自动切换page
     @Override
     public void onTabSelected(int position) {
-        viewPager.setCurrentItem(position);
+        noScrollViewPager.setCurrentItem(position);
     }
 
     @Override
