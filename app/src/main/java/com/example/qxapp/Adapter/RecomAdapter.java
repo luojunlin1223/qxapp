@@ -66,6 +66,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             recyclerViewHolder.thumbdown.setText(String.valueOf(recommondation.getThumbsdown()));
             recyclerViewHolder.thumbsup.setText(String.valueOf(recommondation.getThumbsup()));
             recyclerViewHolder.prodcut.setText(recommondation.getProduct());
+            recyclerViewHolder.time.setText(recommondation.getCreatedAt());
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(v -> {
                 int position1 =recyclerViewHolder.getAdapterPosition();
@@ -99,7 +100,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView username,content,prodcut,thumbsup,thumbdown;
+        public TextView username,content,prodcut,thumbsup,thumbdown,time;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
@@ -108,6 +109,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 prodcut=itemview.findViewById(R.id.product);
                 thumbdown=itemview.findViewById(R.id.thumbsdown);
                 thumbsup=itemview.findViewById(R.id.thumbsup);
+                time=itemview.findViewById(R.id.time);
             }
         }
     }
