@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Community;
 import com.example.qxapp.activity.Bean.SearchRecord;
 import com.example.qxapp.activity.Receive;
 
@@ -35,7 +34,7 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.community_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.inner_item,null,false);
         View footview=LayoutInflater.from(parent.getContext()).inflate(R.layout.foot_item,parent,false);
         if(viewType==F_TYPE){
             return new InnerAdapter.RecyclerViewHolder(footview,F_TYPE);
@@ -60,9 +59,9 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             //获取内容
             final InnerAdapter.RecyclerViewHolder recyclerViewHolder= (InnerAdapter.RecyclerViewHolder) holder;
             SearchRecord searchRecord=data.get(position);
-            recyclerViewHolder.name.setText(searchRecord.getKey());
-            recyclerViewHolder.info.setText(String.valueOf(searchRecord.getCount()));
-            recyclerViewHolder.time.setText(searchRecord.getCreatedAt());
+            recyclerViewHolder.rank.setText(String.valueOf(position));
+            recyclerViewHolder.key.setText(searchRecord.getKey());
+            recyclerViewHolder.count.setText(String.valueOf(searchRecord.getCount()));
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(v -> {
                 int position1 =recyclerViewHolder.getAdapterPosition();
@@ -96,13 +95,13 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,info,time;
+        public TextView rank,key,count;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
-                name=itemview.findViewById(R.id.community_name);
-                info=itemview.findViewById(R.id.community_info);
-                time=itemview.findViewById(R.id.community_time);
+                rank=itemview.findViewById(R.id.rank);
+                key=itemview.findViewById(R.id.key);
+                count=itemview.findViewById(R.id.count);
             }
         }
     }

@@ -12,10 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qxapp.Adapter.MineAdapter;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Login;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
@@ -26,6 +31,7 @@ import cn.bmob.v3.listener.QueryListener;
 public class FragmentMine extends Fragment {
     private TextView username;
     private Button outbtn;
+    private RecyclerView recyclerView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,5 +73,14 @@ public class FragmentMine extends Fragment {
     private void initControl() {
         username= Objects.requireNonNull(getActivity()).findViewById(R.id.username);
         outbtn=getActivity().findViewById(R.id.out);
+        recyclerView=getActivity().findViewById(R.id.mine_recycler);
+        List<String> data=new ArrayList<>();
+        data.add("历史");
+        data.add("收藏");
+        data.add("我的推荐");
+        data.add("版本更新");
+        MineAdapter mineAdapter=new MineAdapter(getActivity(),data);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(mineAdapter);
     }
 }

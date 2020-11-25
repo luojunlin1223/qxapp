@@ -12,10 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.qxapp.Adapter.ChannelAdapter;
 import com.example.qxapp.Adapter.InnerAdapter;
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Community;
 import com.example.qxapp.activity.Bean.SearchRecord;
 
 import java.util.List;

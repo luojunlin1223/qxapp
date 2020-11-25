@@ -1,19 +1,12 @@
 package com.example.qxapp.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Post;
-
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.QueryListener;
 
 public class Receive extends AppCompatActivity {
     private TextView username,content,time;

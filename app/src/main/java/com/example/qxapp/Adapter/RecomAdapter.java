@@ -12,21 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Community;
+import com.example.qxapp.activity.Bean.Recommondation;
 import com.example.qxapp.activity.Receive;
 
 import java.util.List;
 
-public class ChannelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import cn.bmob.v3.BmobUser;
+
+public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean isfootview = true;
     private Context context;
-    private List<Community> data;
+    private List<Recommondation> data;
     private final int N_TYPE=0;
     private final int F_TYPE=1;
     //  预加载的数据的条目
     private int Max_num=8;
 
-    public ChannelAdapter(Context context, List<Community> data){
+    public RecomAdapter(Context context, List<Recommondation> data){
         this.context=context;
         this.data=data;
     }
@@ -34,12 +36,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.community_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recom_item,parent,false);
         View footview=LayoutInflater.from(parent.getContext()).inflate(R.layout.foot_item,parent,false);
         if(viewType==F_TYPE){
-            return new ChannelAdapter.RecyclerViewHolder(footview,F_TYPE);
+            return new RecomAdapter.RecyclerViewHolder(footview,F_TYPE);
         }else{
-            return new ChannelAdapter.RecyclerViewHolder(view,N_TYPE);
+            return new RecomAdapter.RecyclerViewHolder(view,N_TYPE);
         }
     }
 
@@ -57,11 +59,13 @@ public class ChannelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             },2000);
         }else {
             //获取内容
-            final ChannelAdapter.RecyclerViewHolder recyclerViewHolder= (ChannelAdapter.RecyclerViewHolder) holder;
-            Community community=data.get(position);
-            recyclerViewHolder.name.setText(community.getName());
-            recyclerViewHolder.info.setText(community.getInfo());
-            recyclerViewHolder.time.setText(community.getCreatedAt());
+            final RecomAdapter.RecyclerViewHolder recyclerViewHolder= (RecomAdapter.RecyclerViewHolder) holder;
+            Recommondation recommondation=data.get(position);
+            recyclerViewHolder.username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());
+            recyclerViewHolder.content.setText(recommondation.getContent());
+            recyclerViewHolder.thumbdown.setText(String.valueOf(recommondation.getThumbsdown()));
+            recyclerViewHolder.thumbsup.setText(String.valueOf(recommondation.getThumbsup()));
+            recyclerViewHolder.prodcut.setText(recommondation.getProduct());
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(v -> {
                 int position1 =recyclerViewHolder.getAdapterPosition();
@@ -95,13 +99,15 @@ public class ChannelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,info,time;
+        public TextView username,content,prodcut,thumbsup,thumbdown;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
-                name=itemview.findViewById(R.id.community_name);
-                info=itemview.findViewById(R.id.community_info);
-                time=itemview.findViewById(R.id.community_time);
+                username=itemview.findViewById(R.id.username);
+                content=itemview.findViewById(R.id.content);
+                prodcut=itemview.findViewById(R.id.product);
+                thumbdown=itemview.findViewById(R.id.thumbsdown);
+                thumbsup=itemview.findViewById(R.id.thumbsup);
             }
         }
     }

@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.qxapp.Adapter.ChannelAdapter;
+import com.example.qxapp.Adapter.InnerAdapter;
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Community;
+import com.example.qxapp.activity.Bean.SearchRecord;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,17 +51,17 @@ public class FragmentinnerSearch extends BaseFragment{
 
     @Override
     protected void Refresh() {
-        BmobQuery<Community> communityBmobQuery = new BmobQuery<>();
-        communityBmobQuery.order("-createdAt");
-        communityBmobQuery.setLimit(1000);
-        communityBmobQuery.findObjects(new FindListener<Community>() {
+        BmobQuery<SearchRecord> bmobQuery = new BmobQuery<>();
+        bmobQuery.order("-createdAt");
+        bmobQuery.setLimit(1000);
+        bmobQuery.findObjects(new FindListener<SearchRecord>() {
             @Override
-            public void done(List<Community> list, BmobException e) {
+            public void done(List<SearchRecord> list, BmobException e) {
                 swipeRefreshLayout.setRefreshing(false);
                 if(e==null){
-                    ChannelAdapter channelAdapter=new ChannelAdapter(getActivity(), list);
+                    InnerAdapter innerAdapter=new InnerAdapter(getActivity(),list);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    recyclerView.setAdapter(channelAdapter);
+                    recyclerView.setAdapter(innerAdapter);
                 }else{
 //                    上拉刷新失败
                     swipeRefreshLayout.setRefreshing(false);

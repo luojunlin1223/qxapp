@@ -9,7 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.qxapp.Adapter.SectionPageAdapter;
-import com.example.qxapp.Fragment.FragmentChannel;
+import com.example.qxapp.Fragment.FragmentRecom;
 import com.example.qxapp.Fragment.FragmentHome;
 import com.example.qxapp.Fragment.FragmentMine;
 import com.example.qxapp.Viewpager.NoScrollViewPager;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                 .setActiveColor(R.color.Navigation_bottom_base)
                 .setInActiveColor(R.color.black);
         bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.homepage_fill,"首页").setInactiveIconResource(R.drawable.homepage))
-                           .addItem(new BottomNavigationItem(R.drawable.channel_fill,"频道").setInactiveIconResource(R.drawable.channel))
+                           .addItem(new BottomNavigationItem(R.drawable.recommendation_fill,"推荐").setInactiveIconResource(R.drawable.recommendation))
                            .addItem(new BottomNavigationItem(R.drawable.mine_fill,"我的").setInactiveIconResource(R.drawable.mine))
         .setFirstSelectedPosition(0)
         .initialise();
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //        FragmentList
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentHome());
-        fragmentList.add(new FragmentChannel());
+        fragmentList.add(new FragmentRecom());
         fragmentList.add(new FragmentMine());
 
         noScrollViewPager.setAdapter(new SectionPageAdapter(getSupportFragmentManager(), fragmentList));

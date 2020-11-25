@@ -56,5 +56,6 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.alibaba:fastjson:1.1.54.android'
     implementation 'com.github.pratikbutani:MultiSelectSpinner:-SNAPSHOT'
+    implementation 'com.vincan:rotatecircleimageview:1.0.0'
 
 }
