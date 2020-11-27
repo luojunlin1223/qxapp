@@ -58,7 +58,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ImageView
+            <ImageButton
+                android:id="@+id/thumbsup_btn"
+                android:background="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumbsup"/>
@@ -69,11 +71,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="赞"/>
-            <ImageView
+            <ImageButton
+                android:id="@+id/thumbsdown_btn"
+                android:background="@color/white"
                 android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumbdown"/>
+                android:src="@drawable/thumbdown"
+                />
             <TextView
                 android:id="@+id/thumbsdown"
                 android:textColor="#000"

@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginRight="10dp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
-    <TextView
-        android:id="@+id/product_item_name"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="20dp">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="name"/>
-    <TextView
-        android:id="@+id/product_item_price"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="price"/>
-    <TextView
-        android:id="@+id/product_item_url"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="url"/>
+        android:orientation="vertical">
+        <ImageView
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/tom"/>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/product_item_name"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="name"/>
+            <TextView
+                android:id="@+id/product_item_price"
+                android:textColor="#F303DF"
+                android:textSize="@dimen/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="price"/>
+            <TextView
+                android:id="@+id/product_item_url"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="url"/>
 
-</LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

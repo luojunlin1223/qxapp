@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
@@ -387,7 +388,7 @@ public class Search extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
                 if(e==null){
                     SearchAdapter searchAdapter=new SearchAdapter(getApplicationContext(), list);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
                     recyclerView.setAdapter(searchAdapter);
                 }else{
                     swipeRefreshLayout.setRefreshing(false);

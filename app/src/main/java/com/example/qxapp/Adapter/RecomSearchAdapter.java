@@ -6,7 +6,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +19,11 @@ import com.example.qxapp.activity.Receive;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 public class RecomSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     boolean isfootview = true;
@@ -60,13 +66,30 @@ public class RecomSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             },1000);
         }else {
             //获取内容
+
+
             final RecomSearchAdapter.RecyclerViewHolder recyclerViewHolder= (RecomSearchAdapter.RecyclerViewHolder) holder;
             Recommondation recommondation=data.get(position);
+            recyclerViewHolder.thumbsupbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    thumbsup(recyclerViewHolder.time);
+                }
+            });
+            recyclerViewHolder.thumbdownbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    thumbdown(recyclerViewHolder.time);
+                }
+            });
+
+
             recyclerViewHolder.username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());
             recyclerViewHolder.content.setText(recommondation.getContent());
             recyclerViewHolder.thumbdown.setText(String.valueOf(recommondation.getThumbsdown()));
             recyclerViewHolder.thumbsup.setText(String.valueOf(recommondation.getThumbsup()));
             recyclerViewHolder.prodcut.setText(recommondation.getProduct());
+            recyclerViewHolder.time.setText(recommondation.getCreatedAt());
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -77,6 +100,55 @@ public class RecomSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
         }
+
+    }
+
+    private void thumbdown(TextView time) {
+        BmobQuery<Recommondation> bmobQuery=new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("createdAt",time);
+        bmobQuery.findObjects(new FindListener<Recommondation>() {
+            @Override
+            public void done(List<Recommondation> list, BmobException e) {
+                if(e==null){
+                    Recommondation recommondation=new Recommondation();
+                    recommondation.setThumbsdown(list.get(0).getThumbsdown()+1);
+                    recommondation.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if(e!=null){
+                                Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }else {
+                    Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void thumbsup(TextView time) {
+        BmobQuery<Recommondation>bmobQuery=new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("createdAt",time);
+        bmobQuery.findObjects(new FindListener<Recommondation>() {
+            @Override
+            public void done(List<Recommondation> list, BmobException e) {
+                if(e==null){
+                    Recommondation recommondation=new Recommondation();
+                    recommondation.setThumbsup(list.get(0).getThumbsup()+1);
+                    recommondation.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if(e!=null){
+                                Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }else {
+                    Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -97,7 +169,8 @@ public class RecomSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView username,content,prodcut,thumbsup,thumbdown;
+        public TextView username,content,prodcut,thumbsup,thumbdown,time;
+        public ImageButton thumbsupbtn,thumbdownbtn;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
@@ -106,6 +179,10 @@ public class RecomSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 prodcut=itemview.findViewById(R.id.product);
                 thumbdown=itemview.findViewById(R.id.thumbsdown);
                 thumbsup=itemview.findViewById(R.id.thumbsup);
+                time=itemview.findViewById(R.id.time);
+
+                thumbsupbtn=itemview.findViewById(R.id.thumbsup_btn);
+                thumbdownbtn=itemview.findViewById(R.id.thumbsdown_btn);
             }
         }
     }

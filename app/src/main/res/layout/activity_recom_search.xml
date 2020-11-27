@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:ignore="Suspicious0dp"
-            android:hint="请输入你想要搜索的评论"
+            android:hint="找找你想要的评论吧！输入商品名查找"
             />
         <Button
             android:id="@+id/cancel"

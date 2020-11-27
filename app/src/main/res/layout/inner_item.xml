@@ -10,15 +10,15 @@
         android:id="@+id/rank"
         android:layout_width="20sp"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="@dimen/content"
         />
     <TextView
         android:layout_marginStart="110dp"
         android:id="@+id/key"
-        android:layout_width="100sp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="商品名"
-        android:textSize="25sp"
+        android:textSize="@dimen/content"
          />
     <TextView
         android:layout_marginStart="100dp"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="热度"
-        android:textSize="25sp"
+        android:textSize="@dimen/content"
         />
 
 

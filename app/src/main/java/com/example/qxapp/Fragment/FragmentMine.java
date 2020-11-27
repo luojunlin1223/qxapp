@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.Adapter.MineAdapter;
 import com.example.qxapp.R;
+import com.example.qxapp.activity.Bean.Recommondation;
+import com.example.qxapp.activity.Bean.Recommondation;
+import com.example.qxapp.activity.Bean.SearchRecord;
 import com.example.qxapp.activity.Login;
+import com.example.qxapp.activity.Search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +31,14 @@ import java.util.Objects;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 
 public class FragmentMine extends Fragment {
     private TextView username;
     private Button outbtn;
     private RecyclerView recyclerView;
+    private TextView searchcount,recomcount,thumbsupcount;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,16 +62,39 @@ public class FragmentMine extends Fragment {
     }
 
     private void getMyinfo() {
-        BmobUser user=BmobUser.getCurrentUser(BmobUser.class);
-        String id=user.getObjectId();
-        BmobQuery<BmobUser> bmobUserBmobQuery=new BmobQuery<>();
-        bmobUserBmobQuery.getObject(id, new QueryListener<BmobUser>() {
+       username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());
+       BmobQuery<SearchRecord>recordBmobQuery=new BmobQuery<>();
+        recordBmobQuery.addWhereEqualTo("user",BmobUser.getCurrentUser(BmobUser.class));
+        recordBmobQuery.findObjects(new FindListener<SearchRecord>() {
             @Override
-            public void done(BmobUser bmobUser, BmobException e) {
-                if(e==null){
-                    username.setText(user.getUsername());
-                }else {
-                    Toast.makeText(getActivity(),"加载失败",Toast.LENGTH_LONG).show();
+            public void done(List<SearchRecord> list, BmobException e) {
+                if (e == null) {
+                    int count=0;
+                    for(SearchRecord item:list){
+                        count += item.getCount();
+                    }
+                    searchcount.setText(String.valueOf(count));
+                } else {
+                    Toast.makeText(getContext(),e.toString(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        BmobQuery<Recommondation> recommondationBmobQuery=new BmobQuery<>();
+        recommondationBmobQuery.addWhereEqualTo("user",BmobUser.getCurrentUser(BmobUser.class));
+        recommondationBmobQuery.findObjects(new FindListener<Recommondation>() {
+            @Override
+            public void done(List<Recommondation> list, BmobException e) {
+                if (e == null) {
+                    int recom_count=0;
+                    int thumbs_upcount=0;
+                    for(Recommondation item:list){
+                        recom_count +=1;
+                        thumbs_upcount+=item.getThumbsup();
+                    }
+                    recomcount.setText(String.valueOf(recom_count));
+                    thumbsupcount.setText(String.valueOf(thumbs_upcount));
+                } else {
+                    Toast.makeText(getContext(),e.toString(),Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -74,6 +104,10 @@ public class FragmentMine extends Fragment {
         username= Objects.requireNonNull(getActivity()).findViewById(R.id.username);
         outbtn=getActivity().findViewById(R.id.out);
         recyclerView=getActivity().findViewById(R.id.mine_recycler);
+        searchcount=getActivity().findViewById(R.id.user_search_count);
+        recomcount=getActivity().findViewById(R.id.recom_count);
+        thumbsupcount=getActivity().findViewById(R.id.thumbsup_count);
+
         List<String> data=new ArrayList<>();
         data.add("历史");
         data.add("收藏");
