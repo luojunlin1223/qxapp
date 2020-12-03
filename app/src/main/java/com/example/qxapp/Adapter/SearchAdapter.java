@@ -1,7 +1,9 @@
 package com.example.qxapp.Adapter;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.qxapp.ImageView;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
 import com.example.qxapp.activity.Receive;
@@ -63,13 +66,36 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             recyclerViewHolder.name.setText(product.getName());
             recyclerViewHolder.price.setText(String.valueOf(product.getPrice()));
             recyclerViewHolder.url.setText(product.getUrl());
+            recyclerViewHolder.imageView.setImageURL(product.getImageurl());
+
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent in=new Intent(context, Receive.class);
-                    in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(in);
+                    String path;
+                    
+                    switch (product.getWhere()){
+                        case "淘宝":{
+                            String nid;
+                            nid=product.getUrl();
+                            nid=nid.substring(nid.indexOf("id"));
+                            path="taobao://item.taobao.com/item.html?"+nid;
+                            break;
+                        }
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + product.getWhere());
+                    }
+                    String pkg,cls;
+                    pkg="com.tencent.mobileqq";
+                    cls="com.tencent.mobileqq.activity.SplashActivity";
+                    ComponentName componet = new ComponentName(pkg, cls);
+                    //pkg 就是第三方应用的包名
+                    //cls 就是第三方应用的进入的第一个Activity
+                    Intent intent = new Intent();
+                    intent.setComponent(componet);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
                 }
             });
         }
@@ -94,12 +120,14 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
         public TextView name,price,url;
+        public ImageView imageView;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
                 name=itemview.findViewById(R.id.product_item_name);
                 price=itemview.findViewById(R.id.product_item_price);
                 url=itemview.findViewById(R.id.product_item_url);
+                imageView=itemview.findViewById(R.id.product_image);
             }
         }
     }

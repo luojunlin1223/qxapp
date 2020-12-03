@@ -117,4 +117,5 @@ public class FragmentMine extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mineAdapter);
     }
+
 }

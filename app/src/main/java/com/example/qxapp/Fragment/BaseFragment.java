@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import cn.bmob.v3.Bmob;
 
 public abstract class BaseFragment extends Fragment {
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -17,9 +18,9 @@ public abstract class BaseFragment extends Fragment {
         Refresh();
         initControl();
         initData();
+
 //        逻辑处理
     }
-
     protected abstract void initData();
 
     protected abstract void initControl();

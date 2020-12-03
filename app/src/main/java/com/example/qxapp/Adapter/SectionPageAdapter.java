@@ -14,6 +14,7 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
         this.fragments=fragments;
     }
 
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
@@ -24,4 +25,5 @@ public class SectionPageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return fragments.size();
     }
+
 }

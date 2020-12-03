@@ -97,8 +97,12 @@ public class Search extends AppCompatActivity {
                                         Product product=new Product();
                                         product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
                                         product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
-                                        String itemurl=item.select("p[class='productTitle']").select("a").attr("href");
-                                        product.setUrl(itemurl.substring(0,itemurl.indexOf("&")));
+                                        String itemurl_t=item.select("p[class='productTitle']").select("a").attr("href");
+                                        String itemurl="http:"+itemurl_t.substring(0,itemurl_t.indexOf("&"));
+                                        Document itempage=getDocument(itemurl,"");
+                                        String imageurl="http:"+itempage.select("img").attr("src");
+                                        product.setImageurl(imageurl);
+                                        product.setUrl(itemurl);
                                         product.setWhere("天猫");
                                         product.setKey(searchcontent.getText().toString());
                                         product.save(new SaveListener<String>() {
@@ -126,7 +130,9 @@ public class Search extends AppCompatActivity {
                                 Elements Llist=Ulist.select("div[class='gl-i-wrap']");
                                 for(Element item:Llist){
                                     Product product=new Product();
-                                    String itemurl="https:"+item.getElementsByClass("p-name p-name-type-2").select("a").attr("href");
+                                    String itemurl="https:"+item.select("a").attr("href");
+                                    String imageurl="http:"+item.select("img").attr("data-lazy-img");
+                                    product.setImageurl(imageurl);
                                     Document itempage= null;
                                     try {
                                         itempage = getDocument(itemurl,"");
@@ -173,19 +179,29 @@ public class Search extends AppCompatActivity {
                                 assert jsoncontent != null;
                                 String head="g_page_config = ";
                                 jsoncontent=jsoncontent.substring(jsoncontent.indexOf(head)+head.length()).trim();
-                                List<String> goods= new ArrayList<>(Arrays.asList(jsoncontent.split("\"nid\":")));
+                                List<String> goods= new ArrayList<>(Arrays.asList(jsoncontent.split("\"similar\":")));
                                 goods.remove(0);
                                 for(String item:goods){
                                     Product product=new Product();
                                     String target_title="\"raw_title\":\"";
                                     String target_price="\"view_price\":\"";
-                                    product.setName(item.substring(item.indexOf(target_title)+target_title.length(),
-                                            item.indexOf(",",item.indexOf(target_title)+target_title.length())-1));
-                                    product.setPrice(item.substring(item.indexOf(target_price)+target_price.length(),
-                                            item.indexOf(",",item.indexOf(target_price)+target_price.length())-1));
-                                    product.setWhere("淘宝");
+                                    String target_pic="\"pic_url\":\"";
+                                    String target_innerText="\"innerText\":\"";
+                                    String target_nid="\"nid\":\"";
+                                    String innerText=taobao_helper(item,target_innerText);
+
+                                    product.setName(taobao_helper(item,target_title));
+                                    product.setPrice(taobao_helper(item,target_price));
+                                    product.setImageurl("http:"+taobao_helper(item,target_pic));
                                     product.setKey(searchcontent.getText().toString());
 
+                                    if(innerText.equals("天猫宝贝")){
+                                        product.setWhere("Tmall");
+                                        product.setUrl("https://detail.tmall.com/item.htm?id="+taobao_helper(item,target_nid));
+                                    }else{
+                                        product.setWhere("淘宝");
+                                        product.setUrl("https://item.taobao.com/item.htm?id="+taobao_helper(item,target_nid));
+                                    }
                                     product.save(new SaveListener<String>() {
                                         @Override
                                         public void done(String s, BmobException e) {
@@ -201,6 +217,7 @@ public class Search extends AppCompatActivity {
                                     Elements goodlist=homepage.select("ul[class='general clearfix']").select("li");
                                     for(Element item:goodlist){
                                         String itemurl= "http:" + item.select("div[class='title-selling-point']").select("a").attr("href");
+                                        String imageurl="http:"+item.select("img").attr("src");
                                         Document itempage=getDocument(itemurl,"");
                                         String name=itempage.select("h1[id='itemDisplayName']").text();
                                         List<String> id=new ArrayList<>(Arrays.asList(itemurl.split("com/")));
@@ -220,6 +237,7 @@ public class Search extends AppCompatActivity {
                                         String price=pricejson.substring(pricejson.indexOf(tag)
                                                 +tag.length(),pricejson.indexOf(",",pricejson.indexOf(tag))-1);
                                         Product product=new Product();
+                                        product.setImageurl(imageurl);
                                         product.setName(name);
                                         product.setPrice(price);
                                         product.setUrl(itemurl);
@@ -231,7 +249,7 @@ public class Search extends AppCompatActivity {
                                             }
                                         });
                                     }
-
+                                    Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
@@ -395,6 +413,10 @@ public class Search extends AppCompatActivity {
                 }
             }
         });
+    }
+    private String taobao_helper(String item,String target){
+        return item.substring(item.indexOf(target)+target.length(),
+                item.indexOf(",",item.indexOf(target)+target.length())-1);
     }
 }
 

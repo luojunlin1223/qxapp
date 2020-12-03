@@ -34,6 +34,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     boolean isfootview = true;
     private Context context;
     private List<Recommondation> data;
@@ -82,6 +83,10 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onClick(View v) {
                     try {
                         thumbsup(recommondation.getObjectId());
+                        if (position >= 0 && position < data.size()) {
+                            data.get(position).setThumbsup(recommondation.getThumbsup()+1);
+                        }
+                        notifyItemChanged(position);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -91,6 +96,10 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     thumbdown(recommondation.getObjectId());
+                    if (position >= 0 && position < data.size()) {
+                        data.get(position).setThumbsdown(recommondation.getThumbsdown()+1);
+                    }
+                    notifyItemChanged(position);
                 }
             });
 
@@ -116,6 +125,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
+
     private void thumbdown(String objctid) {
         BmobQuery<Recommondation>bmobQuery=new BmobQuery<>();
         bmobQuery.getObject(objctid, new QueryListener<Recommondation>() {
@@ -139,6 +149,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             }
         });
+
     }
 
     private void thumbsup(String objctid) throws ParseException {
@@ -200,4 +211,5 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         }
     }
+
 }

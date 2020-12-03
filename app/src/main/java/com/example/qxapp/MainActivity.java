@@ -1,6 +1,7 @@
 package com.example.qxapp;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import com.example.qxapp.Viewpager.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private NoScrollViewPager noScrollViewPager;
@@ -85,11 +87,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public void onTabSelected(int position) {
         noScrollViewPager.setCurrentItem(position);
+
     }
 
     @Override
     public void onTabUnselected(int position) {
-
     }
 
     @Override

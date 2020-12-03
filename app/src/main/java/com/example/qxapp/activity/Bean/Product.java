@@ -5,6 +5,7 @@ import cn.bmob.v3.BmobObject;
 public class Product extends BmobObject {
     private String name;
     private String url;
+    private String imageurl;
     private double price;
     private String where;
     private String key;
@@ -54,6 +55,13 @@ public class Product extends BmobObject {
             this.price=Double.parseDouble(price);
         }
 
+    }
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
 }
