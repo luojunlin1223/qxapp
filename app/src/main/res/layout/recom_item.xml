@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="2dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="20dp"
     app:contentPadding="20dp"
     android:id="@+id/cardview"
-    android:layout_width="457dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="内容"/>
         <LinearLayout
-            android:layout_marginStart="300dp"
+            android:layout_marginStart="200dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -86,6 +87,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="踩"/>
+            <ImageButton
+                android:id="@+id/collect_btn"
+                android:background="@color/white"
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/collect"
+                />
+            <TextView
+                android:id="@+id/collect"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"/>
 
         </LinearLayout>
 

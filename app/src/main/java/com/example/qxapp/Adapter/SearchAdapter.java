@@ -3,6 +3,7 @@ package com.example.qxapp.Adapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import com.example.qxapp.activity.Bean.Product;
 import com.example.qxapp.activity.Receive;
 
 import java.util.List;
+
+import cn.bmob.v3.http.I;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean isfootview = true;
@@ -73,28 +76,50 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View v) {
                     String path;
-                    
                     switch (product.getWhere()){
                         case "淘宝":{
                             String nid;
                             nid=product.getUrl();
                             nid=nid.substring(nid.indexOf("id"));
                             path="taobao://item.taobao.com/item.html?"+nid;
+                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        }
+                        case "天猫":{
+                            String nid;
+                            nid=product.getUrl();
+                            nid=nid.substring(nid.indexOf("id"));
+                            path="taobao://item.taobao.com/item.html?"+nid;
+                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        }
+                        case "京东":{
+                            String nid;
+                            nid=product.getUrl();
+                            nid=nid.substring(nid.indexOf("com/")+4,nid.indexOf(".html"));
+                            path="openApp.jdMobile://virtual?params={\"category\":\"jump\",\"des\":\"productDetail\",\"skuId\":\""+nid+"\",\"sourceType\":\"JSHOP_SOURCE_TYPE\",\"sourceValue\":\"JSHOP_SOURCE_VALUE\"}";
+                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        }
+                        case "苏宁":{
+                            String nid;
+                            nid=product.getUrl();
+                            nid=nid.substring(nid.indexOf("com/")+4,nid.indexOf(".html"));
+                            PackageManager packageManager=context.getPackageManager();
+                            String packagename="com.suning.mobile.ebuy";
+                            Intent intent=packageManager.getLaunchIntentForPackage(packagename);
+                            context.startActivity(intent);
                             break;
                         }
                         default:
                             throw new IllegalStateException("Unexpected value: " + product.getWhere());
                     }
-                    String pkg,cls;
-                    pkg="com.tencent.mobileqq";
-                    cls="com.tencent.mobileqq.activity.SplashActivity";
-                    ComponentName componet = new ComponentName(pkg, cls);
-                    //pkg 就是第三方应用的包名
-                    //cls 就是第三方应用的进入的第一个Activity
-                    Intent intent = new Intent();
-                    intent.setComponent(componet);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
 
                 }
             });

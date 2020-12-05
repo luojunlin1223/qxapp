@@ -196,7 +196,7 @@ public class Search extends AppCompatActivity {
                                     product.setKey(searchcontent.getText().toString());
 
                                     if(innerText.equals("天猫宝贝")){
-                                        product.setWhere("Tmall");
+                                        product.setWhere("天猫");
                                         product.setUrl("https://detail.tmall.com/item.htm?id="+taobao_helper(item,target_nid));
                                     }else{
                                         product.setWhere("淘宝");

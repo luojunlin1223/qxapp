@@ -52,6 +52,7 @@ public class WriteRecom extends AppCompatActivity {
         recommondation.setContent(content.getText().toString());
         recommondation.setThumbsdown(0);
         recommondation.setThumbsdown(0);
+        recommondation.setCollect(0);
         recommondation.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {

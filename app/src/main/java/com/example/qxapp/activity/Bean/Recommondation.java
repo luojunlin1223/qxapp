@@ -7,6 +7,16 @@ public class Recommondation extends BmobObject {
     private BmobUser user;
     private int thumbsup;
     private int thumbsdown;
+
+    public int getCollect() {
+        return collect;
+    }
+
+    public void setCollect(int collect) {
+        this.collect = collect;
+    }
+
+    private int collect;
     private String content;
     private String product;
 
