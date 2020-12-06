@@ -61,7 +61,7 @@ public class Collect extends AppCompatActivity {
         bmobQuery.addWhereEqualTo("user", BmobUser.getCurrentUser(BmobUser.class));
         bmobQuery.order("-createdAt");
         bmobQuery.setLimit(1000);
-        bmobQuery.include("recommondation,user");
+        bmobQuery.include("recommondation.user");
         bmobQuery.findObjects(new FindListener<CollectRecord>() {
             @Override
             public void done(List<CollectRecord> list, BmobException e) {

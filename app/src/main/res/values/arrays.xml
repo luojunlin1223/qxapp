@@ -10,4 +10,21 @@
         <item>淘宝</item>
         <item>苏宁</item>
     </string-array>
+    <string-array name="settings">
+        <item>历史</item>
+        <item>收藏</item>
+        <item>推荐</item>
+        <item>更新</item>
+        <item>我的预设</item>
+    </string-array>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
 </resources>

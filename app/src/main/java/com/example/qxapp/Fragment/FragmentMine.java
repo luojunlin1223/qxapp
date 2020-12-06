@@ -25,6 +25,7 @@ import com.example.qxapp.activity.Login;
 import com.example.qxapp.activity.Search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -108,11 +109,7 @@ public class FragmentMine extends Fragment {
         recomcount=getActivity().findViewById(R.id.recom_count);
         thumbsupcount=getActivity().findViewById(R.id.thumbsup_count);
 
-        List<String> data=new ArrayList<>();
-        data.add("历史");
-        data.add("收藏");
-        data.add("我的推荐");
-        data.add("版本更新");
+        List<String> data= Arrays.asList(getResources().getStringArray(R.array.settings));
         MineAdapter mineAdapter=new MineAdapter(getActivity(),data);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mineAdapter);

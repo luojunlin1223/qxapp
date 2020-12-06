@@ -30,7 +30,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".activity.Update"></activity>
+        <activity
+            android:name=".activity.Preset"
+            android:label="@string/title_activity_preset"></activity>
+        <activity android:name=".activity.Update" />
         <activity android:name=".activity.Recommondation" />
         <activity android:name=".activity.Collect" />
         <activity android:name=".activity.History" />

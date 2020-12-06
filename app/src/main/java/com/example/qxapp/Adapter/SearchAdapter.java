@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,43 +79,59 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     String path;
                     switch (product.getWhere()){
                         case "淘宝":{
-                            String nid;
-                            nid=product.getUrl();
-                            nid=nid.substring(nid.indexOf("id"));
-                            path="taobao://item.taobao.com/item.html?"+nid;
-                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            if(checkPackage("com.taobao.taobao")){
+                                String nid;
+                                nid=product.getUrl();
+                                nid=nid.substring(nid.indexOf("id"));
+                                path="taobao://item.taobao.com/item.html?"+nid;
+                                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }else {
+                                Toast.makeText(context,"请安装淘宝！",Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         }
                         case "天猫":{
-                            String nid;
-                            nid=product.getUrl();
-                            nid=nid.substring(nid.indexOf("id"));
-                            path="taobao://item.taobao.com/item.html?"+nid;
-                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            if(checkPackage("com.taobao.taobao")){
+                                String nid;
+                                nid=product.getUrl();
+                                nid=nid.substring(nid.indexOf("id"));
+                                path="taobao://item.taobao.com/item.html?"+nid;
+                                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }else {
+                                Toast.makeText(context,"请安装天猫！",Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         }
                         case "京东":{
-                            String nid;
-                            nid=product.getUrl();
-                            nid=nid.substring(nid.indexOf("com/")+4,nid.indexOf(".html"));
-                            path="openApp.jdMobile://virtual?params={\"category\":\"jump\",\"des\":\"productDetail\",\"skuId\":\""+nid+"\",\"sourceType\":\"JSHOP_SOURCE_TYPE\",\"sourceValue\":\"JSHOP_SOURCE_VALUE\"}";
-                            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            if(checkPackage("com.jingdong.app.mall")){
+                                String nid;
+                                nid=product.getUrl();
+                                nid=nid.substring(nid.indexOf("com/")+4,nid.indexOf(".html"));
+                                path="openApp.jdMobile://virtual?params={\"category\":\"jump\",\"des\":\"productDetail\",\"skuId\":\""+nid+"\",\"sourceType\":\"JSHOP_SOURCE_TYPE\",\"sourceValue\":\"JSHOP_SOURCE_VALUE\"}";
+                                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(path));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }else{
+                                Toast.makeText(context,"请安装京东！",Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         }
                         case "苏宁":{
-                            String nid;
-                            nid=product.getUrl();
-                            nid=nid.substring(nid.indexOf("com/")+4,nid.indexOf(".html"));
-                            PackageManager packageManager=context.getPackageManager();
-                            String packagename="com.suning.mobile.ebuy";
-                            Intent intent=packageManager.getLaunchIntentForPackage(packagename);
-                            context.startActivity(intent);
+                            if(checkPackage(" com.suning.mobile.ebuy")){
+                                String nid;
+                                nid=product.getUrl();
+                                nid=nid.substring(nid.indexOf("com/")+4,nid.indexOf(".html"));
+                                PackageManager packageManager=context.getPackageManager();
+                                String packagename="com.suning.mobile.ebuy";
+                                Intent intent=packageManager.getLaunchIntentForPackage(packagename);
+                                context.startActivity(intent);
+                            }else{
+                                Toast.makeText(context,"请安装苏宁！",Toast.LENGTH_SHORT).show();
+                            }
                             break;
                         }
                         default:
@@ -154,6 +171,22 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 url=itemview.findViewById(R.id.product_item_url);
                 imageView=itemview.findViewById(R.id.product_image);
             }
+        }
+    }
+
+    public boolean checkPackage(String packageName)
+    {
+        if (packageName == null || "".equals(packageName))
+            return false;
+        try
+        {
+            context.getPackageManager().getApplicationInfo(packageName, PackageManager
+                    .GET_UNINSTALLED_PACKAGES);
+            return true;
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            return false;
         }
     }
 }

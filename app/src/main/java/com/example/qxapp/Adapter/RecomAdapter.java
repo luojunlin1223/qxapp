@@ -80,6 +80,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }else {
             //获取内容
 
+
             final RecomAdapter.RecyclerViewHolder recyclerViewHolder= (RecomAdapter.RecyclerViewHolder) holder;
             Recommondation recommondation=data.get(position);
 
@@ -256,6 +257,7 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                 queries.add(recordBmobQuery2);
                                 recordBmobQuery.and(queries);
                                 recordBmobQuery.findObjects(new FindListener<CollectRecord>() {
+                                    @SuppressLint("UseCompatLoadingForDrawables")
                                     @Override
                                     public void done(List<CollectRecord> list, BmobException e) {
                                         if(e==null){
@@ -268,15 +270,40 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                                     public void done(String s, BmobException e) {
                                                         if(e==null){
                                                             data.get(position).setCollect(recommondation.getCollect()+1);
-                                                            notifyItemChanged(position);
+                                                            recommondation.setCollect(recommondation.getCollect()+1);
+                                                            recommondation.update(recommondation.getObjectId(), new UpdateListener() {
+                                                                @Override
+                                                                public void done(BmobException e) {
+                                                                }
+                                                            });
+                                                            notifyDataSetChanged();
                                                         }else {
                                                             Toast.makeText(context,"记录表保存失败"+e.toString(),Toast.LENGTH_LONG).show();
                                                         }
                                                     }
                                                 });
+                                                recyclerViewHolder.collectbtn.setImageDrawable(context.getDrawable(R.drawable.collect_fill));
                                             }
                                             else{
-                                                Toast.makeText(context,"已经收藏过了！",Toast.LENGTH_LONG).show();
+                                                recyclerViewHolder.collectbtn.setImageResource(R.drawable.collect);
+                                                list.get(0).delete(new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+                                                        if(e==null){
+                                                            data.get(position).setCollect(recommondation.getCollect()-1);
+                                                            recommondation.setCollect(recommondation.getCollect()-1);
+                                                            recommondation.update(recommondation.getObjectId(), new UpdateListener() {
+                                                                @Override
+                                                                public void done(BmobException e) {
+                                                                }
+                                                            });
+                                                            notifyDataSetChanged();
+                                                        }else{
+                                                            Toast.makeText(context,"取消收藏失败！"+e.toString(),Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+                                                recyclerViewHolder.collectbtn.setImageDrawable(context.getDrawable(R.drawable.collect));
                                             }
                                         }else {
                                             Toast.makeText(context,"记录表查询错误"+e.toString(),Toast.LENGTH_LONG).show();
@@ -286,22 +313,54 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             }
                         }
                     });
-
                 }
             });
 
-            recyclerViewHolder.username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());
+            recyclerViewHolder.username.setText(recommondation.getUser().getUsername());
             recyclerViewHolder.content.setText(recommondation.getContent());
             recyclerViewHolder.thumbdown.setText(String.valueOf(recommondation.getThumbsdown()));
             recyclerViewHolder.thumbsup.setText(String.valueOf(recommondation.getThumbsup()));
             recyclerViewHolder.prodcut.setText(recommondation.getProduct());
             recyclerViewHolder.time.setText(recommondation.getCreatedAt());
             recyclerViewHolder.collect.setText(String.valueOf(recommondation.getCollect()));
-//          用户点击特定的itemView的时候
 
+            BmobQuery<Recommondation>query=new BmobQuery<>();
+            query.getObject(recommondation.getObjectId(), new QueryListener<Recommondation>() {
+                @Override
+                public void done(Recommondation recommondation, BmobException e) {
+                    if(e==null){
+                        BmobQuery<CollectRecord>recordBmobQuery=new BmobQuery<>();
+                        BmobQuery<CollectRecord>recordBmobQuery1=new BmobQuery<>();
+                        BmobQuery<CollectRecord>recordBmobQuery2=new BmobQuery<>();
+                        recordBmobQuery1.addWhereEqualTo("user",BmobUser.getCurrentUser(BmobUser.class));
+                        recordBmobQuery2.addWhereEqualTo("recommondation",recommondation);
+                        List<BmobQuery<CollectRecord>> queries=new ArrayList<>();
+                        queries.add(recordBmobQuery1);
+                        queries.add(recordBmobQuery2);
+                        recordBmobQuery.and(queries);
+                        recordBmobQuery.findObjects(new FindListener<CollectRecord>() {
+                            @SuppressLint("UseCompatLoadingForDrawables")
+                            @Override
+                            public void done(List<CollectRecord> list, BmobException e) {
+                                if(e==null){
+                                    if(list.size()==0){
+                                        recyclerViewHolder.collectbtn.setImageResource(R.drawable.collect);
+                                    }
+                                    else{
+                                        recyclerViewHolder.collectbtn.setImageResource(R.drawable.collect_fill);
+                                    }
+                                }else {
+                                    Toast.makeText(context,"记录表查询错误"+e.toString(),Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
 
     }
+
 
 
     @Override
@@ -337,8 +396,8 @@ public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 thumbsupbtn=itemview.findViewById(R.id.thumbsup_btn);
                 thumbdownbtn=itemview.findViewById(R.id.thumbsdown_btn);
                 collectbtn=itemview.findViewById(R.id.collect_btn);
+
             }
         }
     }
-
 }

@@ -78,6 +78,7 @@ public class FragmentRecom extends BaseFragment {
         BmobQuery<Recommondation> bmobQuery = new BmobQuery<>();
         bmobQuery.order("-createdAt");
         bmobQuery.setLimit(1000);
+        bmobQuery.include("user");
         bmobQuery.findObjects(new FindListener<Recommondation>() {
             @Override
             public void done(List<Recommondation> list, BmobException e) {

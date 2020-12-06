@@ -1,5 +1,6 @@
 package com.example.qxapp.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,9 +9,11 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +60,7 @@ public class Search extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Spinner sort_spinner;
     private MultiSpinnerSearch from_spinner;
+    private Spinner method_spinner;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -348,13 +352,28 @@ public class Search extends AppCompatActivity {
 ////      中止上拉刷新
         swipeRefreshLayout.setEnabled(false);
 
-
+        ArrayAdapter<String> sort_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+        final List<String> sort_list= Arrays.asList(getResources().getStringArray(R.array.sort));
+        sort_adapter.add("无");
+        for(String item:sort_list){
+            sort_adapter.add(item);
+        }
         sort_spinner=findViewById(R.id.sort_spinner);
-        sort_spinner.setDropDownHorizontalOffset(150);
-        sort_spinner.setDropDownVerticalOffset(50);
+        sort_spinner.setAdapter(sort_adapter);
         sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+                    method_adapter.add("无");
+                    method_adapter.add("第一个");
+                    method_spinner.setAdapter(method_adapter);
+
+                }else{
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+                    adapter.add("不可用");
+                    method_spinner.setAdapter(adapter);
+                }
                 Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
             }
 
@@ -366,15 +385,15 @@ public class Search extends AppCompatActivity {
 
         from_spinner=findViewById(R.id.from_spinner);
         final List<String> from_list= Arrays.asList(getResources().getStringArray(R.array.from));
-
         final List<KeyPairBoolData> from_listArray=new ArrayList<>();
         for(int i = 0; i < from_list.size(); i++){
             KeyPairBoolData h = new KeyPairBoolData();
             h.setId(i + 1);
             h.setName(from_list.get(i));
-            h.setSelected(true);
+            h.setSelected(false);
             from_listArray.add(h);
         }
+        from_spinner.setShowSelectAllButton(false);
         from_spinner.setSearchEnabled(true);
         from_spinner.setHintText("选择信息来源");
         from_spinner.setItems(from_listArray, selectedItems -> {
@@ -383,6 +402,9 @@ public class Search extends AppCompatActivity {
                 Refresh(sort_spinner.getSelectedItemPosition(),selectedItems);
             }
         });
+        method_spinner=findViewById(R.id.method_spinner);
+
+
     }
     private void Refresh(int sort_positon,List<KeyPairBoolData> from_positon) {
         BmobQuery<Product> productBmobQuery = new BmobQuery<>();
@@ -390,8 +412,9 @@ public class Search extends AppCompatActivity {
         productBmobQuery.addWhereEqualTo("key",searchcontent.getText().toString());
 
         switch (sort_positon){
-            case 0:productBmobQuery.order("price");break;
-            case 1:productBmobQuery.order("createdAt");break;
+            case 0:break;
+            case 1:productBmobQuery.order("price");break;
+            case 2:productBmobQuery.order("createdAt");break;
         }
 
         for(int i=0;i<from_positon.size();i++){
@@ -418,5 +441,6 @@ public class Search extends AppCompatActivity {
         return item.substring(item.indexOf(target)+target.length(),
                 item.indexOf(",",item.indexOf(target)+target.length())-1);
     }
+
 }
 
