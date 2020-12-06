@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Collect;
 import com.example.qxapp.activity.History;
-import com.example.qxapp.activity.Preset;
 import com.example.qxapp.activity.Recommondation;
 import com.example.qxapp.activity.Update;
 
@@ -63,7 +62,6 @@ public class MineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case 1: context.startActivity(new Intent(context, Collect.class));break;
                     case 2: context.startActivity(new Intent(context, Recommondation.class));break;
                     case 3: context.startActivity(new Intent(context, Update.class));break;
-                    case 4: context.startActivity(new Intent(context, Preset.class));break;
                 }
             }
         });
