@@ -62,6 +62,7 @@ public class MineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     case 1: context.startActivity(new Intent(context, Collect.class));break;
                     case 2: context.startActivity(new Intent(context, Recommondation.class));break;
                     case 3: context.startActivity(new Intent(context, Update.class));break;
+
                 }
             }
         });

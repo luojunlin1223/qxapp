@@ -6,9 +6,19 @@ public class Product extends BmobObject {
     private String name;
     private String url;
     private String imageurl;
+
+    public String getInfro() {
+        return infro;
+    }
+
+    public void setInfro(String infro) {
+        this.infro = infro;
+    }
+
     private double price;
     private String where;
     private String key;
+    private String infro;
 
     public String getKey() {
         return key;

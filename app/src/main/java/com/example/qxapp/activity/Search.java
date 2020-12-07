@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -61,6 +62,179 @@ public class Search extends AppCompatActivity {
     private Spinner sort_spinner;
     private MultiSpinnerSearch from_spinner;
     private Spinner method_spinner;
+    Thread tmallThread=new Thread(() -> {
+        try {
+            final String url = "https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString();
+            Connection connection=Jsoup.connect(url);
+            connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
+            Document document=connection.get();
+            Elements ulList = document.select("div[id='J_ItemList']");
+            Elements liList = ulList.select("div[class='product']");
+            for(Element item:liList){
+                Product product=new Product();
+                product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
+                product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
+                String itemurl_t=item.select("p[class='productTitle']").select("a").attr("href");
+                String itemurl="http:"+itemurl_t.substring(0,itemurl_t.indexOf("&"));
+                Document itempage=getDocument(itemurl,"cna=qMU/EQh0JGoCAW5QEUJ1/zZm; enc=DUb9Egln3%2Fi4NrDfzfMsGHcMim6HWdN%2Bb4ljtnJs6MOO3H3xZsVcAs0nFao0I2uau%2FbmB031ZJRvrul7DmICSw%3D%3D; lid=%E5%90%91%E6%97%A5%E8%91%B5%E7%9B%9B%E5%BC%80%E7%9A%84%E5%A4%8F%E5%A4%A9941020; otherx=e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0; hng=CN%7Czh-CN%7CCNY%7C156; x=__ll%3D-1%26_ato%3D0; t=2c579f9538646ca269e2128bced5672a; _m_h5_tk=86d64a702eea3035e5d5a6024012bd40_1551170172203; _m_h5_tk_enc=c10fd504aded0dc94f111b0e77781314; uc1=cookie16=V32FPkk%2FxXMk5UvIbNtImtMfJQ%3D%3D&cookie21=U%2BGCWk%2F7p4mBoUyS4E9C&cookie15=UtASsssmOIJ0bQ%3D%3D&existShop=false&pas=0&cookie14=UoTZ5bI3949Xhg%3D%3D&tag=8&lng=zh_CN; uc3=vt3=F8dByEzZ1MVSremcx%2BQ%3D&id2=UNcPuUTqrGd03w%3D%3D&nk2=F5RAQ19thpZO8A%3D%3D&lg2=U%2BGCWk%2F75gdr5Q%3D%3D; tracknick=tb51552614; _l_g_=Ug%3D%3D; ck1=\"\"; unb=3778730506; lgc=tb51552614; cookie1=UUBZRT7oNe6%2BVDtyYKPVM4xfPcfYgF87KLfWMNP70Sc%3D; login=true; cookie17=UNcPuUTqrGd03w%3D%3D; cookie2=1843a4afaaa91d93ab0ab37c3b769be9; _nk_=tb51552614; uss=\"\"; csg=b1ecc171; skt=503cb41f4134d19c; _tb_token_=e13935353f76e; x5sec=7b22726174656d616e616765723b32223a22393031623565643538663331616465613937336130636238633935313935363043493362302b4d46454e76646c7243692b34364c54426f4d4d7a63334f44637a4d4455774e6a7378227d; l=bBIHrB-nvFBuM0pFBOCNVQhjb_QOSIRYjuSJco3Wi_5Bp1T1Zv7OlzBs4e96Vj5R_xYB4KzBhYe9-etui; isg=BDY2WCV-dvURoAZdBw3uwj0Oh2yUQwE5YzQQ9qAfIpm149Z9COfKoZwV-_8q0HKp");
+                String infro=itempage.getElementsByClass("attributes-list").select("ul").text();
+                String imageurl="http:"+itempage.select("img").attr("src");
+                product.setInfro(infro);
+                product.setImageurl(imageurl);
+                product.setUrl(itemurl);
+                product.setWhere("天猫");
+                product.setKey(searchcontent.getText().toString());
+                product.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e1) {
+                    }
+                });
+            }
+            Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    });
+    Thread jdThread=new Thread(() -> {
+        final String url="https://search.jd.com/Search?keyword="+searchcontent.getText().toString();
+        Document homepage= null;
+        try {
+            homepage = getDocument(url,"");
+        } catch (IOException e12) {
+            e12.printStackTrace();
+        }
+        assert homepage != null;
+        Elements Ulist=homepage.select("div[id='J_goodsList']");
+        Elements Llist=Ulist.select("div[class='gl-i-wrap']");
+        for(Element item:Llist){
+            Product product=new Product();
+            String itemurl="https:"+item.select("a").attr("href");
+            String imageurl="http:"+item.select("img").attr("data-lazy-img");
+            product.setImageurl(imageurl);
+            Document itempage= null;
+            try {
+                itempage = getDocument(itemurl,"");
+            } catch (IOException e12) {
+                e12.printStackTrace();
+            }
+//                            设置名字
+            assert itempage != null;
+            product.setName(itempage.getElementsByClass("sku-name").text());
+//                            设置各种价格
+            product.setPrice(item.select("div[class='p-price']").select("strong").select("i").text());
+            if(itemurl.isEmpty()){
+                product.setUrl("");
+            }else{
+                product.setUrl(itemurl);
+            }
+            product.setWhere("京东");
+            product.setKey(searchcontent.getText().toString());
+            product.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e12) {
+                }
+            });
+        }
+        Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+    });
+    Thread taobaoThread=new Thread(() -> {
+        final String url="https://s.taobao.com/search?q="+searchcontent.getText().toString();
+        final String cookie="miid=708870911453952331; thw=cn; cna=93/eF2JdvlECAWpbFuoXG4Rp; sgcookie=E1006hNQOIoQhTOVLK%2Fan8%2FZwwbSmv03%2FmZ%2BYuIyR1%2BdLDryzHyjKdvlX%2F2L1y7NJs0yf6Rbd7O3JFFZQRT35lAoyw%3D%3D; uc3=lg2=UIHiLt3xD8xYTw%3D%3D&id2=UNN5FQJoyAszDA%3D%3D&nk2=oeCW7FMf2j0HaQ%3D%3D&vt3=F8dCufJHCjVuRcdLH%2B8%3D; lgc=%5Cu7F57%5Cu5CFB%5Cu67971223; uc4=id4=0%40UgQxkvUgMLe5cZjCJX6%2BHNwGs5nf&nk4=0%40o6gv2hukrGR8Ww67aNWlX%2BAkTO9W; tracknick=%5Cu7F57%5Cu5CFB%5Cu67971223; _cc_=URm48syIZQ%3D%3D; enc=zaG6G5c%2F0438JPe5QFJevakLCfM68keAD%2BZ%2BAf5YSSclb1sricyHn8GTMn2duf2zBPfj49nxmbv6NlONegCfiA%3D%3D; hng=CN%7Czh-CN%7CCNY%7C156; mt=ci=-1_0; t=59fb6c7c5472f0aec896289669f7437a; cookie2=19347cd7c3d6aafa340e157193c6ab68; _tb_token_=3b5b31eb83de; _m_h5_tk=94f9165296a4a1e13e9c92d505588d5e_1605508996207; _m_h5_tk_enc=726963c634b2cbbd7ece8b08dea38fc2; v=0; xlly_s=1; alitrackid=www.taobao.com; lastalitrackid=www.taobao.com; _samesite_flag_=true; JSESSIONID=B71E78BC911B74F66AE948343D49AC03; uc1=cookie14=Uoe0aDmVbeFtAw%3D%3D; isg=BDU15FPjhkYtWuITVb05Od7eRLHvsunELRMaDLdaoaz7jlSAfgITlFlM2FK4zgF8; l=eBOjecFqOuqCJnTSBOfwourza77O8IRfguPzaNbMiOCP_Yf65n8cWZ7VJITBCnGVHsMpJ3-cUFnuBYTpJyCqJxpsw3k_J_DmndC..; tfstk=cIhVB7XpuId2S_P6pSNNhuLf8SzAa3qgA_zUnA8pmYT5j12aYs4VXzY5XzzavQ2c.";
+        Document homepage=null;
+        try {
+            homepage=getDocument(url,cookie);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        assert homepage != null;
+        Elements elements=homepage.getElementsByTag("script").eq(7);
+        String jsoncontent=null;
+        for(Element element:elements){
+            for(DataNode node:element.dataNodes()){
+                jsoncontent=jsoncontent+node.getWholeData();
+            }
+        }
+        assert jsoncontent != null;
+        String head="g_page_config = ";
+        jsoncontent=jsoncontent.substring(jsoncontent.indexOf(head)+head.length()).trim();
+        List<String> goods= new ArrayList<>(Arrays.asList(jsoncontent.split("\"similar\":")));
+        goods.remove(0);
+        for(String item:goods){
+            Product product=new Product();
+            String target_title="\"raw_title\":\"";
+            String target_price="\"view_price\":\"";
+            String target_pic="\"pic_url\":\"";
+            String target_innerText="\"innerText\":\"";
+            String target_nid="\"nid\":\"";
+            String innerText=taobao_helper(item,target_innerText);
+
+            product.setName(taobao_helper(item,target_title));
+            product.setPrice(taobao_helper(item,target_price));
+            product.setImageurl("http:"+taobao_helper(item,target_pic));
+            product.setKey(searchcontent.getText().toString());
+
+            if(innerText.equals("天猫宝贝")){
+                product.setWhere("天猫");
+                product.setUrl("https://detail.tmall.com/item.htm?id="+taobao_helper(item,target_nid));
+            }else{
+                product.setWhere("淘宝");
+                product.setUrl("https://item.taobao.com/item.htm?id="+taobao_helper(item,target_nid));
+            }
+            product.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                }
+            });
+        }
+        Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+    });
+    Thread SuningThread=new Thread(() -> {
+        String url="https://search.suning.com/"+searchcontent.getText().toString()+"/";
+        try {
+            Document homepage=getDocument(url,"");
+            Elements goodlist=homepage.select("ul[class='general clearfix']").select("li");
+            for(Element item:goodlist){
+                String itemurl= "http:" + item.select("div[class='title-selling-point']").select("a").attr("href");
+                String imageurl="http:"+item.select("img").attr("src");
+                Document itempage=getDocument(itemurl,"");
+                String name=itempage.select("h1[id='itemDisplayName']").text();
+                List<String> id=new ArrayList<>(Arrays.asList(itemurl.split("com/")));
+                id.remove(0);
+                String shopid=id.get(0).substring(0,id.get(0).indexOf("/"));
+                String prdid=id.get(0).substring(id.get(0).indexOf("/")+1,id.get(0).indexOf("."));
+
+                String priceurl="http://pas.suning.com/nspcsale_0_000000000" +
+                        prdid + "_000000000" + prdid + "_" + shopid + "_20_021_0210101_500353_1000267_9264_12113_Z001___R9006849_3.3_1___000278188__.html?callback=pcData&_=1558663936729";
+                if(prdid.length()==11){
+                    priceurl = "http://pas.suning.com/nspcsale_0_0000000" +
+                            prdid + "_0000000" + prdid + "_" + shopid + "_20_021_0210101_500353_1000267_9264_12113_Z001___R9006849_3.3_1___000278188__.html?callback=pcData&_=1558663936729";
+                }
+                Document pricepage=getDocument(priceurl,"");
+                String pricejson=pricepage.toString();
+                String tag="\"netPrice\":\"";
+                String price=pricejson.substring(pricejson.indexOf(tag)
+                        +tag.length(),pricejson.indexOf(",",pricejson.indexOf(tag))-1);
+                Product product=new Product();
+                product.setImageurl(imageurl);
+                product.setName(name);
+                product.setPrice(price);
+                product.setUrl(itemurl);
+                product.setWhere("苏宁");
+                product.setKey(searchcontent.getText().toString());
+                product.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                    }
+                });
+            }
+            Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    });
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,180 +263,10 @@ public class Search extends AppCompatActivity {
                     if(e==null){
                         if(list.size()==0){
                             RecordSearch();
-                            Thread tmallThread=new Thread(() -> {
-                                try {
-                                    final String url = "https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString();
-                                    Connection connection=Jsoup.connect(url);
-                                    connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
-                                    Document document=connection.get();
-                                    Elements ulList = document.select("div[id='J_ItemList']");
-                                    Elements liList = ulList.select("div[class='product']");
-                                    for(Element item:liList){
-                                        Product product=new Product();
-                                        product.setName(item.select("p[class='productTitle']").select("a").attr("title"));
-                                        product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
-                                        String itemurl_t=item.select("p[class='productTitle']").select("a").attr("href");
-                                        String itemurl="http:"+itemurl_t.substring(0,itemurl_t.indexOf("&"));
-                                        Document itempage=getDocument(itemurl,"");
-                                        String imageurl="http:"+itempage.select("img").attr("src");
-                                        product.setImageurl(imageurl);
-                                        product.setUrl(itemurl);
-                                        product.setWhere("天猫");
-                                        product.setKey(searchcontent.getText().toString());
-                                        product.save(new SaveListener<String>() {
-                                            @Override
-                                            public void done(String s, BmobException e1) {
-                                            }
-                                        });
-                                    }
-                                    Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
-
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
-                                }
-                            });
-                            Thread jdThread=new Thread(() -> {
-                                final String url="https://search.jd.com/Search?keyword="+searchcontent.getText().toString();
-                                Document homepage= null;
-                                try {
-                                    homepage = getDocument(url,"");
-                                } catch (IOException e12) {
-                                    e12.printStackTrace();
-                                }
-                                assert homepage != null;
-                                Elements Ulist=homepage.select("div[id='J_goodsList']");
-                                Elements Llist=Ulist.select("div[class='gl-i-wrap']");
-                                for(Element item:Llist){
-                                    Product product=new Product();
-                                    String itemurl="https:"+item.select("a").attr("href");
-                                    String imageurl="http:"+item.select("img").attr("data-lazy-img");
-                                    product.setImageurl(imageurl);
-                                    Document itempage= null;
-                                    try {
-                                        itempage = getDocument(itemurl,"");
-                                    } catch (IOException e12) {
-                                        e12.printStackTrace();
-                                    }
-//                            设置名字
-                                    assert itempage != null;
-                                    product.setName(itempage.getElementsByClass("sku-name").text());
-//                            设置各种价格
-                                    product.setPrice(item.select("div[class='p-price']").select("strong").select("i").text());
-                                    if(itemurl.isEmpty()){
-                                        product.setUrl("");
-                                    }else{
-                                        product.setUrl(itemurl);
-                                    }
-                                    product.setWhere("京东");
-                                    product.setKey(searchcontent.getText().toString());
-                                    product.save(new SaveListener<String>() {
-                                        @Override
-                                        public void done(String s, BmobException e12) {
-                                        }
-                                    });
-                                }
-                                Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
-                            });
-                            Thread taobaoThread=new Thread(() -> {
-                                final String url="https://s.taobao.com/search?q="+searchcontent.getText().toString();
-                                final String cookie="miid=708870911453952331; thw=cn; cna=93/eF2JdvlECAWpbFuoXG4Rp; sgcookie=E1006hNQOIoQhTOVLK%2Fan8%2FZwwbSmv03%2FmZ%2BYuIyR1%2BdLDryzHyjKdvlX%2F2L1y7NJs0yf6Rbd7O3JFFZQRT35lAoyw%3D%3D; uc3=lg2=UIHiLt3xD8xYTw%3D%3D&id2=UNN5FQJoyAszDA%3D%3D&nk2=oeCW7FMf2j0HaQ%3D%3D&vt3=F8dCufJHCjVuRcdLH%2B8%3D; lgc=%5Cu7F57%5Cu5CFB%5Cu67971223; uc4=id4=0%40UgQxkvUgMLe5cZjCJX6%2BHNwGs5nf&nk4=0%40o6gv2hukrGR8Ww67aNWlX%2BAkTO9W; tracknick=%5Cu7F57%5Cu5CFB%5Cu67971223; _cc_=URm48syIZQ%3D%3D; enc=zaG6G5c%2F0438JPe5QFJevakLCfM68keAD%2BZ%2BAf5YSSclb1sricyHn8GTMn2duf2zBPfj49nxmbv6NlONegCfiA%3D%3D; hng=CN%7Czh-CN%7CCNY%7C156; mt=ci=-1_0; t=59fb6c7c5472f0aec896289669f7437a; cookie2=19347cd7c3d6aafa340e157193c6ab68; _tb_token_=3b5b31eb83de; _m_h5_tk=94f9165296a4a1e13e9c92d505588d5e_1605508996207; _m_h5_tk_enc=726963c634b2cbbd7ece8b08dea38fc2; v=0; xlly_s=1; alitrackid=www.taobao.com; lastalitrackid=www.taobao.com; _samesite_flag_=true; JSESSIONID=B71E78BC911B74F66AE948343D49AC03; uc1=cookie14=Uoe0aDmVbeFtAw%3D%3D; isg=BDU15FPjhkYtWuITVb05Od7eRLHvsunELRMaDLdaoaz7jlSAfgITlFlM2FK4zgF8; l=eBOjecFqOuqCJnTSBOfwourza77O8IRfguPzaNbMiOCP_Yf65n8cWZ7VJITBCnGVHsMpJ3-cUFnuBYTpJyCqJxpsw3k_J_DmndC..; tfstk=cIhVB7XpuId2S_P6pSNNhuLf8SzAa3qgA_zUnA8pmYT5j12aYs4VXzY5XzzavQ2c.";
-                                Document homepage=null;
-                                try {
-                                    homepage=getDocument(url,cookie);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-                                assert homepage != null;
-                                Elements elements=homepage.getElementsByTag("script").eq(7);
-                                String jsoncontent=null;
-                                for(Element element:elements){
-                                    for(DataNode node:element.dataNodes()){
-                                        jsoncontent=jsoncontent+node.getWholeData();
-                                    }
-                                }
-                                assert jsoncontent != null;
-                                String head="g_page_config = ";
-                                jsoncontent=jsoncontent.substring(jsoncontent.indexOf(head)+head.length()).trim();
-                                List<String> goods= new ArrayList<>(Arrays.asList(jsoncontent.split("\"similar\":")));
-                                goods.remove(0);
-                                for(String item:goods){
-                                    Product product=new Product();
-                                    String target_title="\"raw_title\":\"";
-                                    String target_price="\"view_price\":\"";
-                                    String target_pic="\"pic_url\":\"";
-                                    String target_innerText="\"innerText\":\"";
-                                    String target_nid="\"nid\":\"";
-                                    String innerText=taobao_helper(item,target_innerText);
-
-                                    product.setName(taobao_helper(item,target_title));
-                                    product.setPrice(taobao_helper(item,target_price));
-                                    product.setImageurl("http:"+taobao_helper(item,target_pic));
-                                    product.setKey(searchcontent.getText().toString());
-
-                                    if(innerText.equals("天猫宝贝")){
-                                        product.setWhere("天猫");
-                                        product.setUrl("https://detail.tmall.com/item.htm?id="+taobao_helper(item,target_nid));
-                                    }else{
-                                        product.setWhere("淘宝");
-                                        product.setUrl("https://item.taobao.com/item.htm?id="+taobao_helper(item,target_nid));
-                                    }
-                                    product.save(new SaveListener<String>() {
-                                        @Override
-                                        public void done(String s, BmobException e) {
-                                        }
-                                    });
-                                }
-                                Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
-                            });
-                            Thread SuningThread=new Thread(() -> {
-                                String url="https://search.suning.com/"+searchcontent.getText().toString()+"/";
-                                try {
-                                    Document homepage=getDocument(url,"");
-                                    Elements goodlist=homepage.select("ul[class='general clearfix']").select("li");
-                                    for(Element item:goodlist){
-                                        String itemurl= "http:" + item.select("div[class='title-selling-point']").select("a").attr("href");
-                                        String imageurl="http:"+item.select("img").attr("src");
-                                        Document itempage=getDocument(itemurl,"");
-                                        String name=itempage.select("h1[id='itemDisplayName']").text();
-                                        List<String> id=new ArrayList<>(Arrays.asList(itemurl.split("com/")));
-                                        id.remove(0);
-                                        String shopid=id.get(0).substring(0,id.get(0).indexOf("/"));
-                                        String prdid=id.get(0).substring(id.get(0).indexOf("/")+1,id.get(0).indexOf("."));
-
-                                        String priceurl="http://pas.suning.com/nspcsale_0_000000000" +
-                                                prdid + "_000000000" + prdid + "_" + shopid + "_20_021_0210101_500353_1000267_9264_12113_Z001___R9006849_3.3_1___000278188__.html?callback=pcData&_=1558663936729";
-                                        if(prdid.length()==11){
-                                            priceurl = "http://pas.suning.com/nspcsale_0_0000000" +
-                                                    prdid + "_0000000" + prdid + "_" + shopid + "_20_021_0210101_500353_1000267_9264_12113_Z001___R9006849_3.3_1___000278188__.html?callback=pcData&_=1558663936729";
-                                        }
-                                        Document pricepage=getDocument(priceurl,"");
-                                        String pricejson=pricepage.toString();
-                                        String tag="\"netPrice\":\"";
-                                        String price=pricejson.substring(pricejson.indexOf(tag)
-                                                +tag.length(),pricejson.indexOf(",",pricejson.indexOf(tag))-1);
-                                        Product product=new Product();
-                                        product.setImageurl(imageurl);
-                                        product.setName(name);
-                                        product.setPrice(price);
-                                        product.setUrl(itemurl);
-                                        product.setWhere("苏宁");
-                                        product.setKey(searchcontent.getText().toString());
-                                        product.save(new SaveListener<String>() {
-                                            @Override
-                                            public void done(String s, BmobException e) {
-                                            }
-                                        });
-                                    }
-                                    Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                }
-
-                            });
                             tmallThread.start();
-                            jdThread.start();
-                            taobaoThread.start();
-                            SuningThread.start();
+//                            jdThread.start();
+//                            taobaoThread.start();
+//                            SuningThread.start();
                         }else{
                             RecordSearch();
                             Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
