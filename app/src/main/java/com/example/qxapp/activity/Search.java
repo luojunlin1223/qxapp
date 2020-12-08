@@ -65,6 +65,7 @@ public class Search extends AppCompatActivity {
     Thread tmallThread=new Thread(() -> {
         try {
             final String url = "https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString();
+            final String cookie="cna=qMU/EQh0JGoCAW5QEUJ1/zZm; enc=DUb9Egln3%2Fi4NrDfzfMsGHcMim6HWdN%2Bb4ljtnJs6MOO3H3xZsVcAs0nFao0I2uau%2FbmB031ZJRvrul7DmICSw%3D%3D; lid=%E5%90%91%E6%97%A5%E8%91%B5%E7%9B%9B%E5%BC%80%E7%9A%84%E5%A4%8F%E5%A4%A9941020; otherx=e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0; hng=CN%7Czh-CN%7CCNY%7C156; x=__ll%3D-1%26_ato%3D0; t=2c579f9538646ca269e2128bced5672a; _m_h5_tk=86d64a702eea3035e5d5a6024012bd40_1551170172203; _m_h5_tk_enc=c10fd504aded0dc94f111b0e77781314; uc1=cookie16=V32FPkk%2FxXMk5UvIbNtImtMfJQ%3D%3D&cookie21=U%2BGCWk%2F7p4mBoUyS4E9C&cookie15=UtASsssmOIJ0bQ%3D%3D&existShop=false&pas=0&cookie14=UoTZ5bI3949Xhg%3D%3D&tag=8&lng=zh_CN; uc3=vt3=F8dByEzZ1MVSremcx%2BQ%3D&id2=UNcPuUTqrGd03w%3D%3D&nk2=F5RAQ19thpZO8A%3D%3D&lg2=U%2BGCWk%2F75gdr5Q%3D%3D; tracknick=tb51552614; _l_g_=Ug%3D%3D; ck1=\"\"; unb=3778730506; lgc=tb51552614; cookie1=UUBZRT7oNe6%2BVDtyYKPVM4xfPcfYgF87KLfWMNP70Sc%3D; login=true; cookie17=UNcPuUTqrGd03w%3D%3D; cookie2=1843a4afaaa91d93ab0ab37c3b769be9; _nk_=tb51552614; uss=\"\"; csg=b1ecc171; skt=503cb41f4134d19c; _tb_token_=e13935353f76e; x5sec=7b22726174656d616e616765723b32223a22393031623565643538663331616465613937336130636238633935313935363043493362302b4d46454e76646c7243692b34364c54426f4d4d7a63334f44637a4d4455774e6a7378227d; l=bBIHrB-nvFBuM0pFBOCNVQhjb_QOSIRYjuSJco3Wi_5Bp1T1Zv7OlzBs4e96Vj5R_xYB4KzBhYe9-etui; isg=BDY2WCV-dvURoAZdBw3uwj0Oh2yUQwE5YzQQ9qAfIpm149Z9COfKoZwV-_8q0HKp";
             Connection connection=Jsoup.connect(url);
             connection.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36");
             Document document=connection.get();
@@ -76,7 +77,7 @@ public class Search extends AppCompatActivity {
                 product.setPrice(item.select("p[class='productPrice']").select("em").attr("title"));
                 String itemurl_t=item.select("p[class='productTitle']").select("a").attr("href");
                 String itemurl="http:"+itemurl_t.substring(0,itemurl_t.indexOf("&"));
-                Document itempage=getDocument(itemurl,"cna=qMU/EQh0JGoCAW5QEUJ1/zZm; enc=DUb9Egln3%2Fi4NrDfzfMsGHcMim6HWdN%2Bb4ljtnJs6MOO3H3xZsVcAs0nFao0I2uau%2FbmB031ZJRvrul7DmICSw%3D%3D; lid=%E5%90%91%E6%97%A5%E8%91%B5%E7%9B%9B%E5%BC%80%E7%9A%84%E5%A4%8F%E5%A4%A9941020; otherx=e%3D1%26p%3D*%26s%3D0%26c%3D0%26f%3D0%26g%3D0%26t%3D0; hng=CN%7Czh-CN%7CCNY%7C156; x=__ll%3D-1%26_ato%3D0; t=2c579f9538646ca269e2128bced5672a; _m_h5_tk=86d64a702eea3035e5d5a6024012bd40_1551170172203; _m_h5_tk_enc=c10fd504aded0dc94f111b0e77781314; uc1=cookie16=V32FPkk%2FxXMk5UvIbNtImtMfJQ%3D%3D&cookie21=U%2BGCWk%2F7p4mBoUyS4E9C&cookie15=UtASsssmOIJ0bQ%3D%3D&existShop=false&pas=0&cookie14=UoTZ5bI3949Xhg%3D%3D&tag=8&lng=zh_CN; uc3=vt3=F8dByEzZ1MVSremcx%2BQ%3D&id2=UNcPuUTqrGd03w%3D%3D&nk2=F5RAQ19thpZO8A%3D%3D&lg2=U%2BGCWk%2F75gdr5Q%3D%3D; tracknick=tb51552614; _l_g_=Ug%3D%3D; ck1=\"\"; unb=3778730506; lgc=tb51552614; cookie1=UUBZRT7oNe6%2BVDtyYKPVM4xfPcfYgF87KLfWMNP70Sc%3D; login=true; cookie17=UNcPuUTqrGd03w%3D%3D; cookie2=1843a4afaaa91d93ab0ab37c3b769be9; _nk_=tb51552614; uss=\"\"; csg=b1ecc171; skt=503cb41f4134d19c; _tb_token_=e13935353f76e; x5sec=7b22726174656d616e616765723b32223a22393031623565643538663331616465613937336130636238633935313935363043493362302b4d46454e76646c7243692b34364c54426f4d4d7a63334f44637a4d4455774e6a7378227d; l=bBIHrB-nvFBuM0pFBOCNVQhjb_QOSIRYjuSJco3Wi_5Bp1T1Zv7OlzBs4e96Vj5R_xYB4KzBhYe9-etui; isg=BDY2WCV-dvURoAZdBw3uwj0Oh2yUQwE5YzQQ9qAfIpm149Z9COfKoZwV-_8q0HKp");
+                Document itempage=getDocument(itemurl,cookie);
                 String infro=itempage.getElementsByClass("attributes-list").select("ul").text();
                 String imageurl="http:"+itempage.select("img").attr("src");
                 product.setInfro(infro);
@@ -98,6 +99,7 @@ public class Search extends AppCompatActivity {
     });
     Thread jdThread=new Thread(() -> {
         final String url="https://search.jd.com/Search?keyword="+searchcontent.getText().toString();
+        final String cookie="__jdu=1167767595; shshshfpa=24237be2-a59a-4deb-9543-5e24ea6cb106-1603810131; shshshfpb=zj8oRlybwBNW%20IKkZMw1M8A%3D%3D; areaId=4; ipLoc-djd=4-48202-52490-0; PCSYCityID=CN_500000_500100_500113; unpl=V2_ZzNtbUdVRxImX05cfR1YAWJXE1xKBUUQIAFAA3sfVAQwVBVVclRCFnQURldnGFUUZgMZXUZcQRRFCEdkeB5fA2AFEFlBZxVLK14bADlNDEY1WnwHBAJfF3ILQFJ8HlQMZAEUbXJUQyV1CXZUex5aA2AFFlVGZ3MSRTh2UX0cVQ1nMxNtQ2cBQSkIRFB5EVhIZwMVW0RQRRF9DHZVSxo%3d; __jdv=76161171|google-search|t_262767352_googlesearch|cpc|kwd-362776698237_0_4356bf9975554e009c74d87f1790ff69|1607361329145; __jdc=122270672; shshshfp=831928a80ffefa25ecc504fb5b01217e; 3AB9D23F7A4B3C9B=AXGETRC72S2EHT5BCTKO367BNCNQEZ7MH6AP6VHBEWP5XAIRAG3WDDG5VNTOZYBW2OPJ5RN4HVGY7ECFMD6OFQPTOA; wlfstk_smdl=he5jymfj7zdqpl1r5twoej8fureoys2f; __jda=122270672.1167767595.1603810128.1607361329.1607427462.14; shshshsID=0b0d463cd600f8fd0b5bc1909eedcaaf_2_1607428108042; __jdb=122270672.2.1167767595|14.1607427462";
         Document homepage= null;
         try {
             homepage = getDocument(url,"");
@@ -114,12 +116,14 @@ public class Search extends AppCompatActivity {
             product.setImageurl(imageurl);
             Document itempage= null;
             try {
-                itempage = getDocument(itemurl,"");
+                itempage = getDocument(itemurl,cookie);
             } catch (IOException e12) {
                 e12.printStackTrace();
             }
 //                            设置名字
             assert itempage != null;
+            String infro=itempage.getElementsByClass("p-parameter").text();
+            product.setInfro(infro);
             product.setName(itempage.getElementsByClass("sku-name").text());
 //                            设置各种价格
             product.setPrice(item.select("div[class='p-price']").select("strong").select("i").text());
@@ -173,14 +177,26 @@ public class Search extends AppCompatActivity {
             product.setPrice(taobao_helper(item,target_price));
             product.setImageurl("http:"+taobao_helper(item,target_pic));
             product.setKey(searchcontent.getText().toString());
-
-            if(innerText.equals("天猫宝贝")){
+            String itemurl=null;
+            if(innerText.contains("天猫")){
                 product.setWhere("天猫");
-                product.setUrl("https://detail.tmall.com/item.htm?id="+taobao_helper(item,target_nid));
+                itemurl="https://detail.tmall.com/item.htm?id="+taobao_helper(item,target_nid);
             }else{
                 product.setWhere("淘宝");
-                product.setUrl("https://item.taobao.com/item.htm?id="+taobao_helper(item,target_nid));
+                itemurl="https://item.taobao.com/item.htm?id="+taobao_helper(item,target_nid);
             }
+            try {
+                Document itempage=getDocument(itemurl,cookie);
+                String infro=itempage.getElementsByClass("attributes-list").text();
+                if(infro.isEmpty()){
+                    product.setInfro("没有信息");
+                }else{
+                    product.setInfro(infro);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            product.setUrl(itemurl);
             product.save(new SaveListener<String>() {
                 @Override
                 public void done(String s, BmobException e) {
@@ -199,6 +215,7 @@ public class Search extends AppCompatActivity {
                 String imageurl="http:"+item.select("img").attr("src");
                 Document itempage=getDocument(itemurl,"");
                 String name=itempage.select("h1[id='itemDisplayName']").text();
+                String infro=itempage.select("div[id='J-procon-desc']").text();
                 List<String> id=new ArrayList<>(Arrays.asList(itemurl.split("com/")));
                 id.remove(0);
                 String shopid=id.get(0).substring(0,id.get(0).indexOf("/"));
@@ -216,6 +233,7 @@ public class Search extends AppCompatActivity {
                 String price=pricejson.substring(pricejson.indexOf(tag)
                         +tag.length(),pricejson.indexOf(",",pricejson.indexOf(tag))-1);
                 Product product=new Product();
+                product.setInfro(infro);
                 product.setImageurl(imageurl);
                 product.setName(name);
                 product.setPrice(price);
@@ -264,9 +282,9 @@ public class Search extends AppCompatActivity {
                         if(list.size()==0){
                             RecordSearch();
                             tmallThread.start();
-//                            jdThread.start();
-//                            taobaoThread.start();
-//                            SuningThread.start();
+                            jdThread.start();
+                            taobaoThread.start();
+                            SuningThread.start();
                         }else{
                             RecordSearch();
                             Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
