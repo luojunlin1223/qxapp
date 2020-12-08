@@ -58,7 +58,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
             android:textColor="@color/colorPrimary"
             android:text="你的预设方案："
@@ -70,6 +71,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"/>
+        <TextView
+            android:layout_marginStart="50sp"
+            android:textColor="@color/colorPrimary"
+            android:text="是否使用自己的方案："
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/search_swipe"

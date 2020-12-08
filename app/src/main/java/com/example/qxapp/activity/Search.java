@@ -12,6 +12,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
+import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.qxapp.Adapter.SearchAdapter;
 import com.example.qxapp.R;
@@ -62,6 +65,7 @@ public class Search extends AppCompatActivity {
     private Spinner sort_spinner;
     private MultiSpinnerSearch from_spinner;
     private Spinner method_spinner;
+    private CheckBox checkBox;
     Thread tmallThread=new Thread(() -> {
         try {
             final String url = "https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString();
@@ -373,46 +377,56 @@ public class Search extends AppCompatActivity {
 //        swipeRefreshLayout.setOnRefreshListener(this::Refresh);
 ////      中止上拉刷新
         swipeRefreshLayout.setEnabled(false);
+        loadSort();
+        loadfrom();
 
-        ArrayAdapter<String> sort_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
-        final List<String> sort_list= Arrays.asList(getResources().getStringArray(R.array.sort));
-        sort_adapter.add("无");
-        for(String item:sort_list){
-            sort_adapter.add(item);
-        }
-        sort_spinner=findViewById(R.id.sort_spinner);
-        sort_spinner.setAdapter(sort_adapter);
-        sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        method_spinner=findViewById(R.id.method_spinner);
+
+        checkBox=findViewById(R.id.check);
+        ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+        method_adapter.add("不可用");
+        method_spinner.setAdapter(method_adapter);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
                     ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
-                    method_adapter.add("无");
-                    method_adapter.add("第一个");
+                    method_adapter.add("我的预设");
                     method_spinner.setAdapter(method_adapter);
 
+                    ArrayAdapter<String> sort_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+                    List<KeyPairBoolData> from_listArray=new ArrayList<>();
+                    sort_adapter.add("不可用");
+                    sort_spinner.setAdapter(sort_adapter);
+
+                    from_listArray.clear();
+                    from_spinner.setHintText("不可用");
+                    from_spinner.setItems(from_listArray,selectedItems -> {
+//                复选框所选择的所有的items
+                    });
+//                    Refresh();
                 }else{
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
-                    adapter.add("不可用");
-                    method_spinner.setAdapter(adapter);
+                    ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+                    method_adapter.add("不可用");
+                    method_spinner.setAdapter(method_adapter);
+                    loadSort();
+                    loadfrom();
                 }
-                Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
+
+    }
+
+    private void loadfrom() {
         from_spinner=findViewById(R.id.from_spinner);
         final List<String> from_list= Arrays.asList(getResources().getStringArray(R.array.from));
         final List<KeyPairBoolData> from_listArray=new ArrayList<>();
-        for(int i = 0; i < from_list.size(); i++){
+            for(int i = 0; i < from_list.size(); i++){
             KeyPairBoolData h = new KeyPairBoolData();
             h.setId(i + 1);
             h.setName(from_list.get(i));
-            h.setSelected(false);
+            h.setSelected(true);
             from_listArray.add(h);
         }
         from_spinner.setShowSelectAllButton(false);
@@ -424,19 +438,37 @@ public class Search extends AppCompatActivity {
                 Refresh(sort_spinner.getSelectedItemPosition(),selectedItems);
             }
         });
-        method_spinner=findViewById(R.id.method_spinner);
-
-
     }
+
+    private void loadSort() {
+        ArrayAdapter<String> sort_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
+        final List<String> sort_list= Arrays.asList(getResources().getStringArray(R.array.sort));
+        for(String item:sort_list){
+            sort_adapter.add(item);
+        }
+        sort_spinner=findViewById(R.id.sort_spinner);
+        sort_spinner.setAdapter(sort_adapter);
+        sort_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
     private void Refresh(int sort_positon,List<KeyPairBoolData> from_positon) {
         BmobQuery<Product> productBmobQuery = new BmobQuery<>();
         List<BmobQuery<Product>> bmobQueries=new ArrayList<>();
         productBmobQuery.addWhereEqualTo("key",searchcontent.getText().toString());
 
         switch (sort_positon){
-            case 0:break;
-            case 1:productBmobQuery.order("price");break;
-            case 2:productBmobQuery.order("createdAt");break;
+            case 0:productBmobQuery.order("price");break;
+            case 1:productBmobQuery.order("createdAt");break;
         }
 
         for(int i=0;i<from_positon.size();i++){
@@ -458,6 +490,8 @@ public class Search extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void Refresh(){
     }
     private String taobao_helper(String item,String target){
         return item.substring(item.indexOf(target)+target.length(),

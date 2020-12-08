@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="price"
+        android:title="价格设定">
+        <EditTextPreference
+            android:title="价格最小值"
+            android:key="price_low"
+            android:summary="请输入能接受的最低价格"/>
+        <EditTextPreference
+            android:title="价格最大值"
+            android:key="price_high"
+            android:summary="请输入能接受的最高价格"/>
+        <com.example.qxapp.Preference.SeekBarPreference
+            android:key="percentage"
+            android:title="价格占比"
+            android:summary="请选择价格的权重"
+            android:defaultValue="50"
+            android:text="%"
+            android:max="100">
+        </com.example.qxapp.Preference.SeekBarPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefCategoryTwo"
+        android:title="Inactive" >
+    </PreferenceCategory>
+</PreferenceScreen>
