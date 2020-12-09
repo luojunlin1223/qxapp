@@ -28,6 +28,10 @@
             android:layout_height="match_parent"
             android:text="我的预设"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:title="方案名称"
+        >
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="name"
+            android:title="方案名字"
+            android:summary="输入你的方案名称"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="price"
         android:title="价格设定">
         <EditTextPreference
+            android:defaultValue="20"
             android:title="价格最小值"
             android:key="price_low"
             android:summary="请输入能接受的最低价格"/>
         <EditTextPreference
+            android:defaultValue="50"
             android:title="价格最大值"
             android:key="price_high"
             android:summary="请输入能接受的最高价格"/>

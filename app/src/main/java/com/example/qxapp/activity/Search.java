@@ -2,8 +2,12 @@ package com.example.qxapp.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.preference.EditTextPreference;
+import android.preference.PreferenceFragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,8 +24,10 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -31,10 +37,15 @@ import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.qxapp.Adapter.SearchAdapter;
+import com.example.qxapp.Fragment.FragmentProset;
+import com.example.qxapp.Preference.SeekBarPreference;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
 import com.example.qxapp.activity.Bean.SearchRecord;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.DataNode;
@@ -66,6 +77,7 @@ public class Search extends AppCompatActivity {
     private MultiSpinnerSearch from_spinner;
     private Spinner method_spinner;
     private CheckBox checkBox;
+    private TextView textView;
     Thread tmallThread=new Thread(() -> {
         try {
             final String url = "https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString();
@@ -268,7 +280,6 @@ public class Search extends AppCompatActivity {
         searchcontent.requestFocus();
         InputMethodManager inputMethodManager= (InputMethodManager) searchcontent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-
     }
 
     private void search() {
@@ -404,7 +415,7 @@ public class Search extends AppCompatActivity {
                     from_spinner.setItems(from_listArray,selectedItems -> {
 //                复选框所选择的所有的items
                     });
-//                    Refresh();
+                   Refresh();
                 }else{
                     ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
                     method_adapter.add("不可用");
@@ -414,6 +425,7 @@ public class Search extends AppCompatActivity {
                 }
             }
         });
+        textView=findViewById(R.id.test);
 
 
     }
