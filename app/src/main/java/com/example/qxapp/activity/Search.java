@@ -41,6 +41,7 @@ import com.example.qxapp.Fragment.FragmentProset;
 import com.example.qxapp.Preference.SeekBarPreference;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
+import com.example.qxapp.activity.Bean.Proset;
 import com.example.qxapp.activity.Bean.SearchRecord;
 
 import org.greenrobot.eventbus.EventBus;
@@ -402,7 +403,20 @@ public class Search extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
-                    method_adapter.add("我的预设");
+                    BmobQuery<Proset>query=new BmobQuery<>();
+                    query.addWhereEqualTo("user",BmobUser.getCurrentUser(BmobUser.class));
+                    query.findObjects(new FindListener<Proset>() {
+                        @Override
+                        public void done(List<Proset> list, BmobException e) {
+                            if(e==null){
+                                for(Proset item:list){
+                                    method_adapter.add(item.getName());
+                                }
+                            }else{
+                                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                     method_spinner.setAdapter(method_adapter);
 
                     ArrayAdapter<String> sort_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
@@ -415,7 +429,7 @@ public class Search extends AppCompatActivity {
                     from_spinner.setItems(from_listArray,selectedItems -> {
 //                复选框所选择的所有的items
                     });
-                   Refresh();
+                    Refresh();
                 }else{
                     ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
                     method_adapter.add("不可用");

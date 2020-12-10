@@ -37,7 +37,6 @@
             android:textSize="28sp"
              />
     </LinearLayout>
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:background="@color/homepage_bg"
         android:id="@+id/inner_swipe"

@@ -47,7 +47,7 @@ public class FragmentinnerSearch extends BaseFragment{
     @Override
     protected void initControl() {
         recyclerView= Objects.requireNonNull(getActivity()).findViewById(R.id.inner_recyclerview);
-        swipeRefreshLayout=getActivity().findViewById(R.id.inner_swipe);
+        swipeRefreshLayout=Objects.requireNonNull(getActivity()).findViewById(R.id.inner_swipe);
 
     }
 
