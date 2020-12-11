@@ -19,6 +19,8 @@ import com.example.qxapp.activity.Receive;
 
 import java.util.List;
 
+import io.reactivex.internal.operators.parallel.ParallelRunOn;
+
 public class ProsetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean isfootview = true;
     private Context context;
@@ -71,6 +73,7 @@ public class ProsetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 in.putExtra("price_low",proset.getPrice_low());
                 in.putExtra("price_high",proset.getPrice_high());
                 in.putExtra("percentage",proset.getPrice_percentage());
+                in.putExtra("id",proset.getObjectId());
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(in);
             });

@@ -8,4 +8,5 @@
     <color name="black">#000</color>
     <color name="Navigation_bottom_base">#03DAC5</color>
     <color name="homepage_bg">#fff</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -37,6 +37,7 @@ public class Proset extends AppCompatActivity {
     private ImageButton cancelbtn;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
+    private ImageButton newbtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,14 @@ public class Proset extends AppCompatActivity {
                 finish();
             }
         });
+        newbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),WriteProset.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
 
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新
@@ -63,6 +72,7 @@ public class Proset extends AppCompatActivity {
         cancelbtn=findViewById(R.id.cancelbtn);
         swipeRefreshLayout=findViewById(R.id.swipe);
         recyclerView=findViewById(R.id.recyclerview);
+        newbtn=findViewById(R.id.newbtn);
 
     }
     void Refresh() {

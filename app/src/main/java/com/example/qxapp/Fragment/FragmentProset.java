@@ -11,6 +11,7 @@ import android.print.PageRange;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,9 @@ import androidx.fragment.app.FragmentHostCallback;
 
 import com.example.qxapp.Preference.SeekBarPreference;
 import com.example.qxapp.R;
+import com.example.qxapp.activity.AlterProset.AlterPricePercentage;
+import com.example.qxapp.activity.AlterProset.AlterPriceRange;
+import com.example.qxapp.activity.AlterProset.Altername;
 import com.example.qxapp.activity.Bean.Proset;
 import com.example.qxapp.activity.Search;
 
@@ -43,6 +47,7 @@ public class FragmentProset extends Fragment {
     private TextView price_low;
     private TextView price_high;
     private TextView price_percentage;
+    private ImageButton namebtn,rangebtn,percentagebtn;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragmentproset,container,false);
@@ -55,6 +60,9 @@ public class FragmentProset extends Fragment {
         price_high= getView().findViewById(R.id.price_high);
         price_percentage= getView().findViewById(R.id.percentage);
         name=getView().findViewById(R.id.name);
+        namebtn=getView().findViewById(R.id.namebtn);
+        rangebtn=getView().findViewById(R.id.rangebtn);
+        percentagebtn=getView().findViewById(R.id.percentagebtn);
         initData();
     }
 
@@ -64,5 +72,44 @@ public class FragmentProset extends Fragment {
         price_percentage.setText(String.valueOf(bundle.getInt("percentage")));
         price_low.setText(String.valueOf(bundle.getInt("price_low")));
         price_high.setText(String.valueOf(bundle.getInt("price_high")));
+
+        namebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), Altername.class);
+                intent.putExtra("name",name.getText());
+                getActivity().startActivityForResult(intent,1001);
+            }
+        });
+        rangebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), AlterPriceRange.class);
+                intent.putExtra("price_low",price_low.getText());
+                intent.putExtra("price_high",price_high.getText());
+                getActivity().startActivityForResult(intent,1002);
+            }
+        });
+        percentagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), AlterPricePercentage.class);
+                intent.putExtra("percentage",price_percentage.getText());
+                getActivity().startActivityForResult(intent,1003);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1001&&resultCode==1){
+            name.setText(data.getStringExtra("name"));
+        }else if(requestCode==1002&&resultCode==1){
+            price_low.setText(data.getStringExtra("price_low"));
+            price_high.setText(data.getStringExtra("price_high"));
+        }else if(requestCode==1003&&resultCode==1){
+            price_percentage.setText(data.getStringExtra("percentage"));
+        }
     }
 }

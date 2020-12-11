@@ -30,7 +30,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".activity.ProsetReceive"></activity>
+        <activity android:name=".activity.AlterProset.AlterPricePercentage"></activity>
+        <activity android:name=".activity.AlterProset.AlterPriceRange" />
+        <activity android:name=".activity.AlterProset.Altername" />
+        <activity android:name=".activity.WriteProset" />
+        <activity android:name=".activity.ProsetReceive" />
         <activity android:name=".activity.Proset" />
         <activity android:name=".activity.Update" />
         <activity android:name=".activity.Recommondation" />

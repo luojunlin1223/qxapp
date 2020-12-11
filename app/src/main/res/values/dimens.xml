@@ -4,4 +4,5 @@
     <dimen name="content">12sp</dimen>
     <dimen name="proset_content">18sp</dimen>
     <dimen name="proset_padding">20dp</dimen>
+    <dimen name="title">17sp</dimen>
 </resources>
