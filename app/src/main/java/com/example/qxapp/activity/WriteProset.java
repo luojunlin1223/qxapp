@@ -2,6 +2,8 @@ package com.example.qxapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.view.View;
@@ -50,7 +52,9 @@ public class WriteProset extends AppCompatActivity {
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                save();
+                if(Vaildate()){
+                    save();
+                }
             }
         });
         name.setHint("输入你的预设名称");
@@ -100,6 +104,8 @@ public class WriteProset extends AppCompatActivity {
                         proset.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
+                                setResult(1);
+                                finish();
                             }
                         });
                     }else{
@@ -112,6 +118,31 @@ public class WriteProset extends AppCompatActivity {
         });
 
 
+    }
+
+    private boolean Vaildate() {
+        if(name.getText().toString().isEmpty()){
+            Toast.makeText(getApplicationContext(),"预设名称不能为空!",Toast.LENGTH_SHORT).show();
+            name.setText("");
+            return false;
+        }
+        if(price_low.getText().length()==0){
+            Toast.makeText(getApplicationContext(),"最低价格不能为空!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(price_high.getText().length()==0){
+            Toast.makeText(getApplicationContext(),"最高价格不能为空!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(Integer.parseInt(price_low.getText().toString())>=Integer.parseInt(price_high.getText().toString())){
+            Toast.makeText(getApplicationContext(),"最低价格高于最高价格!",Toast.LENGTH_SHORT).show();
+            price_low.setText("");
+            price_high.setText("");
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     private void initControl() {

@@ -52,9 +52,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginBottom="@dimen/proset_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/proset_margin"
         android:background="@color/white"
         android:paddingVertical="@dimen/proset_padding">
 
@@ -86,31 +86,23 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-"
             android:textSize="@dimen/proset_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/price_high"
             app:layout_constraintStart_toEndOf="@+id/price_low"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toTopOf="@+id/price_low"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/price_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="327dp"
-            android:layout_marginEnd="70dp"
             android:text="50"
             android:textSize="@dimen/proset_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="@+id/price_low"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
             tools:ignore="MissingConstraints" />
 
         <ImageButton
@@ -127,9 +119,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginBottom="@dimen/proset_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/proset_margin"
         android:background="@color/white"
         android:paddingVertical="@dimen/proset_padding">
 
@@ -152,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="318dp"
             android:layout_marginEnd="71dp"
-            android:text="50%"
+            android:text="50"
             android:textSize="@dimen/proset_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -161,6 +153,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:textSize="@dimen/proset_content"
+            app:layout_constraintStart_toEndOf="@+id/percentage"
+            app:layout_constraintTop_toTopOf="@+id/percentage" />
 
         <ImageButton
             android:id="@+id/percentagebtn"

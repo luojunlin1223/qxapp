@@ -13,13 +13,14 @@ import android.widget.ImageButton;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Proset;
 import com.example.qxapp.activity.ProsetReceive;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class Altername extends AppCompatActivity {
     private ImageButton canclebtn;
-    private EditText name;
+    private MaterialEditText name;
     private Button savebtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

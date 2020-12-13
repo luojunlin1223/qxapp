@@ -1,14 +1,7 @@
 package com.example.qxapp.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.preference.EditTextPreference;
-import android.preference.PreferenceFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,33 +13,23 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
-import com.androidbuts.multispinnerfilter.MultiSpinnerListener;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.qxapp.Adapter.SearchAdapter;
-import com.example.qxapp.Fragment.FragmentProset;
-import com.example.qxapp.Preference.SeekBarPreference;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
 import com.example.qxapp.activity.Bean.Proset;
 import com.example.qxapp.activity.Bean.SearchRecord;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.DataNode;
@@ -79,6 +62,7 @@ public class Search extends AppCompatActivity {
     private Spinner method_spinner;
     private CheckBox checkBox;
     private TextView textView;
+    private  List<Proset> prosets=new ArrayList<>();
     Thread tmallThread=new Thread(() -> {
         try {
             final String url = "https://list.tmall.com/search_product.htm?q=" + searchcontent.getText().toString();
@@ -303,7 +287,11 @@ public class Search extends AppCompatActivity {
                             SuningThread.start();
                         }else{
                             RecordSearch();
-                            Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+                            if(checkBox.isChecked()){
+                                Refresh(prosets.get(method_spinner.getSelectedItemPosition()));
+                            }else{
+                                Refresh(sort_spinner.getSelectedItemPosition(),from_spinner.getSelectedItems());
+                            }
                         }
                     }
                 }
@@ -411,6 +399,7 @@ public class Search extends AppCompatActivity {
                             if(e==null){
                                 for(Proset item:list){
                                     method_adapter.add(item.getName());
+                                    prosets.add(item);
                                 }
                             }else{
                                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -429,7 +418,6 @@ public class Search extends AppCompatActivity {
                     from_spinner.setItems(from_listArray,selectedItems -> {
 //                复选框所选择的所有的items
                     });
-                    Refresh();
                 }else{
                     ArrayAdapter<String> method_adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item);
                     method_adapter.add("不可用");
@@ -441,7 +429,51 @@ public class Search extends AppCompatActivity {
         });
         textView=findViewById(R.id.test);
 
+        method_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(checkBox.isChecked()){
+                    Refresh(prosets.get(position));
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void Refresh(Proset proset) {
+        BmobQuery<Product> productBmobQuery = new BmobQuery<>();
+        List<BmobQuery<Product>> bmobQueries=new ArrayList<>();
+        productBmobQuery.addWhereEqualTo("key",searchcontent.getText().toString());
+        int price_low=proset.getPrice_low();
+        int price_high=proset.getPrice_high();
+        int percentage=proset.getPrice_percentage();
+        BmobQuery<Product> productBmobQuery1 = new BmobQuery<>();
+        BmobQuery<Product> productBmobQuery2 = new BmobQuery<>();
+        productBmobQuery1.addWhereGreaterThanOrEqualTo("price",price_low);
+        productBmobQuery2.addWhereLessThanOrEqualTo("price",price_high);
+        bmobQueries.add(productBmobQuery1);
+        bmobQueries.add(productBmobQuery2);
+        productBmobQuery.and(bmobQueries);
+        productBmobQuery.findObjects(new FindListener<Product>() {
+            @Override
+            public void done(List<Product> list, BmobException e) {
+                swipeRefreshLayout.setRefreshing(false);
+                if(e==null){
+
+
+
+
+                    SearchAdapter searchAdapter=new SearchAdapter(getApplicationContext(), list);
+                    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+                    recyclerView.setAdapter(searchAdapter);
+                }else{
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }
+        });
     }
 
     private void loadfrom() {
@@ -486,7 +518,6 @@ public class Search extends AppCompatActivity {
             }
         });
     }
-
     private void Refresh(int sort_positon,List<KeyPairBoolData> from_positon) {
         BmobQuery<Product> productBmobQuery = new BmobQuery<>();
         List<BmobQuery<Product>> bmobQueries=new ArrayList<>();
@@ -516,8 +547,6 @@ public class Search extends AppCompatActivity {
                 }
             }
         });
-    }
-    private void Refresh(){
     }
     private String taobao_helper(String item,String target){
         return item.substring(item.indexOf(target)+target.length(),

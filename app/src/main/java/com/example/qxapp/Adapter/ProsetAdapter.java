@@ -1,6 +1,8 @@
 package com.example.qxapp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -76,7 +78,7 @@ public class ProsetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 in.putExtra("id",proset.getObjectId());
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(in);
-            });
+        });
         }
 
     }
@@ -107,4 +109,5 @@ public class ProsetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
     }
+
 }

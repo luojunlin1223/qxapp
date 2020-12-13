@@ -10,11 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.qxapp.R;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class AlterPriceRange extends AppCompatActivity {
     private ImageButton canclebtn;
-    private EditText price_low;
-    private EditText price_high;
+    private MaterialEditText price_low, price_high;
     private Button savebtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

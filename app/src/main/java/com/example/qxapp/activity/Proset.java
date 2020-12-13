@@ -1,5 +1,6 @@
 package com.example.qxapp.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,8 +59,7 @@ public class Proset extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),WriteProset.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivityForResult(intent,1000);
             }
         });
 
@@ -95,5 +95,16 @@ public class Proset extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1000&&resultCode==1){
+            Refresh();
+        }
+        if(requestCode==999&&resultCode==1){
+            Refresh();
+        }
     }
 }

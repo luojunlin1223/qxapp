@@ -54,6 +54,7 @@ public class ProsetReceive extends AppCompatActivity {
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(1);
                 finish();
             }
         });

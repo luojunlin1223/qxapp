@@ -48,6 +48,7 @@ public class FragmentProset extends Fragment {
     private TextView price_high;
     private TextView price_percentage;
     private ImageButton namebtn,rangebtn,percentagebtn;
+    private String id;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragmentproset,container,false);
@@ -72,7 +73,7 @@ public class FragmentProset extends Fragment {
         price_percentage.setText(String.valueOf(bundle.getInt("percentage")));
         price_low.setText(String.valueOf(bundle.getInt("price_low")));
         price_high.setText(String.valueOf(bundle.getInt("price_high")));
-
+        id=bundle.getString("id");
         namebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,5 +112,16 @@ public class FragmentProset extends Fragment {
         }else if(requestCode==1003&&resultCode==1){
             price_percentage.setText(data.getStringExtra("percentage"));
         }
+        Proset proset=new Proset();
+        proset.setName(name.getText().toString());
+        proset.setPrice_percentage(Integer.parseInt(price_percentage.getText().toString()));
+        proset.setUser(BmobUser.getCurrentUser(BmobUser.class));
+        proset.setPrice_high(price_high.getText().toString());
+        proset.setPrice_low(price_low.getText().toString());
+        proset.update(id, new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+            }
+        });
     }
 }
