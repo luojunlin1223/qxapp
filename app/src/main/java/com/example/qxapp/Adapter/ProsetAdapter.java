@@ -74,8 +74,9 @@ public class ProsetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 in.putExtra("name",proset.getName());
                 in.putExtra("price_low",proset.getPrice_low());
                 in.putExtra("price_high",proset.getPrice_high());
-                in.putExtra("percentage",proset.getPrice_percentage());
                 in.putExtra("id",proset.getObjectId());
+                in.putExtra("brand",proset.getBrand());
+                in.putExtra("where",proset.getWhere());
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(in);
         });

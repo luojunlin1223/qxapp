@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.qxapp.Fragment.FragmentProset;
@@ -29,15 +30,17 @@ public class ProsetReceive extends AppCompatActivity {
         String name=getIntent().getStringExtra("name");
         int price_low=getIntent().getIntExtra("price_low",0);
         int price_high=getIntent().getIntExtra("price_high",0);
-        int percentage=getIntent().getIntExtra("percentage",0);
         String id=getIntent().getStringExtra("id");
+        String brand=getIntent().getStringExtra("brand");
+        String where=getIntent().getStringExtra("where");
 
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
         bundle.putInt("price_low",price_low);
         bundle.putInt("price_high",price_high);
-        bundle.putInt("percentage",percentage);
         bundle.putString("id",id);
+        bundle.putString("brand",brand);
+        bundle.putString("where",where);
         fragmentProset.setArguments(bundle);
 
         getSupportFragmentManager()    //
@@ -54,10 +57,13 @@ public class ProsetReceive extends AppCompatActivity {
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(1);
+                Intent intent=new Intent();
+                intent.setAction("action.updateproset");
+                sendBroadcast(intent);
                 finish();
             }
         });
+
     }
 
     private void initContrl() {

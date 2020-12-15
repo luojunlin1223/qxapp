@@ -126,10 +126,11 @@
         android:paddingVertical="@dimen/proset_padding">
 
         <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="价格占比:"
+            android:text="商品搜索来源:"
             android:textSize="@dimen/proset_content"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -137,43 +138,73 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/percentage"
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/materialCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="318dp"
-            android:layout_marginEnd="71dp"
-            android:text="50"
+            android:layout_marginStart="28dp"
+            android:text="淘宝"
+            app:layout_constraintStart_toEndOf="@+id/textView5"
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/materialCheckBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="京东"
+            app:layout_constraintStart_toEndOf="@+id/materialCheckBox"
+            app:layout_constraintTop_toTopOf="@+id/materialCheckBox" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/materialCheckBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="天猫"
+            app:layout_constraintStart_toEndOf="@+id/materialCheckBox2"
+            app:layout_constraintTop_toTopOf="@+id/materialCheckBox2" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/materialCheckBox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="苏宁"
+            app:layout_constraintStart_toEndOf="@+id/materialCheckBox3"
+            app:layout_constraintTop_toTopOf="@+id/materialCheckBox3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/proset_margin"
+        android:background="@color/white"
+        android:paddingVertical="@dimen/proset_padding">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:text="品牌:"
             android:textSize="@dimen/proset_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.909"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textSize="@dimen/proset_content"
-            app:layout_constraintStart_toEndOf="@+id/percentage"
-            app:layout_constraintTop_toTopOf="@+id/percentage" />
-
-        <ImageButton
-            android:id="@+id/percentagebtn"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:background="@color/white"
-            android:src="@drawable/user_settings_arrow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/percentage"
+        <com.rengwuxian.materialedittext.MaterialEditText
+            app:met_hideUnderline="true"
+            android:gravity="center"
+            android:id="@+id/brand"
+            android:layout_width="313dp"
+            android:layout_height="73dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:ignore="MissingConstraints" />
+            />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -43,6 +46,14 @@ public class Proset extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proset);
+
+        MessageReceiver mr= new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction("action.updateproset");
+        registerReceiver(mr, filter);
+
+
         initControl();
         initData();
         Refresh();
@@ -105,6 +116,14 @@ public class Proset extends AppCompatActivity {
         }
         if(requestCode==999&&resultCode==1){
             Refresh();
+        }
+    }
+    public class MessageReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals("action.updateproset")){          // 如果是该广播，则执行XXXX操作
+                Refresh();
+            }
         }
     }
 }

@@ -449,23 +449,66 @@ public class Search extends AppCompatActivity {
         productBmobQuery.addWhereEqualTo("key",searchcontent.getText().toString());
         int price_low=proset.getPrice_low();
         int price_high=proset.getPrice_high();
-        int percentage=proset.getPrice_percentage();
         BmobQuery<Product> productBmobQuery1 = new BmobQuery<>();
         BmobQuery<Product> productBmobQuery2 = new BmobQuery<>();
         productBmobQuery1.addWhereGreaterThanOrEqualTo("price",price_low);
         productBmobQuery2.addWhereLessThanOrEqualTo("price",price_high);
         bmobQueries.add(productBmobQuery1);
         bmobQueries.add(productBmobQuery2);
+        List<BmobQuery<Product>> bmobQueries2=new ArrayList<>();
+        String where=proset.getWhere();
+        String[] wheres = where.split(",");
+        for(String whereitem:wheres){
+            if(whereitem.equals("淘宝")){
+                BmobQuery<Product> query = new BmobQuery<>();
+                query.addWhereEqualTo("where","淘宝");
+                bmobQueries2.add(query);
+            }
+            if(whereitem.equals("京东")){
+                BmobQuery<Product> query = new BmobQuery<>();
+                query.addWhereEqualTo("where","京东");
+                bmobQueries2.add(query);
+            }
+            if(whereitem.equals("天猫")){
+                BmobQuery<Product> query = new BmobQuery<>();
+                query.addWhereEqualTo("where","天猫");
+                bmobQueries2.add(query);
+            }
+            if(whereitem.equals("苏宁")){
+                BmobQuery<Product> query = new BmobQuery<>();
+                query.addWhereEqualTo("where","苏宁");
+                bmobQueries2.add(query);
+            }
+
+        }
+        productBmobQuery.or(bmobQueries2);
         productBmobQuery.and(bmobQueries);
         productBmobQuery.findObjects(new FindListener<Product>() {
             @Override
             public void done(List<Product> list, BmobException e) {
                 swipeRefreshLayout.setRefreshing(false);
                 if(e==null){
-
-
-
-
+                    String brand=proset.getBrand();
+                    if(!brand.isEmpty()){
+                        List<String> brands = Arrays.asList(brand.split("[，|,]"));
+                        List<Product> record=new ArrayList<>();
+                        for(Product productitem:list){
+                            boolean contain=false;
+                            String infro=productitem.getInfro();
+                            for(String branditem:brands){
+                                if(infro.contains(branditem)){
+                                    contain=true;
+                                }
+                            }
+                            if(!contain){
+                                record.add(productitem);
+                            }
+                        }
+                        for(int i=0;i<record.size();i++)
+                        {
+                            list.remove(record.get(i));
+                        }
+                    }
                     SearchAdapter searchAdapter=new SearchAdapter(getApplicationContext(), list);
                     recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
                     recyclerView.setAdapter(searchAdapter);

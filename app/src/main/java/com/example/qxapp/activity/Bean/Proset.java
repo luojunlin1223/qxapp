@@ -7,6 +7,26 @@ public class Proset extends BmobObject {
     private String name;
     private BmobUser user;
     private int price_low;
+    private int price_high;
+    private String brand;
+    private String where;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getWhere() {
+        return where;
+    }
+
+    public void setWhere(String where) {
+        this.where = where;
+    }
+
 
     public int getPrice_low() {
         return price_low;
@@ -41,14 +61,6 @@ public class Proset extends BmobObject {
     }
 
 
-    public int getPrice_percentage() {
-        return price_percentage;
-    }
 
-    public void setPrice_percentage(int price_percentage) {
-        this.price_percentage = price_percentage;
-    }
 
-    private int price_high;
-    private int price_percentage;
 }

@@ -70,6 +70,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             recyclerViewHolder.name.setText(product.getName());
             recyclerViewHolder.price.setText(String.valueOf(product.getPrice()));
             recyclerViewHolder.url.setText(product.getUrl());
+            recyclerViewHolder.where.setText(product.getWhere());
+            recyclerViewHolder.brand.setText(product.getInfro());
             recyclerViewHolder.imageView.setImageURL(product.getImageurl());
 
 //          用户点击特定的itemView的时候
@@ -161,7 +163,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,price,url;
+        public TextView name,price,url,where,brand;
         public ImageView imageView;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
@@ -170,6 +172,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 price=itemview.findViewById(R.id.product_item_price);
                 url=itemview.findViewById(R.id.product_item_url);
                 imageView=itemview.findViewById(R.id.product_image);
+                where=itemview.findViewById(R.id.product_item_where);
+                brand=itemview.findViewById(R.id.product_item_brand);
             }
         }
     }

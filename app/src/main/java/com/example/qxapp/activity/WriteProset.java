@@ -6,8 +6,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -20,6 +23,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -27,13 +32,13 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
+import kotlin.text.Regex;
 
 public class WriteProset extends AppCompatActivity {
     private ImageButton canclebtn;
     private Button savebtn;
-    private MaterialEditText name,price_low,price_high;
-    private TextView percentage;
-    private SeekBar seekBar;
+    private MaterialEditText name,price_low,price_high,brand;
+    private CheckBox toabao,jingdong,tianmao,suning;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,24 +65,6 @@ public class WriteProset extends AppCompatActivity {
         name.setHint("输入你的预设名称");
         price_low.setHint("最低价格");
         price_high.setHint("最高价格");
-        seekBar.setProgress(0);
-        percentage.setText("0");
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                percentage.setText(String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
     }
 
     private void save() {
@@ -100,7 +87,22 @@ public class WriteProset extends AppCompatActivity {
                         proset.setUser(BmobUser.getCurrentUser(BmobUser.class));
                         proset.setPrice_low(price_low.getText().toString());
                         proset.setPrice_high(price_high.getText().toString());
-                        proset.setPrice_percentage(Integer.parseInt(percentage.getText().toString()));
+                        proset.setBrand(brand.getText().toString());
+                        String where="";
+                        if(toabao.isChecked()){
+                            where+="淘宝,";
+                        }
+                        if(jingdong.isChecked()){
+                            where+="京东,";
+                        }
+                        if(tianmao.isChecked()){
+                            where+="天猫,";
+                        }
+                        if(suning.isChecked()){
+                            where+="苏宁,";
+                        }
+                        where=where.substring(0,where.length()-1);
+                        proset.setWhere(where);
                         proset.save(new SaveListener<String>() {
                             @Override
                             public void done(String s, BmobException e) {
@@ -140,8 +142,12 @@ public class WriteProset extends AppCompatActivity {
             price_high.setText("");
             return false;
         }
-        else{
+        String regex=brand.getText().toString();
+        if(regex.matches("^([a-zA-Z0-9\u4e00-\u9fa5]+[,|，])*[a-zA-Z0-9\u4e00-\u9fa5]+$")){
             return true;
+        }else{
+            Toast.makeText(getApplicationContext(),"品牌输入格式错误!",Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
@@ -151,7 +157,10 @@ public class WriteProset extends AppCompatActivity {
         name=findViewById(R.id.name);
         price_high=findViewById(R.id.price_high);
         price_low=findViewById(R.id.price_low);
-        percentage=findViewById(R.id.percentage);
-        seekBar=findViewById(R.id.seekBar);
+        toabao=findViewById(R.id.materialCheckBox);
+        jingdong=findViewById(R.id.materialCheckBox2);
+        tianmao=findViewById(R.id.materialCheckBox3);
+        suning=findViewById(R.id.materialCheckBox4);
+        brand=findViewById(R.id.brand);
     }
 }
