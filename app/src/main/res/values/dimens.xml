@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="proset_margin">10dp</dimen>
-    <dimen name="content">12sp</dimen>
+    <dimen name="content">20sp</dimen>
     <dimen name="proset_content">18sp</dimen>
     <dimen name="proset_padding">20dp</dimen>
     <dimen name="title">17sp</dimen>

@@ -38,11 +38,24 @@ public class WriteRecom extends AppCompatActivity {
         push.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                push();
+                if(check()){
+                    push();
+                }
             }
         });
         username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());
+    }
 
+    private boolean check() {
+        if(good_name.getText().length()==0){
+            Toast.makeText(getApplicationContext(),"商品名不能为空!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(content.getText().length()==0){
+            Toast.makeText(getApplicationContext(),"商品名不能为空!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void push() {

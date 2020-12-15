@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.SearchRecord;
 import com.example.qxapp.activity.Receive;
+import com.example.qxapp.activity.Search;
 
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int F_TYPE=1;
     //  预加载的数据的条目
     private int Max_num=8;
-
     public HistoryAdapter(Context context, List<SearchRecord> data){
         this.context=context;
         this.data=data;
@@ -65,12 +65,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             recyclerViewHolder.itemView.setOnClickListener(v -> {
                 int position1 =recyclerViewHolder.getAdapterPosition();
 //                        携带数据跳转接收的Activity
-                Intent in=new Intent(context, Receive.class);
-//                        为了让跳转的时候不出现更新问题直接携带数据跳转
-//                        in.putExtra("username",post.getName());
-//                        in.putExtra("content",post.getContent());
-//                        in.putExtra("time",post.getCreatedAt());
-                in.putExtra("id",data.get(position1).getObjectId());
+                Intent in=new Intent(context, Search.class);
+                in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(in);
             });
         }
@@ -103,5 +99,4 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
     }
-
 }

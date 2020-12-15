@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Proset;
@@ -41,10 +42,15 @@ public class Altername extends AppCompatActivity {
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.putExtra("name",name.getText().toString());
-                setResult(1,intent);
-                finish();
+                if(name.getText().length()==0){
+                    Toast.makeText(getApplicationContext(),"名称不能不设为空",Toast.LENGTH_SHORT).show();
+                    name.setText(getIntent().getStringExtra("name"));
+                }else{
+                    Intent intent=new Intent();
+                    intent.putExtra("name",name.getText().toString());
+                    setResult(1,intent);
+                    finish();
+                }
             }
         });
     }

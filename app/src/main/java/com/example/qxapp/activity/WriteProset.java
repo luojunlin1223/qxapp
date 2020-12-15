@@ -143,7 +143,7 @@ public class WriteProset extends AppCompatActivity {
             return false;
         }
         String regex=brand.getText().toString();
-        if(regex.matches("^([a-zA-Z0-9\u4e00-\u9fa5]+[,|，])*[a-zA-Z0-9\u4e00-\u9fa5]+$")){
+        if(regex.matches("^([a-zA-Z0-9\u4e00-\u9fa5]+[,|，])*[a-zA-Z0-9\u4e00-\u9fa5]+$")||regex.isEmpty()){
             return true;
         }else{
             Toast.makeText(getApplicationContext(),"品牌输入格式错误!",Toast.LENGTH_SHORT).show();

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.qxapp.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -38,11 +39,18 @@ public class AlterPriceRange extends AppCompatActivity {
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.putExtra("price_low",price_low.getText().toString());
-                intent.putExtra("price_high",price_high.getText().toString());
-                setResult(1,intent);
-                finish();
+                if(Integer.parseInt(price_low.getText().toString())>Integer.parseInt(price_high.getText().toString())){
+                    Toast.makeText(getApplicationContext(),"最低价格不能比最高价格高！",Toast.LENGTH_SHORT).show();
+                    price_low.setText(getIntent().getStringExtra("price_low"));
+                    price_high.setText(getIntent().getStringExtra("price_high"));
+                }else{
+                    Intent intent=new Intent();
+                    intent.putExtra("price_low",price_low.getText().toString());
+                    intent.putExtra("price_high",price_high.getText().toString());
+                    setResult(1,intent);
+                    finish();
+                }
+
             }
         });
     }

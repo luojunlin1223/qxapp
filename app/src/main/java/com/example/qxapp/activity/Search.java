@@ -1,6 +1,9 @@
 package com.example.qxapp.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -24,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidbuts.multispinnerfilter.KeyPairBoolData;
 import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
+import com.example.qxapp.Adapter.HistoryAdapter;
 import com.example.qxapp.Adapter.SearchAdapter;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
@@ -53,7 +57,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Search extends AppCompatActivity {
+public class Search extends AppCompatActivity  {
     private EditText searchcontent;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;

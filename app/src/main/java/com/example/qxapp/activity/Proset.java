@@ -2,6 +2,7 @@ package com.example.qxapp.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.qxapp.Adapter.HistoryAdapter;
 import com.example.qxapp.Adapter.ProsetAdapter;
+import com.example.qxapp.Adapter.SimpleItemTouchHelperCallback;
 import com.example.qxapp.Fragment.FragmentProset;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.SearchRecord;
@@ -42,17 +44,16 @@ public class Proset extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private ImageButton newbtn;
+    private MessageReceiver mr= new MessageReceiver();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proset);
 
-        MessageReceiver mr= new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         filter.addAction("action.updateproset");
         registerReceiver(mr, filter);
-
 
         initControl();
         initData();
@@ -97,6 +98,9 @@ public class Proset extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
                 if(e==null){
                     ProsetAdapter prosetAdapter=new ProsetAdapter(getApplicationContext(), list);
+                    ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(prosetAdapter);
+                    ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+                    touchHelper.attachToRecyclerView(recyclerView);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     recyclerView.setAdapter(prosetAdapter);
                 }else{
@@ -125,5 +129,11 @@ public class Proset extends AppCompatActivity {
                 Refresh();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mr);
     }
 }

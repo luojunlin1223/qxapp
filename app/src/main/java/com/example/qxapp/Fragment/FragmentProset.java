@@ -218,7 +218,7 @@ public class FragmentProset extends Fragment {
                 }
             });
         }else{
-            Toast.makeText(getContext(),"品牌填写不符合标准",Toast.LENGTH_LONG).show();
+            brand.setHint("输入你想要的品牌（多个品牌用逗号分隔,如果不输入则默认为所有品牌)");
         }
     }
 

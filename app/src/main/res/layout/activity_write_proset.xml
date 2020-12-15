@@ -225,7 +225,7 @@
                 android:id="@+id/brand"
                 android:layout_width="313dp"
                 android:layout_height="73dp"
-                android:hint="输入你想要的品牌（多个品牌用逗号分隔)"
+                android:hint="输入你想要的品牌（多个品牌用逗号分隔,如果不输入则默认为所有品牌)"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent"

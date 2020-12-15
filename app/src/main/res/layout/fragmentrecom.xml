@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 />
             <TextView
+                android:textSize="10dp"
                 android:text="我也要写"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
