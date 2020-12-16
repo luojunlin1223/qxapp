@@ -19,6 +19,8 @@
             android:text="账号:"
             android:textSize="24sp"/>
         <EditText
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+            android:maxLength="12"
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +38,8 @@
             android:text="密码:"
             android:textSize="24sp"/>
         <EditText
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+            android:maxLength="12"
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

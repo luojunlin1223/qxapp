@@ -2,8 +2,10 @@ package com.example.qxapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class Register extends AppCompatActivity {
     private EditText username,password;
+    private ImageButton canclebtn;
     Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +31,27 @@ public class Register extends AppCompatActivity {
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
         register=findViewById(R.id.register);
-
+        canclebtn=findViewById(R.id.cancelbtn);
+        canclebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         register.setOnClickListener(v -> {
             final BmobUser user = new BmobUser();
-            user.setUsername(username.getText().toString().trim());
-            user.setPassword(password.getText().toString().trim());
             if (username.getText().toString().equals("")) {
                 Toast.makeText(Register.this, "用户没有输入用户名", Toast.LENGTH_LONG).show();
             } else if (password.getText().toString().equals("")) {
                 Toast.makeText(Register.this, "用户没有输入密码", Toast.LENGTH_LONG).show();
-            } else {
+            } else if(username.getText().toString().length()<4){
+                Toast.makeText(Register.this, "用户名长度小于4", Toast.LENGTH_LONG).show();
+            }else if(password.getText().toString().length()<4){
+                Toast.makeText(Register.this, "密码长度小于4", Toast.LENGTH_LONG).show();
+            }else
+            {
+                user.setUsername(username.getText().toString().trim());
+                user.setPassword(password.getText().toString().trim());
                 user.signUp(new SaveListener<BmobUser>() {
                     @Override
                     public void done(BmobUser user, BmobException e) {

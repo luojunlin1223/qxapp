@@ -2,6 +2,8 @@ package com.example.qxapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qxapp.MainActivity;
 import com.example.qxapp.R;
+
+import java.util.regex.Pattern;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -30,6 +34,7 @@ public class Login extends AppCompatActivity{
     private void initControl() {
         username=findViewById(R.id.username);
         password=findViewById(R.id.password);
+
         Button loginbtn = findViewById(R.id.login);
         Button register = findViewById(R.id.register);
 //        设置登录按钮监听器
@@ -57,5 +62,6 @@ public class Login extends AppCompatActivity{
 //                跳转注册页面不需要销毁登录界面
         });
     }
+
 
 }

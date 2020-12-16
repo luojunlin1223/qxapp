@@ -49,10 +49,10 @@ public class MineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ordViewHolder.title.setText(data.get(position));
         switch (position){
             case 0: ordViewHolder.icon.setImageResource(R.drawable.history);break;
-            case 1: ordViewHolder.icon.setImageResource(R.drawable.collect);break;
-            case 2: ordViewHolder.icon.setImageResource(R.drawable.recommendation);break;
-            case 3: ordViewHolder.icon.setImageResource(R.drawable.update);break;
-            case 4: ordViewHolder.icon.setImageResource(R.drawable.update);break;
+            case 1: ordViewHolder.icon.setImageResource(R.drawable.collect_fill);break;
+            case 2: ordViewHolder.icon.setImageResource(R.drawable.thumbsup);break;
+            case 3: ordViewHolder.icon.setImageResource(R.drawable.setting);break;
+            case 4: ordViewHolder.icon.setImageResource(R.drawable.note);break;
         }
         ordViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

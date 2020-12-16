@@ -7,6 +7,15 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/cancelbtn"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20sp"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_arrow"
+            />
         <LinearLayout
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
@@ -19,10 +28,12 @@
                 android:text="账号:"
                 android:textSize="24sp"/>
             <EditText
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+                android:maxLength="12"
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="账号"/>
+                android:hint="账号（小写英文+数字 4-12位）"/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="20dp"
@@ -36,10 +47,12 @@
                 android:text="密码:"
                 android:textSize="24sp"/>
             <EditText
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+                android:maxLength="12"
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="密码"/>
+                android:hint="密码（小写英文+数字 4-12位）"/>
         </LinearLayout>
     </LinearLayout>
     <Button
