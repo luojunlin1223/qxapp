@@ -1,16 +1,16 @@
 package com.example.qxapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Recommondation;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -18,7 +18,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class WriteRecom extends AppCompatActivity {
     private Button cancle,push;
-    private EditText good_name,content;
+    private MaterialEditText good_name,content;
     private TextView username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +29,10 @@ public class WriteRecom extends AppCompatActivity {
     }
 
     private void inintData() {
-        cancle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        push.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(check()){
-                    push();
-                }
+        cancle.setOnClickListener(v -> finish());
+        push.setOnClickListener(v -> {
+            if(check()){
+                push();
             }
         });
         username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());

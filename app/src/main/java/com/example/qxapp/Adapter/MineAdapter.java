@@ -2,14 +2,11 @@ package com.example.qxapp.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,17 +51,14 @@ public class MineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 3: ordViewHolder.icon.setImageResource(R.drawable.setting);break;
             case 4: ordViewHolder.icon.setImageResource(R.drawable.note);break;
         }
-        ordViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (position)
-                {
-                    case 0: context.startActivity(new Intent(context, History.class));break;
-                    case 1: context.startActivity(new Intent(context, Collect.class));break;
-                    case 2: context.startActivity(new Intent(context, Recommondation.class));break;
-                    case 3: context.startActivity(new Intent(context, Update.class));break;
-                    case 4: context.startActivity(new Intent(context, Proset.class));break;
-                }
+        ordViewHolder.itemView.setOnClickListener(v -> {
+            switch (position)
+            {
+                case 0: context.startActivity(new Intent(context, History.class));break;
+                case 1: context.startActivity(new Intent(context, Collect.class));break;
+                case 2: context.startActivity(new Intent(context, Recommondation.class));break;
+                case 3: context.startActivity(new Intent(context, Update.class));break;
+                case 4: context.startActivity(new Intent(context, Proset.class));break;
             }
         });
 //        onclick

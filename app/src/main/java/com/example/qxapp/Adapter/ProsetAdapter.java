@@ -1,8 +1,6 @@
 package com.example.qxapp.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,18 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Product;
 import com.example.qxapp.activity.Bean.Proset;
-import com.example.qxapp.activity.Bean.SearchRecord;
 import com.example.qxapp.activity.ProsetReceive;
-import com.example.qxapp.activity.Receive;
-import com.example.qxapp.activity.Update;
 
 import java.util.List;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
-import io.reactivex.internal.operators.parallel.ParallelRunOn;
 
 public class ProsetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter{
     boolean isfootview = true;

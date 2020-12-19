@@ -5,29 +5,55 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:gravity="center"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <EditText
-            android:singleLine="true"
-            android:imeOptions="actionSearch"
-            android:lines="1"
-            android:id="@+id/search_content"
-            android:focusable="true"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:ignore="Suspicious0dp"
-            android:hint="找找你想要的评论吧！输入商品名查找"
-            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="339dp"
+            android:layout_height="49dp"
+            android:layout_margin="5dp"
+            android:background="@color/prey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/search_content"
+                android:layout_width="333dp"
+                android:layout_height="51dp"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:hint="找找你想要的评论吧！输入商品名查找"
+                android:imeOptions="actionSearch"
+                android:lines="1"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:met_hideUnderline="true"
+                tools:ignore="Suspicious0dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <Button
             android:id="@+id/cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消"/>
-    </LinearLayout>
+            android:layout_width="48dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shape"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.466" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/search_swipe"
         android:layout_width="match_parent"

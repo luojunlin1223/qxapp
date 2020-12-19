@@ -56,7 +56,6 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".activity.Login" />
-        <activity android:name=".activity.Receive" />
         <activity android:name=".activity.Search" />
     </application>
 

@@ -1,68 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/prey"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:layout_margin="10dp"
+        android:id="@+id/head"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="账号:"
-            android:textSize="24sp"/>
-        <EditText
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
-            android:maxLength="12"
-            android:id="@+id/username"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="账号"/>
-    </LinearLayout>
-    <LinearLayout
+            android:layout_height="match_parent"
+            android:text="登录或注册账号"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/white"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
-            android:textColor="@color/colorPrimaryDark"
+            android:padding="10dp"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="密码:"
-            android:textSize="24sp"/>
-        <EditText
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+            android:text="账号"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/username"
+            android:layout_width="291dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="56dp"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:hint="账号"
             android:maxLength="12"
-            android:id="@+id/password"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:met_hideUnderline="true" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="密码"/>
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:padding="10dp"
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="密码"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/password"
+                android:layout_width="291dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="56dp"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:hint="密码"
+                android:maxLength="12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:met_hideUnderline="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
-    <Button
-        android:id="@+id/login"
-        android:layout_margin="10dp"
-        android:background="#000"
-        android:textColor="#fff"
-        android:textSize="15sp"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登录"/>
-    <Button
-        android:id="@+id/register"
-        android:layout_margin="10dp"
-        android:background="#000"
-        android:textColor="#fff"
-        android:textSize="15sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="注册账号"/>
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="338dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="440dp"
+            android:background="#03A9F4"
+            android:text="登录"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="338dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="372dp"
+            android:background="#03A9F4"
+            android:text="注册账号"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/login"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/login" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

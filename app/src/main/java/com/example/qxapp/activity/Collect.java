@@ -1,14 +1,13 @@
 package com.example.qxapp.activity;
 
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.qxapp.Adapter.RecomAdapter;
 import com.example.qxapp.R;
@@ -22,7 +21,6 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.QueryListener;
 
 public class Collect extends AppCompatActivity {
     private ImageButton cancelbtn;
@@ -38,12 +36,7 @@ public class Collect extends AppCompatActivity {
     }
 
     void initData() {
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        cancelbtn.setOnClickListener(v -> finish());
 
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新

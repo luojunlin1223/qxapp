@@ -2,10 +2,7 @@ package com.example.qxapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -13,15 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qxapp.MainActivity;
 import com.example.qxapp.R;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class Login extends AppCompatActivity{
-    private EditText username,password;
+    private MaterialEditText username,password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,8 +38,8 @@ public class Login extends AppCompatActivity{
 //        设置登录按钮监听器
         loginbtn.setOnClickListener(v -> {
             final BmobUser user = new BmobUser();
-            user.setUsername(username.getText().toString().trim());
-            user.setPassword(password.getText().toString().trim());
+            user.setUsername(Objects.requireNonNull(username.getText()).toString().trim());
+            user.setPassword(Objects.requireNonNull(password.getText()).toString().trim());
             user.login(new SaveListener<BmobUser>() {
                 @Override
                 public void done(BmobUser u, BmobException e) {

@@ -1,33 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:fitsSystemWindows="true"
+    android:layout_marginTop="1dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="20dp"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="40dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <TextView
-        android:layout_marginStart="10dp"
-        android:text="1"
-        android:id="@+id/rank"
-        android:layout_width="20sp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/content"
-        />
-    <TextView
-        android:layout_marginStart="110dp"
-        android:id="@+id/key"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="商品名"
-        android:textSize="@dimen/content"
-         />
-    <TextView
-        android:layout_marginStart="100dp"
-        android:id="@+id/count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="热度"
-        android:textSize="@dimen/content"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_width="20sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="1"
+            android:textSize="@dimen/content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.538" />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/key"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="商品名"
+            android:textSize="@dimen/content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="热度"
+            android:textSize="@dimen/content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

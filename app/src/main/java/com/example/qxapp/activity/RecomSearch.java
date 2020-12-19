@@ -1,31 +1,21 @@
 package com.example.qxapp.activity;
 
+import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.androidbuts.multispinnerfilter.KeyPairBoolData;
-import com.androidbuts.multispinnerfilter.MultiSpinnerSearch;
 import com.example.qxapp.Adapter.RecomSearchAdapter;
-import com.example.qxapp.Adapter.SearchAdapter;
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.Product;
 import com.example.qxapp.activity.Bean.Recommondation;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
@@ -33,7 +23,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 public class RecomSearch extends AppCompatActivity {
-    private EditText searchcontent;
+    private MaterialEditText searchcontent;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     @Override
@@ -68,14 +58,11 @@ public class RecomSearch extends AppCompatActivity {
         searchcontent.setSingleLine();
         searchcontent.setLines(1);
         searchcontent.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-        searchcontent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId==EditorInfo.IME_ACTION_SEARCH){
-                    search();
-                }
-                return false;
+        searchcontent.setOnEditorActionListener((v, actionId, event) -> {
+            if(actionId==EditorInfo.IME_ACTION_SEARCH){
+                search();
             }
+            return false;
         });
 
         Button cancelbtn = findViewById(R.id.cancel);

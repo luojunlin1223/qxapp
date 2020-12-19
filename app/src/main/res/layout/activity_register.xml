@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/prey">
     <LinearLayout
-        android:layout_margin="10dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -11,24 +14,28 @@
             android:id="@+id/cancelbtn"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20sp"
-            android:background="@color/white"
+            android:background="@color/transparent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/back_arrow"
             />
         <LinearLayout
+            android:background="@color/white"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:padding="10dp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="账号:"
                 android:textSize="24sp"/>
-            <EditText
-                android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:gravity="center_horizontal"
+                app:met_hideUnderline="true"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:maxLength="12"
                 android:id="@+id/username"
                 android:layout_width="match_parent"
@@ -36,18 +43,22 @@
                 android:hint="账号（小写英文+数字 4-12位）"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:padding="10dp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="密码:"
                 android:textSize="24sp"/>
-            <EditText
-                android:digits="0123456789abcdefghijklmnopqrstuvwxyz"
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:gravity="center_horizontal"
+                app:met_hideUnderline="true"
+                android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 android:maxLength="12"
                 android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -55,14 +66,24 @@
                 android:hint="密码（小写英文+数字 4-12位）"/>
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:id="@+id/register"
-        android:layout_margin="10dp"
-        android:background="#000"
-        android:textColor="#fff"
-        android:textSize="15sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="注册"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="338dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="116dp"
+            android:background="#03A9F4"
+            android:text="注册"
+            android:textColor="#fff"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

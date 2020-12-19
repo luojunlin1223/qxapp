@@ -1,7 +1,6 @@
 package com.example.qxapp.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.SearchRecord;
-import com.example.qxapp.activity.Receive;
 
 import java.util.List;
 
@@ -34,13 +32,14 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.inner_item,null,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.inner_item,parent,false);
         View footview=LayoutInflater.from(parent.getContext()).inflate(R.layout.foot_item,parent,false);
         if(viewType==F_TYPE){
             return new InnerAdapter.RecyclerViewHolder(footview,F_TYPE);
         }else{
             return new InnerAdapter.RecyclerViewHolder(view,N_TYPE);
         }
+
     }
 
     @Override
@@ -59,20 +58,12 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             //获取内容
             final InnerAdapter.RecyclerViewHolder recyclerViewHolder= (InnerAdapter.RecyclerViewHolder) holder;
             SearchRecord searchRecord=data.get(position);
-            recyclerViewHolder.rank.setText(String.valueOf(position));
+            recyclerViewHolder.rank.setText(String.valueOf(position+1));
             recyclerViewHolder.key.setText(searchRecord.getKey());
             recyclerViewHolder.count.setText(String.valueOf(searchRecord.getCount()));
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(v -> {
-                int position1 =recyclerViewHolder.getAdapterPosition();
-//                        携带数据跳转接收的Activity
-                Intent in=new Intent(context, Receive.class);
-//                        为了让跳转的时候不出现更新问题直接携带数据跳转
-//                        in.putExtra("username",post.getName());
-//                        in.putExtra("content",post.getContent());
-//                        in.putExtra("time",post.getCreatedAt());
-                in.putExtra("id",data.get(position1).getObjectId());
-                context.startActivity(in);
+//
             });
         }
 

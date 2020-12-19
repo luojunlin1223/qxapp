@@ -2,7 +2,6 @@ package com.example.qxapp.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,28 +13,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.qxapp.Fragment.FragmentRecom;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.CollectRecord;
 import com.example.qxapp.activity.Bean.ThumbsupdownRecord;
 import com.example.qxapp.activity.Bean.Recommondation;
-import com.example.qxapp.activity.Receive;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
-import okhttp3.internal.platform.ConscryptPlatform;
 
 public class RecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

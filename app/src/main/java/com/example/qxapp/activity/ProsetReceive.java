@@ -1,22 +1,14 @@
 package com.example.qxapp.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.ImageButton;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.example.qxapp.Fragment.FragmentProset;
 import com.example.qxapp.R;
-
-import java.util.Objects;
 
 public class ProsetReceive extends AppCompatActivity {
     private ImageButton cancle;
@@ -54,14 +46,11 @@ public class ProsetReceive extends AppCompatActivity {
     }
 
     private void initData() {
-        cancle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.setAction("action.updateproset");
-                sendBroadcast(intent);
-                finish();
-            }
+        cancle.setOnClickListener(v -> {
+            Intent intent=new Intent();
+            intent.setAction("action.updateproset");
+            sendBroadcast(intent);
+            finish();
         });
 
     }
@@ -74,6 +63,7 @@ public class ProsetReceive extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FragmentProset fragmentProset= (FragmentProset) getSupportFragmentManager().findFragmentByTag("Proset");
+        assert fragmentProset != null;
         fragmentProset.onActivityResult(requestCode,resultCode,data);
     }
 }

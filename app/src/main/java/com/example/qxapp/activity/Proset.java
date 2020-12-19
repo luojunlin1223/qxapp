@@ -1,5 +1,13 @@
 package com.example.qxapp.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -7,32 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-import com.example.qxapp.Adapter.HistoryAdapter;
 import com.example.qxapp.Adapter.ProsetAdapter;
 import com.example.qxapp.Adapter.SimpleItemTouchHelperCallback;
-import com.example.qxapp.Fragment.FragmentProset;
 import com.example.qxapp.R;
-import com.example.qxapp.activity.Bean.SearchRecord;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -61,18 +49,10 @@ public class Proset extends AppCompatActivity {
     }
 
     void initData() {
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        newbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(),WriteProset.class);
-                startActivityForResult(intent,1000);
-            }
+        cancelbtn.setOnClickListener(v -> finish());
+        newbtn.setOnClickListener(v -> {
+            Intent intent=new Intent(getApplicationContext(),WriteProset.class);
+            startActivityForResult(intent,1000);
         });
 
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
@@ -125,7 +105,7 @@ public class Proset extends AppCompatActivity {
     public class MessageReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals("action.updateproset")){          // 如果是该广播，则执行XXXX操作
+            if(Objects.equals(intent.getAction(), "action.updateproset")){          // 如果是该广播，则执行XXXX操作
                 Refresh();
             }
         }

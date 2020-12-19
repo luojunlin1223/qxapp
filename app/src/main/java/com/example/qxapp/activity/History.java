@@ -1,17 +1,15 @@
 package com.example.qxapp.activity;
 
+import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
 import com.example.qxapp.Adapter.HistoryAdapter;
-import com.example.qxapp.Adapter.InnerAdapter;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.SearchRecord;
 
@@ -36,12 +34,7 @@ public class History extends AppCompatActivity {
     }
 
     void initData() {
-        cancelbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        cancelbtn.setOnClickListener(v -> finish());
 
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_light,android.R.color.holo_red_light,android.R.color.holo_blue_light);
 //        上拉刷新

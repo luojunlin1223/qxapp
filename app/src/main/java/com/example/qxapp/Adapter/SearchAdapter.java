@@ -1,6 +1,5 @@
 package com.example.qxapp.Adapter;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,11 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.qxapp.ImageView;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Product;
-import com.example.qxapp.activity.Receive;
 
 import java.util.List;
-
-import cn.bmob.v3.http.I;
 
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean isfootview = true;

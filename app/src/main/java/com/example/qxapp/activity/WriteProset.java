@@ -1,21 +1,12 @@
 package com.example.qxapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Proset;
@@ -23,16 +14,13 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
-import kotlin.text.Regex;
 
 public class WriteProset extends AppCompatActivity {
     private ImageButton canclebtn;
@@ -48,18 +36,10 @@ public class WriteProset extends AppCompatActivity {
     }
 
     private void initData() {
-        canclebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        savebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Vaildate()){
-                    save();
-                }
+        canclebtn.setOnClickListener(v -> finish());
+        savebtn.setOnClickListener(v -> {
+            if(Vaildate()){
+                save();
             }
         });
         name.setHint("输入你的预设名称");
@@ -83,11 +63,11 @@ public class WriteProset extends AppCompatActivity {
                 if(e==null){
                     if(list.size()==0){
                         Proset proset=new Proset();
-                        proset.setName(name.getText().toString());
+                        proset.setName(Objects.requireNonNull(name.getText()).toString());
                         proset.setUser(BmobUser.getCurrentUser(BmobUser.class));
-                        proset.setPrice_low(price_low.getText().toString());
-                        proset.setPrice_high(price_high.getText().toString());
-                        proset.setBrand(brand.getText().toString());
+                        proset.setPrice_low(Objects.requireNonNull(price_low.getText()).toString());
+                        proset.setPrice_high(Objects.requireNonNull(price_high.getText()).toString());
+                        proset.setBrand(Objects.requireNonNull(brand.getText()).toString());
                         String where="";
                         if(toabao.isChecked()){
                             where+="淘宝,";
@@ -111,7 +91,7 @@ public class WriteProset extends AppCompatActivity {
                             }
                         });
                     }else{
-                        Toast.makeText(getApplicationContext(),"这个预设已经存在",Toast.LENGTH_SHORT).show();;
+                        Toast.makeText(getApplicationContext(),"这个预设已经存在",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -123,16 +103,16 @@ public class WriteProset extends AppCompatActivity {
     }
 
     private boolean Vaildate() {
-        if(name.getText().toString().isEmpty()){
+        if(Objects.requireNonNull(name.getText()).toString().isEmpty()){
             Toast.makeText(getApplicationContext(),"预设名称不能为空!",Toast.LENGTH_SHORT).show();
             name.setText("");
             return false;
         }
-        if(price_low.getText().length()==0){
+        if(Objects.requireNonNull(price_low.getText()).length()==0){
             Toast.makeText(getApplicationContext(),"最低价格不能为空!",Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(price_high.getText().length()==0){
+        if(Objects.requireNonNull(price_high.getText()).length()==0){
             Toast.makeText(getApplicationContext(),"最高价格不能为空!",Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -142,7 +122,7 @@ public class WriteProset extends AppCompatActivity {
             price_high.setText("");
             return false;
         }
-        String regex=brand.getText().toString();
+        String regex= Objects.requireNonNull(brand.getText()).toString();
         if(regex.matches("^([a-zA-Z0-9\u4e00-\u9fa5]+[,|，])*[a-zA-Z0-9\u4e00-\u9fa5]+$")||regex.isEmpty()){
             return true;
         }else{
