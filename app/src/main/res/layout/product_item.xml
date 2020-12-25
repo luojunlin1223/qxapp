@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,60 +10,146 @@
     android:layout_marginTop="10dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="20dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <com.example.qxapp.ImageView
-            android:id="@+id/product_image"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-        <LinearLayout
-            android:gravity="center"
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
+
+            <com.example.qxapp.ImageView
+                android:id="@+id/product_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/tom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/product_item_name"
+                android:layout_width="154dp"
+                android:layout_height="25dp"
+                android:text="name"
                 android:textColor="#000"
                 android:textSize="@dimen/content"
+                app:layout_constraintEnd_toEndOf="@+id/product_image"
+                app:layout_constraintStart_toStartOf="@+id/textView18"
+                app:layout_constraintTop_toBottomOf="@+id/product_item_where" />
+
+            <TextView
+                android:id="@+id/textView22"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name"/>
+                android:text="¥"
+                android:textColor="#FF0000"
+                android:textSize="@dimen/content"
+                app:layout_constraintBottom_toBottomOf="@+id/product_item_price"
+                app:layout_constraintStart_toStartOf="@+id/textView18"
+                app:layout_constraintTop_toTopOf="@+id/product_item_price"
+                app:layout_constraintVertical_bias="0.0" />
+
             <TextView
                 android:id="@+id/product_item_price"
-                android:textColor="#F303DF"
-                android:textSize="@dimen/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="price"/>
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="price"
+                android:textColor="#FF0000"
+                android:textSize="@dimen/content"
+                app:layout_constraintStart_toEndOf="@+id/textView22"
+                app:layout_constraintTop_toBottomOf="@+id/product_item_name" />
+
             <TextView
-                android:id="@+id/product_item_url"
+                android:id="@+id/brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:textSize="@dimen/content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintStart_toEndOf="@+id/textView21"
+                app:layout_constraintTop_toTopOf="@+id/textView21" />
+
+            <TextView
+                android:id="@+id/textView21"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="url"/>
+                android:text="品牌:"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                app:layout_constraintStart_toStartOf="@+id/product_item_name"
+                app:layout_constraintTop_toBottomOf="@+id/product_item_price" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="["
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_image" />
+
             <TextView
                 android:id="@+id/product_item_where"
-                android:textColor="#000"
-                android:textSize="@dimen/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="where"/>
+                android:layout_marginStart="4dp"
+                android:text="where"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView18"
+                app:layout_constraintStart_toEndOf="@+id/textView18"
+                app:layout_constraintTop_toTopOf="@+id/textView18"
+                app:layout_constraintVertical_bias="0.0" />
+
             <TextView
-                android:id="@+id/product_item_brand"
-                android:textColor="#000"
-                android:textSize="@dimen/content"
+                android:id="@+id/textView19"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="brand"/>
+                android:layout_marginStart="4dp"
+                android:text="]"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                app:layout_constraintBottom_toBottomOf="@+id/product_item_where"
+                app:layout_constraintStart_toEndOf="@+id/product_item_where"
+                app:layout_constraintTop_toTopOf="@+id/product_item_where"
+                app:layout_constraintVertical_bias="0.0" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="产地:"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView21"
+                app:layout_constraintStart_toStartOf="@+id/textView21"
+                app:layout_constraintTop_toBottomOf="@+id/textView21"
+                app:layout_constraintVertical_bias="0.0" />
 
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="@dimen/content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView20"
+                app:layout_constraintTop_toTopOf="@+id/textView20" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

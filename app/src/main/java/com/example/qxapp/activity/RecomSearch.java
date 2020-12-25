@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.qxapp.Adapter.RecomAdapter;
 import com.example.qxapp.Adapter.RecomSearchAdapter;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.Recommondation;
@@ -41,9 +42,9 @@ public class RecomSearch extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
                 if (e == null)
                 {
-                    RecomSearchAdapter recomSearchAdapter=new RecomSearchAdapter(getApplicationContext(), list);
+                    RecomAdapter recomAdapter=new RecomAdapter(getApplicationContext(), list);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    recyclerView.setAdapter(recomSearchAdapter);
+                    recyclerView.setAdapter(recomAdapter);
                 }else
                 {
                     Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();

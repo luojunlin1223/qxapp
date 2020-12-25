@@ -63,12 +63,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             //获取内容
             final SearchAdapter.RecyclerViewHolder recyclerViewHolder= (SearchAdapter.RecyclerViewHolder) holder;
             Product product=data.get(position);
+            String infro=product.getInfro();
             recyclerViewHolder.name.setText(product.getName());
             recyclerViewHolder.price.setText(String.valueOf(product.getPrice()));
-            recyclerViewHolder.url.setText(product.getUrl());
             recyclerViewHolder.where.setText(product.getWhere());
-            recyclerViewHolder.brand.setText(product.getInfro());
             recyclerViewHolder.imageView.setImageURL(product.getImageurl());
+            String location=findkeyinfro(infro,"产地:");
+            String brand=findkeyinfro(infro,"品牌:");
+            recyclerViewHolder.brand.setText(brand);
+            recyclerViewHolder.location.setText(location);
 
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +145,18 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+    private String findkeyinfro(String infro, String key) {
+        int begin=infro.indexOf(key);
+        String data;
+        if(begin==-1){
+            data="没有相关信息";
+        }else{
+            data=infro.substring(begin+4);
+            data=data.substring(0,data.indexOf(" "));
+        }
+        return data;
+    }
+
     @Override
 //  设置ItemView的返回类型
     public int getItemViewType(int position) {
@@ -159,17 +174,17 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView name,price,url,where,brand;
+        public TextView name,price,where,location,brand;
         public ImageView imageView;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
                 name=itemview.findViewById(R.id.product_item_name);
                 price=itemview.findViewById(R.id.product_item_price);
-                url=itemview.findViewById(R.id.product_item_url);
                 imageView=itemview.findViewById(R.id.product_image);
                 where=itemview.findViewById(R.id.product_item_where);
-                brand=itemview.findViewById(R.id.product_item_brand);
+                location=itemview.findViewById(R.id.location);
+                brand=itemview.findViewById(R.id.brand);
             }
         }
     }

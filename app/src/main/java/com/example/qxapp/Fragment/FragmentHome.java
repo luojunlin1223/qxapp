@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -67,6 +68,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 tab.setText(tabName.get(position));
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.green));
             }
         });
         tabLayoutMediator.attach();

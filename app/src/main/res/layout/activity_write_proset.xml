@@ -53,13 +53,14 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginBottom="@dimen/proset_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/proset_margin"
             android:background="@color/white"
             android:paddingVertical="@dimen/proset_padding">
 
             <TextView
+                android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -71,17 +72,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                app:met_hideUnderline="true"
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="308dp"
-                android:layout_marginEnd="76dp"
+                android:hint="请输入你的预设名称"
                 android:textSize="@dimen/proset_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView15"
                 app:layout_constraintTop_toTopOf="parent"
+                app:met_hideUnderline="true"
                 tools:ignore="MissingConstraints" />
 
 
@@ -97,17 +97,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:text="价格区间:"
                 android:textSize="@dimen/proset_content"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="MissingConstraints" />
 
             <TextView
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="到"
@@ -118,20 +117,20 @@
                 app:layout_constraintTop_toTopOf="@+id/price_low" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                app:met_hideUnderline="true"
                 android:id="@+id/price_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="52dp"
-
                 android:inputType="number"
+
                 android:textSize="@dimen/proset_content"
                 app:layout_constraintBottom_toBottomOf="@+id/price_high"
                 app:layout_constraintEnd_toStartOf="@+id/price_high"
+                app:layout_constraintTop_toTopOf="parent"
+                app:met_hideUnderline="true"
                 tools:ignore="MissingConstraints" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                app:met_hideUnderline="true"
                 android:id="@+id/price_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,6 +140,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:met_hideUnderline="true"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -156,21 +156,21 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
                 android:text="商品搜索来源:"
                 android:textSize="@dimen/proset_content"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="MissingConstraints" />
+
             <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/materialCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
                 android:text="淘宝"
+                app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5" />
 
@@ -179,6 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="京东"
+                app:layout_constraintBottom_toBottomOf="@+id/materialCheckBox"
                 app:layout_constraintStart_toEndOf="@+id/materialCheckBox"
                 app:layout_constraintTop_toTopOf="@+id/materialCheckBox" />
 
@@ -187,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="天猫"
+                app:layout_constraintBottom_toBottomOf="@+id/materialCheckBox"
                 app:layout_constraintStart_toEndOf="@+id/materialCheckBox2"
                 app:layout_constraintTop_toTopOf="@+id/materialCheckBox2" />
 
@@ -195,6 +197,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="苏宁"
+                app:layout_constraintBottom_toBottomOf="@+id/materialCheckBox"
                 app:layout_constraintStart_toEndOf="@+id/materialCheckBox3"
                 app:layout_constraintTop_toTopOf="@+id/materialCheckBox3" />
 
@@ -212,20 +215,21 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="4dp"
                 android:text="品牌:"
                 android:textSize="@dimen/proset_content"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/brand"
-                android:layout_width="313dp"
-                android:layout_height="73dp"
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
                 android:hint="输入你想要的品牌（多个品牌用逗号分隔,如果不输入则默认为所有品牌)"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView4"
                 app:layout_constraintTop_toTopOf="parent"

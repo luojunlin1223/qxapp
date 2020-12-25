@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@color/white"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
@@ -16,29 +17,28 @@
             android:id="@+id/recom_search"
             android:layout_width="296dp"
             android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/rounded_edittext"
             android:drawableLeft="@drawable/ic_baseline_search_24"
             android:focusable="false"
             android:gravity="center"
-            android:hint="搜索你想要的评论吧" />
-        <LinearLayout
-            android:layout_marginStart="50sp"
-            android:orientation="vertical"
+            android:hint="搜索你想要的评论吧"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/recombtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageButton
-                android:padding="10dp"
-                android:id="@+id/recombtn"
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:src="@drawable/comment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:src="@drawable/comment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recom_search"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:layout_width="match_parent"
