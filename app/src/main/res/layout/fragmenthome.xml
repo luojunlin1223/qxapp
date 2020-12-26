@@ -10,27 +10,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/homepage_bg">
+        android:background="@color/yellow"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:id="@+id/home_searchcontent"
-            android:focusable="false"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            tools:ignore="Suspicious0dp"
-            android:gravity="center"
-            android:hint="请输入你想要搜索的商品"
-            android:background="@drawable/rounded_edittext"
-            android:drawableLeft="@drawable/ic_baseline_search_24"
-            />
+            <TextView
+                android:id="@+id/home_searchcontent"
+                android:layout_width="400dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_edittext"
+                android:drawableLeft="@drawable/ic_baseline_search_24"
+                android:focusable="false"
+                android:gravity="center"
+                android:hint="请输入你想要搜索的商品"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="Suspicious0dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/home_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="scrollable"/>
         <androidx.viewpager2.widget.ViewPager2
-
+            android:background="@color/white"
             android:id="@+id/home_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

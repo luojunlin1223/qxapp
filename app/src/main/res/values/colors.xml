@@ -10,6 +10,9 @@
     <color name="homepage_bg">#fff</color>
     <color name="transparent">#00000000</color>
     <color name="prey">#31D1D0CE</color>
-    <color name="blue">#03A9F4</color>
+    <color name="blue">#54bcdf</color>
     <color name="green">#8BC34A</color>
+    <color name="yellow">#feee03</color>
+    <color name="backgroundcolor">#fffcd4</color>
+    <color name="bottom_back">#C5F1FF</color>
 </resources>

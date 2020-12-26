@@ -59,6 +59,8 @@ dependencies {
     implementation 'com.vincan:rotatecircleimageview:1.0.0'
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+    implementation 'com.android.support:percent:27.0.2'
 
 
 }

@@ -68,7 +68,8 @@ public class FragmentHome extends Fragment {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 tab.setText(tabName.get(position));
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.green));
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.blue));
+                tabLayout.setTabTextColors(getResources().getColor(R.color.bottom_back),getResources().getColor(R.color.blue));
             }
         });
         tabLayoutMediator.attach();

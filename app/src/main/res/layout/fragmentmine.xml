@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/backgroundcolor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -21,7 +25,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/yellow">
 
                 <com.vincan.rotatecircleimageview.RotateCircleImageView
                     android:id="@+id/headimage"
@@ -39,25 +44,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="40dp"
                     android:layout_toRightOf="@id/headimage"
                     android:text="useraname"
                     android:textColor="@android:color/holo_red_dark"
-                    android:textSize="25sp"
+                    android:textSize="45sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/headimage"
                     app:layout_constraintStart_toEndOf="@+id/headimage"
                     app:layout_constraintTop_toTopOf="@+id/headimage" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="74dp">
+                android:layout_height="74dp"
+                android:background="@color/yellow">
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="搜索次数"
+                    android:textColor="@color/blue"
                     android:textSize="25sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,7 +76,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="推荐次数"
+                    android:textColor="@color/blue"
                     android:textSize="25sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/textView12"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView12"
@@ -77,11 +89,15 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
                     android:text="获赞数"
+                    android:textColor="@color/blue"
                     android:textSize="25sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/textView13"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView13" />
+                    app:layout_constraintTop_toTopOf="@+id/textView13"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/user_search_count"
@@ -122,30 +138,30 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="@color/backgroundcolor"
             android:id="@+id/mine_recycler"
             android:layout_width="match_parent"
-            android:layout_height="441dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"></androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
+        android:textSize="20sp"
         android:id="@+id/out"
-        android:layout_width="164dp"
-        android:layout_height="34dp"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/shape"
         android:text="退出登录"
+        android:textColor="@color/white"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

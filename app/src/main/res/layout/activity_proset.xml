@@ -7,6 +7,7 @@
     tools:context=".activity.History"
     android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/yellow"
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:orientation="horizontal"
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="16dp"
-            android:background="@color/white"
+            android:background="@color/transparent"
             android:src="@drawable/back_arrow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
