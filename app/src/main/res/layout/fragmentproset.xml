@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/backgroundcolor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
@@ -7,6 +8,7 @@
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="@dimen/proset_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -130,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="商品搜索来源:"
+            android:text="搜索来源:"
             android:textSize="@dimen/proset_content"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -173,12 +175,11 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/proset_margin"
         android:background="@color/white"
-        android:paddingVertical="@dimen/proset_padding">
+        >
 
         <TextView
             android:id="@+id/textView4"
@@ -193,19 +194,29 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            app:met_hideUnderline="true"
-            android:gravity="center"
-            android:id="@+id/brand"
-            android:layout_width="313dp"
-            android:layout_height="73dp"
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent">
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="11111"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.575"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent"
+                app:met_hideUnderline="true" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

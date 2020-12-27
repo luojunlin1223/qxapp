@@ -13,6 +13,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:padding="5dp"
             android:id="@+id/cancelbtn"
             android:layout_width="34dp"
             android:layout_height="30dp"
@@ -49,11 +50,13 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
+        android:background="@color/backgroundcolor"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/proset_margin"
@@ -157,7 +160,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商品搜索来源:"
+                android:text="搜索来源:"
                 android:textSize="@dimen/proset_content"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -226,6 +229,7 @@
                 tools:ignore="MissingConstraints" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:gravity="top"
                 android:id="@+id/brand"
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"

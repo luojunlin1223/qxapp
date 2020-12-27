@@ -16,6 +16,10 @@ import com.example.qxapp.Adapter.InnerAdapter;
 import com.example.qxapp.R;
 import com.example.qxapp.activity.Bean.SearchRecord;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +27,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobQueryResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SQLQueryListener;
 
 public class FragmentinnerSearch extends BaseFragment{
@@ -53,28 +58,22 @@ public class FragmentinnerSearch extends BaseFragment{
 
     @Override
     protected void Refresh() {
-        String bql="select * from SearchRecord order by count desc";
         BmobQuery<SearchRecord> bmobQuery = new BmobQuery<>();
-        bmobQuery.setSQL(bql);
-        bmobQuery.setLimit(1000);
-        bmobQuery.doSQLQuery(new SQLQueryListener<SearchRecord>() {
+        List<SearchRecord> list = null;
+        bmobQuery.groupby(new String[]{"key"});
+        bmobQuery.sum(new String[]{"count"});
+        bmobQuery.findStatistics(SearchRecord.class, new QueryListener<JSONArray>() {
             @Override
-            public void done(BmobQueryResult<SearchRecord> bmobQueryResult, BmobException e) {
+            public void done(JSONArray jsonArray, BmobException e) {
                 swipeRefreshLayout.setRefreshing(false);
-                if (e == null) {
-                    List<SearchRecord> list=bmobQueryResult.getResults();
-                    if(list!=null&&list.size()>0){
-                        InnerAdapter innerAdapter = new InnerAdapter(getActivity(), list);
+                if(e==null){
+                        InnerAdapter innerAdapter=new InnerAdapter(getActivity(), jsonArray);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                         recyclerView.setAdapter(innerAdapter);
-                    }else {
-                        Toast.makeText(getContext(),"没有相关记录",Toast.LENGTH_LONG).show();
-                    }
-
-                } else {
+                }else{
 //                    上拉刷新失败
                     swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"获取数据失败",Toast.LENGTH_LONG).show();
                 }
             }
         });

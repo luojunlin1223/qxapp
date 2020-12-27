@@ -20,16 +20,16 @@ import org.json.JSONException;
 
 import java.util.List;
 
-public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class outerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     boolean isfootview = true;
     private Context context;
-    private JSONArray data;
+    private List<String> data;
     private final int N_TYPE=0;
     private final int F_TYPE=1;
     //  预加载的数据的条目
     private int Max_num=8;
 
-    public InnerAdapter(Context context, JSONArray data){
+    public outerAdapter(Context context, List<String> data){
         this.context=context;
         this.data=data;
     }
@@ -37,12 +37,12 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.inner_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.outer_item,parent,false);
         View footview=LayoutInflater.from(parent.getContext()).inflate(R.layout.foot_item,parent,false);
         if(viewType==F_TYPE){
-            return new InnerAdapter.RecyclerViewHolder(footview,F_TYPE);
+            return new outerAdapter.RecyclerViewHolder(footview,F_TYPE);
         }else{
-            return new InnerAdapter.RecyclerViewHolder(view,N_TYPE);
+            return new outerAdapter.RecyclerViewHolder(view,N_TYPE);
         }
 
     }
@@ -58,20 +58,12 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 //              总条目自增8条
                 Max_num+=8;
                 notifyDataSetChanged();
-            },2000);
+            },1000);
         }else {
             //获取内容
-            final InnerAdapter.RecyclerViewHolder recyclerViewHolder= (InnerAdapter.RecyclerViewHolder) holder;
-            try {
-                String key=data.getJSONObject(position).getString("key");
-                int count=data.getJSONObject(position).getInt("_sumCount");
-                recyclerViewHolder.key.setText(key);
-                recyclerViewHolder.count.setText(String.valueOf(count));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            final outerAdapter.RecyclerViewHolder recyclerViewHolder= (outerAdapter.RecyclerViewHolder) holder;
+            recyclerViewHolder.content.setText(data.get(position));
             recyclerViewHolder.rank.setText(String.valueOf(position+1));
-
 //          用户点击特定的itemView的时候
             recyclerViewHolder.itemView.setOnClickListener(v -> {
 //
@@ -93,17 +85,16 @@ public class InnerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return Math.min(data.length(), Max_num);
+        return Math.min(data.size(), Max_num);
     }
 
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        public TextView rank,key,count;
+        public TextView content,rank;
         public RecyclerViewHolder(View itemview, int view_type) {
             super(itemview);
             if(view_type==N_TYPE){
+                content=itemview.findViewById(R.id.content);
                 rank=itemview.findViewById(R.id.rank);
-                key=itemview.findViewById(R.id.key);
-                count=itemview.findViewById(R.id.count);
             }
         }
     }

@@ -61,8 +61,8 @@ public class FragmentHome extends Fragment {
 
     private void attachTabLayoutOnViewPager2() {
         final List<String> tabName = new ArrayList<>();
-        tabName.add("站内热点");
-        tabName.add("全网热点");
+        tabName.add("站内热点排行");
+        tabName.add("国内折扣小时排行");
         TabLayout tabLayout=getActivity().findViewById(R.id.home_tablayout);
         TabLayoutMediator tabLayoutMediator=new TabLayoutMediator(tabLayout,viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

@@ -20,6 +20,7 @@ public class WriteRecom extends AppCompatActivity {
     private Button cancle,push;
     private MaterialEditText good_name,content;
     private TextView username;
+    private int times=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,13 @@ public class WriteRecom extends AppCompatActivity {
         cancle.setOnClickListener(v -> finish());
         push.setOnClickListener(v -> {
             if(check()){
-                push();
+                times+=1;
+                if(times==1){
+                    push();
+                }
+                else{
+                    finish();
+                }
             }
         });
         username.setText(BmobUser.getCurrentUser(BmobUser.class).getUsername());
@@ -63,6 +70,7 @@ public class WriteRecom extends AppCompatActivity {
             public void done(String s, BmobException e) {
                 if(e==null){
                     Toast.makeText(getApplicationContext(),"发布成功",Toast.LENGTH_LONG).show();
+                    finish();
                 }else {
                     Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                 }

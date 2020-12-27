@@ -60,7 +60,7 @@ public class Product extends BmobObject {
         if(price.isEmpty()){
             this.price=0.0;
         }else if(price.contains("-")){
-            this.price=Double.parseDouble(price.substring(0,5));
+            this.price=Double.parseDouble(price.substring(0,4));
         }else{
             this.price=Double.parseDouble(price);
         }

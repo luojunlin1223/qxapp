@@ -7,50 +7,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:background="@color/prey"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="69dp"
+        android:background="@color/yellow"
         android:fitsSystemWindows="true"
         android:orientation="horizontal">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/shape_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/search_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:hint="找找你想要的评论吧！输入商品名查找"
+                    android:imeOptions="actionSearch"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cancel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.444"
+                    app:met_baseColor="@color/black"
+                    app:met_hideUnderline="true"
+                    tools:ignore="Suspicious0dp" />
+            </LinearLayout>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/search_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:focusable="true"
-            android:hint="找找你想要的评论吧！输入商品名查找"
-            android:imeOptions="actionSearch"
-            android:lines="1"
-            android:singleLine="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.444"
-            app:met_hideUnderline="true"
-            tools:ignore="Suspicious0dp" />
 
-        <Button
-            android:layout_marginEnd="5dp"
-            android:id="@+id/cancel"
-            android:layout_width="48dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/shape"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:layout_marginEnd="10dp"
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/white"
+                 />
+        </LinearLayout>
+
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

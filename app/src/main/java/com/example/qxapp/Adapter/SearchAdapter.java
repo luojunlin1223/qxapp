@@ -152,7 +152,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             data="没有相关信息";
         }else{
             data=infro.substring(begin+4);
+            if(data.indexOf(" ")!=-1){
             data=data.substring(0,data.indexOf(" "));
+            }
         }
         return data;
     }

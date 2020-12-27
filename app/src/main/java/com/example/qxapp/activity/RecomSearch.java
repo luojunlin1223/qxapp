@@ -35,6 +35,7 @@ public class RecomSearch extends AppCompatActivity {
     }
     private void search() {
         BmobQuery<Recommondation> bmobQuery=new BmobQuery<>();
+        bmobQuery.include("user");
         bmobQuery.addWhereEqualTo("product",searchcontent.getText().toString());
         bmobQuery.findObjects(new FindListener<Recommondation>() {
             @Override
